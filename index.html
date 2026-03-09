@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluent UI → VS Code Overrides</title>
+  <link rel="stylesheet" href="styles/theme-tokens.css" />
+  <link rel="stylesheet" href="styles/site.css" />
+</head>
+<body>
+
+  <h1 class="page-title">Fluent UI → VS Code Overrides</h1>
+  <p class="page-description">
+    A collection of CSS-only override stylesheets that restyle
+    <a href="https://react.fluentui.dev/" style="color: var(--vscode-textLink-foreground)">Fluent UI v9</a>
+    components to match the
+    <a href="https://code.visualstudio.com/api/references/theme-color" style="color: var(--vscode-textLink-foreground)">VS Code design language</a>.
+    Each component page includes live previews, CSS class references, and copy-ready code snippets.
+  </p>
+
+  <h2 id="components" style="border-bottom: none; margin-top: 0;">Components</h2>
+  <div class="component-grid" id="component-grid"></div>
+
+  <h2 id="usage" style="margin-top: 48px;">Usage</h2>
+  <p>
+    Import the override CSS for the component you need, then add the matching
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">.vscode-*</code>
+    class to your Fluent UI component. The override sheet handles the rest — no
+    JavaScript required.
+  </p>
+
+  <div class="code-block"><code>/* Import the override CSS */
+import './overrides/vscode-button-overrides.css';
+
+/* Apply the class to your Fluent Button */
+&lt;Button className="vscode-primary"&gt;Install&lt;/Button&gt;
+&lt;Button className="vscode-secondary"&gt;Cancel&lt;/Button&gt;
+&lt;Button className="vscode-primary vscode-small"&gt;Small&lt;/Button&gt;</code></div>
+
+  <h2 id="theming">Theming</h2>
+  <p>
+    Override styles read from VS Code's CSS custom properties
+    (<code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">--vscode-*</code>
+    tokens) at runtime. When your extension runs inside VS Code, the
+    host provides these tokens automatically, so the overrides adapt to
+    every theme (dark, light, high-contrast) without extra work.
+  </p>
+  <p>
+    Use the <strong>theme toggle</strong> in the top-right corner of this site
+    to preview both dark and light appearances.
+  </p>
+
+  <h2 id="packaging">Packaging</h2>
+  <p>
+    The override CSS files in <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">/overrides</code>
+    are standalone — no build step or bundler required. They can be published
+    to npm and consumed via a simple CSS import. Keep them separate from your
+    component logic so they remain tree-shakeable and easy to version.
+  </p>
+
+  <script src="scripts/layout.js"></script>
+  <script>
+    // Build the component card grid from the shared registry
+    const grid = document.getElementById('component-grid');
+    if (window.__components) {
+      window.__components.forEach(c => {
+        const a = document.createElement('a');
+        a.href = 'components/' + c.file;
+        a.className = 'component-card';
+
+        const title = document.createElement('div');
+        title.className = 'component-card__title';
+        title.textContent = c.label;
+
+        const desc = document.createElement('p');
+        desc.className = 'component-card__desc';
+        desc.textContent = c.description;
+
+        a.appendChild(title);
+        a.appendChild(desc);
+        grid.appendChild(a);
+      });
+    }
+  </script>
+</body>
+</html>

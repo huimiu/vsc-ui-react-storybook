@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dropdown — VS Code Overrides</title>
+  <link rel="stylesheet" href="../styles/theme-tokens.css" />
+  <link rel="stylesheet" href="../styles/site.css" />
+  <link rel="stylesheet" href="../overrides/vscode-dropdown-overrides.css" />
+  <style>
+    .demo-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+    .demo-row + .demo-row { margin-top: 12px; }
+    .demo-inline { display: inline-flex; flex-direction: column; gap: 4px; }
+    .demo-label { font-size: 11px; color: var(--vscode-descriptionForeground); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Dropdown</h1>
+  <p class="page-description">
+    CSS overrides for the Fluent UI v9
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;Dropdown&gt;</code>,
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;Combobox&gt;</code>,
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;Listbox&gt;</code>, and
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;Option&gt;</code>
+    components. Covers three sizes, validation states, and the full option popup surface.
+  </p>
+
+  <!-- ============================================================ -->
+  <h2 id="import">Import</h2>
+  <div class="code-block"><code>import './overrides/vscode-dropdown-overrides.css';</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="class-reference">Class Reference</h2>
+  <table class="class-table">
+    <thead><tr><th>Class</th><th>Target</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>.vscode-dropdown</code></td><td>Dropdown</td><td>Base dropdown trigger</td></tr>
+      <tr><td><code>.vscode-combobox</code></td><td>Combobox</td><td>Editable combobox trigger</td></tr>
+      <tr><td><code>.vscode-dropdown-small</code></td><td>Modifier</td><td>24 px height (Caption 1)</td></tr>
+      <tr><td><code>.vscode-dropdown-large</code></td><td>Modifier</td><td>28 px height</td></tr>
+      <tr><td><code>.vscode-dropdown-error</code></td><td>Validation</td><td>Red error border</td></tr>
+      <tr><td><code>.vscode-dropdown-warning</code></td><td>Validation</td><td>Yellow warning border</td></tr>
+      <tr><td><code>.vscode-dropdown-info</code></td><td>Validation</td><td>Blue info border</td></tr>
+      <tr><td><code>.vscode-dropdown-readonly</code></td><td>State</td><td>Read-only styling</td></tr>
+      <tr><td><code>.vscode-listbox</code></td><td>Listbox</td><td>Popup list surface</td></tr>
+      <tr><td><code>.vscode-option</code></td><td>Option</td><td>Individual option row</td></tr>
+      <tr><td><code>.vscode-optiongroup</code></td><td>OptionGroup</td><td>Grouped options container</td></tr>
+      <tr><td><code>.vscode-option-detail</code></td><td>Detail text</td><td>Right-aligned detail text in an option</td></tr>
+      <tr><td><code>.vscode-option-description</code></td><td>Description</td><td>Second-line description under an option</td></tr>
+      <tr><td><code>.vscode-option-separator</code></td><td>Divider</td><td>Horizontal rule between options</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2 id="dropdown-trigger">Dropdown Trigger</h2>
+  <p>The base <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-dropdown</code> class styles the closed trigger button.</p>
+
+  <h3>Default (26 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Dropdown vscode-dropdown" tabindex="0" style="display:inline-flex; align-items:center; height:26px; min-width:180px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; cursor:pointer; font-size:13px; color:var(--vscode-dropdown-foreground);">
+        <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Dark+</span>
+        <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+      <div class="fui-Dropdown vscode-dropdown" tabindex="0" style="display:inline-flex; align-items:center; height:26px; min-width:180px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; font-size:13px; color:var(--vscode-dropdown-foreground); opacity:0.5; pointer-events:none;">
+        <span class="fui-Dropdown__button" disabled style="flex:1; font-size:inherit; color:inherit;">Disabled</span>
+        <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Dropdown className="vscode-dropdown"&gt;
+  &lt;Option className="vscode-option"&gt;Dark+&lt;/Option&gt;
+  &lt;Option className="vscode-option"&gt;Light+&lt;/Option&gt;
+  &lt;Option className="vscode-option"&gt;Monokai&lt;/Option&gt;
+&lt;/Dropdown&gt;</code></div>
+
+  <h3>Small (24 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Dropdown vscode-dropdown vscode-dropdown-small" tabindex="0" style="display:inline-flex; align-items:center; height:24px; min-width:160px; padding:0 6px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; cursor:pointer; font-size:12px; color:var(--vscode-dropdown-foreground);">
+        <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Small trigger</span>
+        <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Dropdown className="vscode-dropdown vscode-dropdown-small"&gt;...&lt;/Dropdown&gt;</code></div>
+
+  <h3>Large (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Dropdown vscode-dropdown vscode-dropdown-large" tabindex="0" style="display:inline-flex; align-items:center; height:28px; min-width:200px; padding:0 10px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; cursor:pointer; font-size:14px; color:var(--vscode-dropdown-foreground);">
+        <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Large trigger</span>
+        <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Dropdown className="vscode-dropdown vscode-dropdown-large"&gt;...&lt;/Dropdown&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="validation">Validation States</h2>
+  <p>Add a validation class to the dropdown trigger to indicate error, warning, or info.</p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="demo-inline">
+        <span class="demo-label">Error</span>
+        <div class="fui-Dropdown vscode-dropdown vscode-dropdown-error" tabindex="0" style="display:inline-flex; align-items:center; height:26px; min-width:180px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-inputValidation-errorBorder); border-radius:4px; cursor:pointer; font-size:13px; color:var(--vscode-dropdown-foreground);">
+          <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Required field</span>
+          <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Warning</span>
+        <div class="fui-Dropdown vscode-dropdown vscode-dropdown-warning" tabindex="0" style="display:inline-flex; align-items:center; height:26px; min-width:180px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-inputValidation-warningBorder); border-radius:4px; cursor:pointer; font-size:13px; color:var(--vscode-dropdown-foreground);">
+          <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Check value</span>
+          <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Info</span>
+        <div class="fui-Dropdown vscode-dropdown vscode-dropdown-info" tabindex="0" style="display:inline-flex; align-items:center; height:26px; min-width:180px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-inputValidation-infoBorder); border-radius:4px; cursor:pointer; font-size:13px; color:var(--vscode-dropdown-foreground);">
+          <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Optional</span>
+          <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Dropdown className="vscode-dropdown vscode-dropdown-error"&gt;...&lt;/Dropdown&gt;
+&lt;Dropdown className="vscode-dropdown vscode-dropdown-warning"&gt;...&lt;/Dropdown&gt;
+&lt;Dropdown className="vscode-dropdown vscode-dropdown-info"&gt;...&lt;/Dropdown&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="combobox">Combobox</h2>
+  <p>An editable dropdown with a text input. Uses <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-combobox</code> on the <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;Combobox&gt;</code> root.</p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Combobox vscode-combobox" style="display:inline-flex; align-items:center; height:26px; min-width:220px; padding:0; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; font-size:13px;">
+        <input class="fui-Combobox__input" type="text" placeholder="Search languages..." style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:inherit; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <span class="fui-Combobox__expandIcon" style="display:flex; align-items:center; padding:0 6px; color:var(--vscode-foreground); cursor:pointer;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+      <div class="fui-Combobox vscode-combobox" style="display:inline-flex; align-items:center; height:26px; min-width:220px; padding:0; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; font-size:13px; opacity:0.5; pointer-events:none;">
+        <input class="fui-Combobox__input" type="text" placeholder="Disabled" disabled style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:inherit; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <span class="fui-Combobox__expandIcon" style="display:flex; align-items:center; padding:0 6px; color:var(--vscode-foreground);"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Combobox className="vscode-combobox" placeholder="Search languages..."&gt;
+  &lt;Option className="vscode-option"&gt;JavaScript&lt;/Option&gt;
+  &lt;Option className="vscode-option"&gt;TypeScript&lt;/Option&gt;
+  &lt;Option className="vscode-option"&gt;Python&lt;/Option&gt;
+&lt;/Combobox&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="listbox-options">Listbox &amp; Options</h2>
+  <p>The popup surface and its rows. Used for both Dropdown and Combobox popups.</p>
+
+  <h3>Basic Options</h3>
+  <div class="component-preview" style="max-width: 280px;">
+    <div class="fui-Listbox vscode-listbox" style="background:var(--vscode-dropdown-listBackground); border:1px solid var(--vscode-menu-border); border-radius:4px; padding:4px 0; box-shadow:0 2px 8px rgba(0,0,0,0.25);">
+      <div class="fui-Option vscode-option" style="padding:4px 8px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">Dark+ (default dark)</div>
+      <div class="fui-Option vscode-option" style="padding:4px 8px; font-size:13px; color:var(--vscode-menu-selectionForeground); background:var(--vscode-menu-selectionBackground); cursor:pointer;">Light+ (default light)</div>
+      <div class="fui-Option vscode-option" style="padding:4px 8px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">Monokai</div>
+      <div class="fui-Option vscode-option" style="padding:4px 8px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">Solarized Dark</div>
+      <div class="fui-Option vscode-option" style="padding:4px 8px; font-size:13px; color:var(--vscode-menu-foreground); opacity:0.5;">High Contrast (disabled)</div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Listbox className="vscode-listbox"&gt;
+  &lt;Option className="vscode-option"&gt;Dark+ (default dark)&lt;/Option&gt;
+  &lt;Option className="vscode-option" selected&gt;Light+ (default light)&lt;/Option&gt;
+  &lt;Option className="vscode-option"&gt;Monokai&lt;/Option&gt;
+  &lt;Option className="vscode-option" disabled&gt;High Contrast&lt;/Option&gt;
+&lt;/Listbox&gt;</code></div>
+
+  <h3>Options with Detail &amp; Description</h3>
+  <div class="component-preview" style="max-width: 360px;">
+    <div class="fui-Listbox vscode-listbox" style="background:var(--vscode-dropdown-listBackground); border:1px solid var(--vscode-menu-border); border-radius:4px; padding:4px 0; box-shadow:0 2px 8px rgba(0,0,0,0.25);">
+      <div class="fui-Option vscode-option" style="padding:6px 8px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span>main</span>
+          <span class="vscode-option-detail" style="font-size:11px; color:var(--vscode-descriptionForeground);">default</span>
+        </div>
+        <span class="vscode-option-description" style="font-size:11px; color:var(--vscode-descriptionForeground); margin-top:1px;">Primary development branch</span>
+      </div>
+      <div class="fui-Option vscode-option" style="padding:6px 8px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span>feature/dropdown-overrides</span>
+          <span class="vscode-option-detail" style="font-size:11px; color:var(--vscode-descriptionForeground);">3 ahead</span>
+        </div>
+        <span class="vscode-option-description" style="font-size:11px; color:var(--vscode-descriptionForeground); margin-top:1px;">Dropdown + Combobox CSS overrides</span>
+      </div>
+      <div class="vscode-option-separator" style="height:1px; background:var(--vscode-menu-separatorBackground); margin:4px 8px;"></div>
+      <div class="fui-Option vscode-option" style="padding:6px 8px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">
+        <span>release/v2.1</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Option className="vscode-option"&gt;
+  main
+  &lt;span className="vscode-option-detail"&gt;default&lt;/span&gt;
+  &lt;span className="vscode-option-description"&gt;Primary development branch&lt;/span&gt;
+&lt;/Option&gt;</code></div>
+
+  <h3>Option Groups</h3>
+  <div class="component-preview" style="max-width: 280px;">
+    <div class="fui-Listbox vscode-listbox" style="background:var(--vscode-dropdown-listBackground); border:1px solid var(--vscode-menu-border); border-radius:4px; padding:4px 0; box-shadow:0 2px 8px rgba(0,0,0,0.25);">
+      <div class="fui-OptionGroup vscode-optiongroup">
+        <div style="padding:4px 8px 2px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--vscode-descriptionForeground);">Recent</div>
+        <div class="fui-Option vscode-option" style="padding:4px 8px 4px 16px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">JavaScript</div>
+        <div class="fui-Option vscode-option" style="padding:4px 8px 4px 16px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">TypeScript</div>
+      </div>
+      <div class="vscode-option-separator" style="height:1px; background:var(--vscode-menu-separatorBackground); margin:4px 8px;"></div>
+      <div class="fui-OptionGroup vscode-optiongroup">
+        <div style="padding:4px 8px 2px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--vscode-descriptionForeground);">All Languages</div>
+        <div class="fui-Option vscode-option" style="padding:4px 8px 4px 16px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">C++</div>
+        <div class="fui-Option vscode-option" style="padding:4px 8px 4px 16px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">Python</div>
+        <div class="fui-Option vscode-option" style="padding:4px 8px 4px 16px; font-size:13px; color:var(--vscode-menu-foreground); cursor:pointer;">Rust</div>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Listbox className="vscode-listbox"&gt;
+  &lt;OptionGroup className="vscode-optiongroup" label="Recent"&gt;
+    &lt;Option className="vscode-option"&gt;JavaScript&lt;/Option&gt;
+    &lt;Option className="vscode-option"&gt;TypeScript&lt;/Option&gt;
+  &lt;/OptionGroup&gt;
+  &lt;OptionGroup className="vscode-optiongroup" label="All Languages"&gt;
+    &lt;Option className="vscode-option"&gt;C++&lt;/Option&gt;
+    &lt;Option className="vscode-option"&gt;Python&lt;/Option&gt;
+    &lt;Option className="vscode-option"&gt;Rust&lt;/Option&gt;
+  &lt;/OptionGroup&gt;
+&lt;/Listbox&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="states">Interactive States</h2>
+
+  <div class="state-grid state-grid--4col">
+    <div class="state-grid__header">State</div>
+    <div class="state-grid__header">Dropdown</div>
+    <div class="state-grid__header">Combobox</div>
+    <div class="state-grid__header">Description</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Rest</span></div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:140px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; font-size:13px; color:var(--vscode-dropdown-foreground);">
+        <span style="flex:1;">Value</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:4px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </div>
+    </div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:140px; padding:0; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; font-size:13px;">
+        <input type="text" value="Value" readonly style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:inherit; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-right:6px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </div>
+    </div>
+    <div class="state-grid__cell" style="font-size:12px; color:var(--vscode-descriptionForeground);">Default idle state</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Focus</span></div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:140px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-focusBorder); border-radius:4px; font-size:13px; color:var(--vscode-dropdown-foreground); outline:1px solid var(--vscode-focusBorder); outline-offset:0px;">
+        <span style="flex:1;">Value</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:4px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </div>
+    </div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:140px; padding:0; background:var(--vscode-input-background); border:1px solid var(--vscode-focusBorder); border-radius:4px; font-size:13px;">
+        <input type="text" value="Value" readonly style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:inherit; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-right:6px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </div>
+    </div>
+    <div class="state-grid__cell" style="font-size:12px; color:var(--vscode-descriptionForeground);">Focus border applied</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Disabled</span></div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:140px; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; font-size:13px; color:var(--vscode-dropdown-foreground); opacity:0.5;">
+        <span style="flex:1;">Value</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:4px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </div>
+    </div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:140px; padding:0; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; font-size:13px; opacity:0.5;">
+        <input type="text" value="Disabled" readonly style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:inherit; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-right:6px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </div>
+    </div>
+    <div class="state-grid__cell" style="font-size:12px; color:var(--vscode-descriptionForeground);">50% opacity, no interaction</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2 id="full-example">Full Example</h2>
+  <p>A settings-style form using dropdown + combobox.</p>
+
+  <div class="component-preview" style="max-width: 360px;">
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Color Theme</label>
+      <div class="fui-Dropdown vscode-dropdown" tabindex="0" style="display:flex; align-items:center; height:26px; width:100%; padding:0 8px; background:var(--vscode-dropdown-background); border:1px solid var(--vscode-dropdown-border); border-radius:4px; cursor:pointer; font-size:13px; color:var(--vscode-dropdown-foreground);">
+        <span class="fui-Dropdown__button" style="flex:1; font-size:inherit; color:inherit;">Dark+ (default dark)</span>
+        <span class="fui-Dropdown__expandIcon" style="display:flex; align-items:center; margin-left:4px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+    </div>
+    <div>
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Font Family</label>
+      <div class="fui-Combobox vscode-combobox" style="display:flex; align-items:center; height:26px; width:100%; padding:0; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; font-size:13px;">
+        <input class="fui-Combobox__input" type="text" value="Cascadia Code" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:inherit; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <span class="fui-Combobox__expandIcon" style="display:flex; align-items:center; padding:0 6px; color:var(--vscode-foreground); cursor:pointer;"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg></span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Field label="Color Theme"&gt;
+  &lt;Dropdown className="vscode-dropdown"&gt;
+    &lt;Option className="vscode-option"&gt;Dark+ (default dark)&lt;/Option&gt;
+    &lt;Option className="vscode-option"&gt;Light+ (default light)&lt;/Option&gt;
+  &lt;/Dropdown&gt;
+&lt;/Field&gt;
+&lt;Field label="Font Family"&gt;
+  &lt;Combobox className="vscode-combobox" value="Cascadia Code"&gt;
+    &lt;Option className="vscode-option"&gt;Cascadia Code&lt;/Option&gt;
+    &lt;Option className="vscode-option"&gt;Fira Code&lt;/Option&gt;
+  &lt;/Combobox&gt;
+&lt;/Field&gt;</code></div>
+
+  <script src="../scripts/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Button — VS Code Overrides</title>
+  <link rel="stylesheet" href="../styles/theme-tokens.css" />
+  <link rel="stylesheet" href="../styles/site.css" />
+  <link rel="stylesheet" href="../overrides/vscode-button-overrides.css" />
+  <style>
+    /* Inline demo styles — not part of the override package */
+    .demo-icon { display: inline-flex; }
+    .demo-icon svg { width: 16px; height: 16px; fill: currentColor; }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .demo-row + .demo-row { margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Button</h1>
+  <p class="page-description">
+    CSS overrides for the Fluent UI v9
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;Button&gt;</code>,
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;SplitButton&gt;</code>, and
+    <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;MenuButton&gt;</code>
+    components. Covers five appearance variants, three sizes, icon-only mode, and all interactive states.
+  </p>
+
+  <!-- ============================================================
+       IMPORT
+       ============================================================ -->
+  <h2 id="import">Import</h2>
+  <div class="code-block"><code>import './overrides/vscode-button-overrides.css';</code></div>
+
+  <!-- ============================================================
+       CLASS REFERENCE
+       ============================================================ -->
+  <h2 id="class-reference">Class Reference</h2>
+  <table class="class-table">
+    <thead>
+      <tr><th>Class</th><th>Target</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>.vscode-primary</code></td><td>Button</td><td>Blue primary action button (Install, Run, etc.)</td></tr>
+      <tr><td><code>.vscode-secondary</code></td><td>Button</td><td>Grey secondary / default button</td></tr>
+      <tr><td><code>.vscode-outline</code></td><td>Button</td><td>Outlined border-only button</td></tr>
+      <tr><td><code>.vscode-subtle</code></td><td>Button</td><td>Minimal chrome — transparent at rest, tinted on hover</td></tr>
+      <tr><td><code>.vscode-transparent</code></td><td>Button</td><td>Fully transparent — icon toolbar style</td></tr>
+      <tr><td><code>.vscode-small</code></td><td>Modifier</td><td>22 px tall (Caption 1 text)</td></tr>
+      <tr><td><code>.vscode-compact</code></td><td>Modifier</td><td>15 px tall (Caption 2 text) — badge or inline use</td></tr>
+      <tr><td><code>.vscode-icon-only</code></td><td>Modifier</td><td>Square icon button (no text)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================
+       PRIMARY BUTTON
+       ============================================================ -->
+  <h2 id="primary">Primary</h2>
+  <p>The main call-to-action. Uses <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">--vscode-button-background</code> for the fill.</p>
+
+  <h3>Default (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-primary">Install</button>
+      <button class="fui-Button vscode-primary" disabled>Install</button>
+    </div>
+    <div class="demo-row">
+      <button class="fui-Button vscode-primary">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 7H9V2H7v5H2v2h5v5h2V9h5z"/></svg></span>
+        New File
+      </button>
+      <button class="fui-Button vscode-primary vscode-icon-only" aria-label="Add">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 7H9V2H7v5H2v2h5v5h2V9h5z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button appearance="primary" className="vscode-primary"&gt;Install&lt;/Button&gt;
+&lt;Button appearance="primary" className="vscode-primary" disabled&gt;Install&lt;/Button&gt;
+&lt;Button appearance="primary" className="vscode-primary" icon={&lt;AddIcon /&gt;}&gt;New File&lt;/Button&gt;
+&lt;Button appearance="primary" className="vscode-primary vscode-icon-only" icon={&lt;AddIcon /&gt;} /&gt;</code></div>
+
+  <h3>Small (22 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-primary vscode-small">Run</button>
+      <button class="fui-Button vscode-primary vscode-small" disabled>Run</button>
+      <button class="fui-Button vscode-primary vscode-small vscode-icon-only" aria-label="Play">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-primary vscode-small"&gt;Run&lt;/Button&gt;
+&lt;Button className="vscode-primary vscode-small" disabled&gt;Run&lt;/Button&gt;
+&lt;Button className="vscode-primary vscode-small vscode-icon-only" icon={&lt;PlayIcon /&gt;} /&gt;</code></div>
+
+  <h3>Compact (15 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-primary vscode-compact">Badge</button>
+      <button class="fui-Button vscode-primary vscode-compact" disabled>Badge</button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-primary vscode-compact"&gt;Badge&lt;/Button&gt;</code></div>
+
+  <!-- ============================================================
+       SECONDARY BUTTON
+       ============================================================ -->
+  <h2 id="secondary">Secondary</h2>
+  <p>Default neutral button. Uses <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">--vscode-button-secondaryBackground</code>.</p>
+
+  <h3>Default (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-secondary">Cancel</button>
+      <button class="fui-Button vscode-secondary" disabled>Cancel</button>
+    </div>
+    <div class="demo-row">
+      <button class="fui-Button vscode-secondary">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M5.5 3l4.5 5-4.5 5"/></svg></span>
+        Open Folder
+      </button>
+      <button class="fui-Button vscode-secondary vscode-icon-only" aria-label="Settings">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M9.1 4.4L8.6 2H7.4l-.5 2.4-.7.3-2-1.3-.9.8 1.3 2-.3.7L2 7.4v1.2l2.4.5.3.7-1.3 2 .8.9 2-1.3.7.3.5 2.4h1.2l.5-2.4.7-.3 2 1.3.9-.8-1.3-2 .3-.7 2.4-.5V7.4l-2.4-.5-.3-.7 1.3-2-.8-.9-2 1.3zM8 10a2 2 0 110-4 2 2 0 010 4z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-secondary"&gt;Cancel&lt;/Button&gt;
+&lt;Button className="vscode-secondary" disabled&gt;Cancel&lt;/Button&gt;
+&lt;Button className="vscode-secondary" icon={&lt;FolderIcon /&gt;}&gt;Open Folder&lt;/Button&gt;
+&lt;Button className="vscode-secondary vscode-icon-only" icon={&lt;SettingsIcon /&gt;} /&gt;</code></div>
+
+  <h3>Small (22 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-secondary vscode-small">Details</button>
+      <button class="fui-Button vscode-secondary vscode-small" disabled>Details</button>
+      <button class="fui-Button vscode-secondary vscode-small vscode-icon-only" aria-label="More">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><circle cx="4" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="12" cy="8" r="1.5"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-secondary vscode-small"&gt;Details&lt;/Button&gt;</code></div>
+
+  <h3>Compact (15 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-secondary vscode-compact">Tag</button>
+      <button class="fui-Button vscode-secondary vscode-compact" disabled>Tag</button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-secondary vscode-compact"&gt;Tag&lt;/Button&gt;</code></div>
+
+  <!-- ============================================================
+       OUTLINE BUTTON
+       ============================================================ -->
+  <h2 id="outline">Outline</h2>
+  <p>Border-only with a transparent background. Useful for secondary actions alongside a primary button.</p>
+
+  <h3>Default (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-outline">Learn More</button>
+      <button class="fui-Button vscode-outline" disabled>Learn More</button>
+    </div>
+    <div class="demo-row">
+      <button class="fui-Button vscode-outline">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M11 1H5a1 1 0 00-1 1v12a1 1 0 001 1h6a1 1 0 001-1V2a1 1 0 00-1-1zM8 14a1 1 0 110-2 1 1 0 010 2zm3-3H5V3h6z"/></svg></span>
+        Preview
+      </button>
+      <button class="fui-Button vscode-outline vscode-icon-only" aria-label="Info">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 10H7V7h2zm0-6H7V3h2z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button appearance="outline" className="vscode-outline"&gt;Learn More&lt;/Button&gt;
+&lt;Button appearance="outline" className="vscode-outline" disabled&gt;Learn More&lt;/Button&gt;</code></div>
+
+  <h3>Small (22 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-outline vscode-small">View</button>
+      <button class="fui-Button vscode-outline vscode-small" disabled>View</button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-outline vscode-small"&gt;View&lt;/Button&gt;</code></div>
+
+  <h3>Compact (15 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-outline vscode-compact">Link</button>
+      <button class="fui-Button vscode-outline vscode-compact" disabled>Link</button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-outline vscode-compact"&gt;Link&lt;/Button&gt;</code></div>
+
+  <!-- ============================================================
+       SUBTLE BUTTON
+       ============================================================ -->
+  <h2 id="subtle">Subtle</h2>
+  <p>Minimal chrome — transparent at rest with a soft tint on hover. Ideal for toolbar-adjacent actions.</p>
+
+  <h3>Default (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-subtle">Edit</button>
+      <button class="fui-Button vscode-subtle" disabled>Edit</button>
+    </div>
+    <div class="demo-row">
+      <button class="fui-Button vscode-subtle">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M13.23 1h-1.46L3.52 9.25l-.16.22L1 14.01 2 15l4.54-2.36.22-.16L15 4.23V2.77zM2.41 13.59l1.51-3 1.45 1.45-2.96 1.55zm3.83-2.06L4.47 9.76 11 3.23l1.77 1.77z"/></svg></span>
+        Rename
+      </button>
+      <button class="fui-Button vscode-subtle vscode-icon-only" aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button appearance="subtle" className="vscode-subtle"&gt;Edit&lt;/Button&gt;
+&lt;Button appearance="subtle" className="vscode-subtle vscode-icon-only" icon={&lt;CloseIcon /&gt;} /&gt;</code></div>
+
+  <h3>Small (22 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-subtle vscode-small">Undo</button>
+      <button class="fui-Button vscode-subtle vscode-small" disabled>Undo</button>
+      <button class="fui-Button vscode-subtle vscode-small vscode-icon-only" aria-label="Undo">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M5.7 7.3L2 3.6V10h6.4l-3.6-3.6c1.5-1.5 3.8-1.8 5.6-.8 1.9 1 2.9 3.2 2.4 5.3l1.1.3c.6-2.6-.6-5.3-2.9-6.6-2.3-1.3-5.2-.9-7 1z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-subtle vscode-small"&gt;Undo&lt;/Button&gt;</code></div>
+
+  <h3>Compact (15 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-subtle vscode-compact">×</button>
+      <button class="fui-Button vscode-subtle vscode-compact" disabled>×</button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-subtle vscode-compact"&gt;×&lt;/Button&gt;</code></div>
+
+  <!-- ============================================================
+       TRANSPARENT BUTTON
+       ============================================================ -->
+  <h2 id="transparent">Transparent</h2>
+  <p>Fully transparent at rest—hover reveals a toolbar-style tint. Used for icon toolbars.</p>
+
+  <h3>Default (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-transparent">Dismiss</button>
+      <button class="fui-Button vscode-transparent" disabled>Dismiss</button>
+    </div>
+    <div class="demo-row">
+      <button class="fui-Button vscode-transparent vscode-icon-only" aria-label="Refresh">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M13.451 5.609l-.579-.939-1.068.812-.076.094c-.335.415-.927 1.146-1.26 1.158H10.4l.404-1.312.019-.073c.263-1.073-.572-2.1-1.664-2.1H7.702L8.5 2.26l-.82-.78L5.862 3.5l1.817 2.02.82-.78L7.67 3.814h1.518c.345 0 .57.38.455.694l-.572 1.859H7.56L4.4 4.02l-.62.78L5.875 6.7H3.61a.632.632 0 01-.591-.855l.57-1.86L2.55 3.68l-.571 1.86a1.8 1.8 0 001.682 2.405h2.267L4.111 9.878l.82.782 1.817-2.02L4.93 6.62l-.82.78.828.872h2.51L6.875 9.87a.675.675 0 00.447 1.181h1.52l-.83.872.82.782 1.816-2.02-1.816-2.02-.82.78.829.872h-1.35L8.06 9.05l.02-.074c.26-1.073-.572-2.1-1.664-2.1h-.184L8.17 4.818h1.287c.345 0 .57.38.455.694l-.573 1.86.283.07c.53.14 1.108-.18 1.42-.622l.87-1.066z" fill-rule="evenodd" fill="currentColor" style="fill:currentColor"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-transparent vscode-icon-only" aria-label="Split Editor">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zm-6 12H2V3h6zm6 0H9V3h5z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-transparent vscode-icon-only" aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button appearance="transparent" className="vscode-transparent"&gt;Dismiss&lt;/Button&gt;
+&lt;Button appearance="transparent" className="vscode-transparent vscode-icon-only" icon={&lt;SplitIcon /&gt;} /&gt;</code></div>
+
+  <h3>Small (22 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-transparent vscode-small vscode-icon-only" aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-transparent vscode-small vscode-icon-only" disabled aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-transparent vscode-small vscode-icon-only" icon={&lt;CloseIcon /&gt;} /&gt;</code></div>
+
+  <h3>Compact (15 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button vscode-transparent vscode-compact vscode-icon-only" aria-label="Collapse">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M5.7 11.3L2.4 8l3.3-3.3.7.7L4.1 7.5H12v1H4.1l2.3 2.1z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-transparent vscode-compact vscode-icon-only" disabled aria-label="Collapse">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M5.7 11.3L2.4 8l3.3-3.3.7.7L4.1 7.5H12v1H4.1l2.3 2.1z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-transparent vscode-compact vscode-icon-only" icon={&lt;CollapseIcon /&gt;} /&gt;</code></div>
+
+  <!-- ============================================================
+       ICON-ONLY BUTTONS
+       ============================================================ -->
+  <h2 id="icon-only">Icon-Only</h2>
+  <p>
+    Add <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">.vscode-icon-only</code>
+    for a square button that removes text padding. Combine with any appearance.
+    Always provide an <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">aria-label</code>.
+  </p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <span class="preview-label">Default 28 px</span>
+      <button class="fui-Button vscode-primary vscode-icon-only" aria-label="Add">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 7H9V2H7v5H2v2h5v5h2V9h5z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-secondary vscode-icon-only" aria-label="Settings">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M9.1 4.4L8.6 2H7.4l-.5 2.4-.7.3-2-1.3-.9.8 1.3 2-.3.7L2 7.4v1.2l2.4.5.3.7-1.3 2 .8.9 2-1.3.7.3.5 2.4h1.2l.5-2.4.7-.3 2 1.3.9-.8-1.3-2 .3-.7 2.4-.5V7.4l-2.4-.5-.3-.7 1.3-2-.8-.9-2 1.3zM8 10a2 2 0 110-4 2 2 0 010 4z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-outline vscode-icon-only" aria-label="Info">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 10H7V7h2zm0-6H7V3h2z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-subtle vscode-icon-only" aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-transparent vscode-icon-only" aria-label="Split">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zm-6 12H2V3h6zm6 0H9V3h5z"/></svg></span>
+      </button>
+    </div>
+    <div class="demo-row">
+      <span class="preview-label">Small 22 px</span>
+      <button class="fui-Button vscode-primary vscode-small vscode-icon-only" aria-label="Add">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 7H9V2H7v5H2v2h5v5h2V9h5z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-secondary vscode-small vscode-icon-only" aria-label="Settings">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M9.1 4.4L8.6 2H7.4l-.5 2.4-.7.3-2-1.3-.9.8 1.3 2-.3.7L2 7.4v1.2l2.4.5.3.7-1.3 2 .8.9 2-1.3.7.3.5 2.4h1.2l.5-2.4.7-.3 2 1.3.9-.8-1.3-2 .3-.7 2.4-.5V7.4l-2.4-.5-.3-.7 1.3-2-.8-.9-2 1.3zM8 10a2 2 0 110-4 2 2 0 010 4z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-subtle vscode-small vscode-icon-only" aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-transparent vscode-small vscode-icon-only" aria-label="Split">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zm-6 12H2V3h6zm6 0H9V3h5z"/></svg></span>
+      </button>
+    </div>
+    <div class="demo-row">
+      <span class="preview-label">Compact 15 px</span>
+      <button class="fui-Button vscode-primary vscode-compact vscode-icon-only" aria-label="Add">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M14 7H9V2H7v5H2v2h5v5h2V9h5z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-secondary vscode-compact vscode-icon-only" aria-label="Settings">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M9.1 4.4L8.6 2H7.4l-.5 2.4-.7.3-2-1.3-.9.8 1.3 2-.3.7L2 7.4v1.2l2.4.5.3.7-1.3 2 .8.9 2-1.3.7.3.5 2.4h1.2l.5-2.4.7-.3 2 1.3.9-.8-1.3-2 .3-.7 2.4-.5V7.4l-2.4-.5-.3-.7 1.3-2-.8-.9-2 1.3zM8 10a2 2 0 110-4 2 2 0 010 4z"/></svg></span>
+      </button>
+      <button class="fui-Button vscode-subtle vscode-compact vscode-icon-only" aria-label="Close">
+        <span class="fui-Button__icon demo-icon"><svg viewBox="0 0 16 16"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg></span>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Button className="vscode-primary vscode-icon-only" icon={&lt;AddIcon /&gt;} aria-label="Add" /&gt;
+&lt;Button className="vscode-secondary vscode-small vscode-icon-only" icon={&lt;SettingsIcon /&gt;} aria-label="Settings" /&gt;
+&lt;Button className="vscode-subtle vscode-compact vscode-icon-only" icon={&lt;CloseIcon /&gt;} aria-label="Close" /&gt;</code></div>
+
+  <!-- ============================================================
+       SPLIT BUTTON
+       ============================================================ -->
+  <h2 id="split-button">Split Button</h2>
+  <p>
+    The Fluent <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">&lt;SplitButton&gt;</code>
+    is a two-part control — a primary action and a menu trigger separated by a divider.
+    Override classes go on the <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">.fui-SplitButton</code> wrapper.
+  </p>
+
+  <h3>Primary Split</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <span class="fui-SplitButton vscode-primary" style="display: inline-flex;">
+        <button class="fui-SplitButton__primaryActionButton fui-Button" style="height:28px; padding:4px 8px; border-radius:4px 0 0 4px; background:var(--vscode-button-background); color:var(--vscode-button-foreground); border:1px solid var(--vscode-button-border); border-right:none; font-size:14px; cursor:pointer;">Run Task</button>
+        <button class="fui-SplitButton__menuButton fui-Button" style="height:28px; width:24px; padding:0 4px; border-radius:0 4px 4px 0; background:var(--vscode-button-background); color:var(--vscode-button-foreground); border:1px solid var(--vscode-button-border); border-left:1px solid var(--vscode-button-separator); font-size:14px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;" aria-label="More options">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+        </button>
+      </span>
+      <span class="fui-SplitButton vscode-primary" style="display: inline-flex; opacity: 0.5; pointer-events: none;">
+        <button class="fui-SplitButton__primaryActionButton fui-Button" disabled style="height:28px; padding:4px 8px; border-radius:4px 0 0 4px; background:var(--vscode-button-background); color:var(--vscode-button-foreground); border:1px solid var(--vscode-button-border); border-right:none; font-size:14px; cursor:default;">Run Task</button>
+        <button class="fui-SplitButton__menuButton fui-Button" disabled style="height:28px; width:24px; padding:0 4px; border-radius:0 4px 4px 0; background:var(--vscode-button-background); color:var(--vscode-button-foreground); border:1px solid var(--vscode-button-border); border-left:1px solid var(--vscode-button-separator); font-size:14px; cursor:default; display:inline-flex; align-items:center; justify-content:center;" aria-label="More options">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;SplitButton appearance="primary" className="vscode-primary"&gt;Run Task&lt;/SplitButton&gt;</code></div>
+
+  <h3>Secondary Split</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <span class="fui-SplitButton vscode-secondary" style="display: inline-flex;">
+        <button class="fui-SplitButton__primaryActionButton fui-Button" style="height:28px; padding:4px 8px; border-radius:4px 0 0 4px; background:var(--vscode-button-secondaryBackground); color:var(--vscode-button-secondaryForeground); border:1px solid var(--vscode-button-border); border-right:none; font-size:14px; cursor:pointer;">Save As</button>
+        <button class="fui-SplitButton__menuButton fui-Button" style="height:28px; width:24px; padding:0 4px; border-radius:0 4px 4px 0; background:var(--vscode-button-secondaryBackground); color:var(--vscode-button-secondaryForeground); border:1px solid var(--vscode-button-border); border-left:1px solid var(--vscode-button-separator); font-size:14px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;" aria-label="More options">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;SplitButton className="vscode-secondary"&gt;Save As&lt;/SplitButton&gt;</code></div>
+
+  <!-- ============================================================
+       MENU BUTTON
+       ============================================================ -->
+  <h2 id="menu-button">Menu Button</h2>
+  <p>
+    A single button with a built-in chevron that opens a menu.
+    Uses the same appearance classes as regular buttons.
+  </p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <button class="fui-Button fui-MenuButton vscode-primary" style="display:inline-flex; align-items:center; gap:4px;">
+        New
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:2px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </button>
+      <button class="fui-Button fui-MenuButton vscode-secondary" style="display:inline-flex; align-items:center; gap:4px;">
+        Open Recent
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:2px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </button>
+      <button class="fui-Button fui-MenuButton vscode-outline" style="display:inline-flex; align-items:center; gap:4px;">
+        Filter
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:2px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </button>
+      <button class="fui-Button fui-MenuButton vscode-subtle" style="display:inline-flex; align-items:center; gap:4px;">
+        Sort
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style="margin-left:2px;"><path d="M2.15 4.65l3.85 3.85 3.85-3.85z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;MenuButton appearance="primary" className="vscode-primary"&gt;New&lt;/MenuButton&gt;
+&lt;MenuButton className="vscode-secondary"&gt;Open Recent&lt;/MenuButton&gt;
+&lt;MenuButton appearance="outline" className="vscode-outline"&gt;Filter&lt;/MenuButton&gt;
+&lt;MenuButton appearance="subtle" className="vscode-subtle"&gt;Sort&lt;/MenuButton&gt;</code></div>
+
+  <!-- ============================================================
+       STATE COMPARISON
+       ============================================================ -->
+  <h2 id="states">Interactive States</h2>
+  <p>All five appearances support rest, hover, focus, and disabled states. Focus applies a 1 px <code style="font-family: 'SF Mono', Consolas, monospace; font-size: 12px; background: var(--badge-bg); padding: 1px 5px; border-radius: 3px;">--vscode-focusBorder</code> outline with 2 px offset.</p>
+
+  <div class="state-grid state-grid--5col">
+    <div class="state-grid__header">Appearance</div>
+    <div class="state-grid__header">Rest</div>
+    <div class="state-grid__header">Hover</div>
+    <div class="state-grid__header">Focus</div>
+    <div class="state-grid__header">Disabled</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Primary</span></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-primary">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-primary" style="background-color:var(--vscode-button-hoverBackground)">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-primary" style="outline:1px solid var(--vscode-focusBorder); outline-offset:2px;">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-primary" disabled>OK</button></div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Secondary</span></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-secondary">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-secondary" style="background-color:var(--vscode-button-secondaryHoverBackground)">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-secondary" style="outline:1px solid var(--vscode-focusBorder); outline-offset:2px;">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-secondary" disabled>OK</button></div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Outline</span></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-outline">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-outline" style="background-color:var(--vscode-list-hoverBackground)">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-outline" style="outline:1px solid var(--vscode-focusBorder); outline-offset:2px;">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-outline" disabled>OK</button></div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Subtle</span></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-subtle">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-subtle" style="background-color:var(--vscode-toolbar-hoverBackground)">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-subtle" style="outline:1px solid var(--vscode-focusBorder); outline-offset:2px;">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-subtle" disabled>OK</button></div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Transparent</span></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-transparent">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-transparent" style="background-color:var(--vscode-toolbar-hoverBackground)">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-transparent" style="outline:1px solid var(--vscode-focusBorder); outline-offset:2px;">OK</button></div>
+    <div class="state-grid__cell"><button class="fui-Button vscode-transparent" disabled>OK</button></div>
+  </div>
+
+  <!-- ============================================================
+       FULL EXAMPLE
+       ============================================================ -->
+  <h2 id="full-example">Full Example</h2>
+  <p>A typical dialog footer combining primary, secondary, and subtle buttons.</p>
+
+  <div class="component-preview" style="display:flex; gap:8px; justify-content:flex-end;">
+    <button class="fui-Button vscode-subtle">Don't Save</button>
+    <button class="fui-Button vscode-secondary">Cancel</button>
+    <button class="fui-Button vscode-primary">Save</button>
+  </div>
+  <div class="code-block"><code>&lt;DialogActions&gt;
+  &lt;Button appearance="subtle" className="vscode-subtle"&gt;Don't Save&lt;/Button&gt;
+  &lt;Button className="vscode-secondary"&gt;Cancel&lt;/Button&gt;
+  &lt;Button appearance="primary" className="vscode-primary"&gt;Save&lt;/Button&gt;
+&lt;/DialogActions&gt;</code></div>
+
+  <script src="../scripts/layout.js"></script>
+</body>
+</html>

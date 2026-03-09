@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input — VS Code Overrides</title>
+  <link rel="stylesheet" href="../styles/theme-tokens.css" />
+  <link rel="stylesheet" href="../styles/site.css" />
+  <link rel="stylesheet" href="../overrides/vscode-input-overrides.css" />
+  <style>
+    .demo-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+    .demo-row + .demo-row { margin-top: 12px; }
+    .demo-inline { display: inline-flex; flex-direction: column; gap: 4px; }
+    .demo-label { font-size: 11px; color: var(--vscode-descriptionForeground); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    .demo-icon { display: inline-flex; align-items: center; }
+    .demo-icon svg { width: 16px; height: 16px; fill: currentColor; }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Input</h1>
+  <p class="page-description">
+    CSS overrides for the Fluent UI v9
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;Input&gt;</code>,
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;Textarea&gt;</code>,
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;SearchBox&gt;</code>, and
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;Field&gt;</code>
+    components. Covers three sizes, validation states, content slots, and form field layout.
+  </p>
+
+  <!-- ============================================================ -->
+  <h2 id="import">Import</h2>
+  <div class="code-block"><code>import './overrides/vscode-input-overrides.css';</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="class-reference">Class Reference</h2>
+  <table class="class-table">
+    <thead><tr><th>Class</th><th>Target</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>.vscode-input</code></td><td>Input</td><td>Base text input</td></tr>
+      <tr><td><code>.vscode-input-small</code></td><td>Modifier</td><td>24 px height</td></tr>
+      <tr><td><code>.vscode-input-large</code></td><td>Modifier</td><td>28 px height</td></tr>
+      <tr><td><code>.vscode-input-error</code></td><td>Validation</td><td>Red error border</td></tr>
+      <tr><td><code>.vscode-input-warning</code></td><td>Validation</td><td>Yellow warning border</td></tr>
+      <tr><td><code>.vscode-input-info</code></td><td>Validation</td><td>Blue info border</td></tr>
+      <tr><td><code>.vscode-input-with-icon</code></td><td>Modifier</td><td>Input with a leading icon slot</td></tr>
+      <tr><td><code>.vscode-textarea</code></td><td>Textarea</td><td>Multi-line text area</td></tr>
+      <tr><td><code>.vscode-searchbox</code></td><td>SearchBox</td><td>Search input with icon</td></tr>
+      <tr><td><code>.vscode-searchbox-medium</code></td><td>Modifier</td><td>Medium search box</td></tr>
+      <tr><td><code>.vscode-searchbox-large</code></td><td>Modifier</td><td>Large search box</td></tr>
+      <tr><td><code>.vscode-field</code></td><td>Field</td><td>Form field wrapper with label + validation message</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2 id="text-input">Text Input</h2>
+  <p>The base <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-input</code> class styles a single-line text input.</p>
+
+  <h3>Default (26 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Input vscode-input" style="display:inline-flex; align-items:center; height:26px; min-width:240px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <input type="text" class="fui-Input__input" placeholder="Enter a value..." style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+      <div class="fui-Input vscode-input" style="display:inline-flex; align-items:center; height:26px; min-width:240px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0; opacity:0.5; pointer-events:none;">
+        <input type="text" class="fui-Input__input" placeholder="Disabled" disabled style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Input className="vscode-input" placeholder="Enter a value..." /&gt;
+&lt;Input className="vscode-input" disabled placeholder="Disabled" /&gt;</code></div>
+
+  <h3>Small (24 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Input vscode-input vscode-input-small" style="display:inline-flex; align-items:center; height:24px; min-width:200px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <input type="text" class="fui-Input__input" placeholder="Small input" style="flex:1; background:transparent; border:none; outline:none; padding:0 6px; font-size:12px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Input className="vscode-input vscode-input-small" placeholder="Small input" /&gt;</code></div>
+
+  <h3>Large (28 px)</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Input vscode-input vscode-input-large" style="display:inline-flex; align-items:center; height:28px; min-width:260px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <input type="text" class="fui-Input__input" placeholder="Large input" style="flex:1; background:transparent; border:none; outline:none; padding:0 10px; font-size:14px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Input className="vscode-input vscode-input-large" placeholder="Large input" /&gt;</code></div>
+
+  <h3>With Icon</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-Input vscode-input vscode-input-with-icon" style="display:inline-flex; align-items:center; height:26px; min-width:240px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <span class="demo-icon" style="padding:0 0 0 8px; color:var(--vscode-icon-foreground);"><svg viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 110-10 5 5 0 010 10z"/></svg></span>
+        <input type="text" class="fui-Input__input" placeholder="Filter by name..." style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Input className="vscode-input vscode-input-with-icon"
+  contentBefore={&lt;SearchIcon /&gt;}
+  placeholder="Filter by name..." /&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="validation">Validation States</h2>
+  <p>Add a validation class to indicate form errors, warnings, or info.</p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="demo-inline">
+        <span class="demo-label">Error</span>
+        <div class="fui-Input vscode-input vscode-input-error" style="display:inline-flex; align-items:center; height:26px; min-width:200px; background:var(--vscode-input-background); border:1px solid var(--vscode-inputValidation-errorBorder); border-radius:4px; padding:0;">
+          <input type="text" class="fui-Input__input" value="bad-value" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Warning</span>
+        <div class="fui-Input vscode-input vscode-input-warning" style="display:inline-flex; align-items:center; height:26px; min-width:200px; background:var(--vscode-input-background); border:1px solid var(--vscode-inputValidation-warningBorder); border-radius:4px; padding:0;">
+          <input type="text" class="fui-Input__input" value="check this" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Info</span>
+        <div class="fui-Input vscode-input vscode-input-info" style="display:inline-flex; align-items:center; height:26px; min-width:200px; background:var(--vscode-input-background); border:1px solid var(--vscode-inputValidation-infoBorder); border-radius:4px; padding:0;">
+          <input type="text" class="fui-Input__input" value="FYI" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Input className="vscode-input vscode-input-error" value="bad-value" /&gt;
+&lt;Input className="vscode-input vscode-input-warning" value="check this" /&gt;
+&lt;Input className="vscode-input vscode-input-info" value="FYI" /&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="textarea">Textarea</h2>
+  <p>Multi-line text input using <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-textarea</code>.</p>
+
+  <div class="component-preview">
+    <div class="fui-Textarea vscode-textarea" style="display:inline-flex; min-width:320px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px;">
+      <textarea class="fui-Textarea__textarea" rows="4" placeholder="Describe your issue..." style="flex:1; background:transparent; border:none; outline:none; resize:vertical; padding:6px 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit; line-height:1.5;"></textarea>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Textarea className="vscode-textarea" placeholder="Describe your issue..." rows={4} /&gt;</code></div>
+
+  <h3>Disabled Textarea</h3>
+  <div class="component-preview">
+    <div class="fui-Textarea vscode-textarea" style="display:inline-flex; min-width:320px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; opacity:0.5; pointer-events:none;">
+      <textarea class="fui-Textarea__textarea" rows="3" disabled style="flex:1; background:transparent; border:none; outline:none; resize:none; padding:6px 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit; line-height:1.5;">This field is disabled</textarea>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Textarea className="vscode-textarea" disabled value="This field is disabled" /&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="searchbox">SearchBox</h2>
+  <p>A search input with a built-in search icon and dismiss action. Uses <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-searchbox</code>.</p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="fui-SearchBox vscode-searchbox" style="display:inline-flex; align-items:center; height:26px; min-width:260px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <span class="demo-icon" style="padding:0 0 0 8px; color:var(--vscode-icon-foreground);"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 110-10 5 5 0 010 10z"/></svg></span>
+        <input type="search" placeholder="Search settings" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+        <button style="display:flex; align-items:center; padding:0 6px; background:none; border:none; cursor:pointer; color:var(--vscode-icon-foreground); opacity:0.6;" aria-label="Clear">
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 8.707l3.646 3.647.708-.708L8.707 8l3.647-3.646-.708-.708L8 7.293 4.354 3.646l-.708.708L7.293 8l-3.647 3.646.708.708z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;SearchBox className="vscode-searchbox" placeholder="Search settings" /&gt;</code></div>
+
+  <h3>Medium &amp; Large</h3>
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="demo-inline">
+        <span class="demo-label">Medium</span>
+        <div class="fui-SearchBox vscode-searchbox vscode-searchbox-medium" style="display:inline-flex; align-items:center; height:28px; min-width:260px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+          <span class="demo-icon" style="padding:0 0 0 8px; color:var(--vscode-icon-foreground);"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 110-10 5 5 0 010 10z"/></svg></span>
+          <input type="search" placeholder="Search..." style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Large</span>
+        <div class="fui-SearchBox vscode-searchbox vscode-searchbox-large" style="display:inline-flex; align-items:center; height:32px; min-width:300px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+          <span class="demo-icon" style="padding:0 0 0 10px; color:var(--vscode-icon-foreground);"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 110-10 5 5 0 010 10z"/></svg></span>
+          <input type="search" placeholder="Search everything..." style="flex:1; background:transparent; border:none; outline:none; padding:0 10px; font-size:14px; color:var(--vscode-input-foreground); font-family:inherit;" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;SearchBox className="vscode-searchbox vscode-searchbox-medium" placeholder="Search..." /&gt;
+&lt;SearchBox className="vscode-searchbox vscode-searchbox-large" placeholder="Search everything..." /&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="field">Field</h2>
+  <p>Wraps an input with a label and optional validation message. Uses <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-field</code>.</p>
+
+  <div class="component-preview" style="max-width: 360px;">
+    <div class="vscode-field" style="margin-bottom:16px;">
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">
+        Workspace Name
+        <span style="color:var(--vscode-errorForeground);">*</span>
+      </label>
+      <div class="fui-Input vscode-input" style="display:flex; align-items:center; height:26px; width:100%; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <input type="text" class="fui-Input__input" placeholder="my-workspace" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+    </div>
+
+    <div class="vscode-field" style="margin-bottom:16px;">
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Description</label>
+      <div class="fui-Textarea vscode-textarea" style="display:flex; width:100%; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px;">
+        <textarea class="fui-Textarea__textarea" rows="3" placeholder="Optional description..." style="flex:1; background:transparent; border:none; outline:none; resize:vertical; padding:6px 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit; line-height:1.5;"></textarea>
+      </div>
+    </div>
+
+    <div class="vscode-field">
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Port</label>
+      <div class="fui-Input vscode-input vscode-input-error" style="display:flex; align-items:center; height:26px; width:100%; background:var(--vscode-input-background); border:1px solid var(--vscode-inputValidation-errorBorder); border-radius:4px; padding:0;">
+        <input type="text" class="fui-Input__input" value="-1" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+      <span style="display:block; font-size:11px; color:var(--vscode-errorForeground); margin-top:4px;">Port must be between 0 and 65535</span>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Field label="Workspace Name" required className="vscode-field"&gt;
+  &lt;Input className="vscode-input" placeholder="my-workspace" /&gt;
+&lt;/Field&gt;
+
+&lt;Field label="Description" className="vscode-field"&gt;
+  &lt;Textarea className="vscode-textarea" placeholder="Optional description..." rows={3} /&gt;
+&lt;/Field&gt;
+
+&lt;Field label="Port" validationState="error"
+  validationMessage="Port must be between 0 and 65535"
+  className="vscode-field"&gt;
+  &lt;Input className="vscode-input vscode-input-error" value="-1" /&gt;
+&lt;/Field&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="states">Interactive States</h2>
+
+  <div class="state-grid state-grid--4col">
+    <div class="state-grid__header">State</div>
+    <div class="state-grid__header">Input</div>
+    <div class="state-grid__header">Textarea</div>
+    <div class="state-grid__header">Description</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Rest</span></div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:120px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground);">Value</div>
+    </div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; min-width:120px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:4px 8px; font-size:13px; color:var(--vscode-input-foreground); line-height:1.4;">Text</div>
+    </div>
+    <div class="state-grid__cell" style="font-size:12px; color:var(--vscode-descriptionForeground);">Default idle</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Focus</span></div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:120px; background:var(--vscode-input-background); border:1px solid var(--vscode-focusBorder); border-radius:4px; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground);">Value</div>
+    </div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; min-width:120px; background:var(--vscode-input-background); border:1px solid var(--vscode-focusBorder); border-radius:4px; padding:4px 8px; font-size:13px; color:var(--vscode-input-foreground); line-height:1.4;">Text</div>
+    </div>
+    <div class="state-grid__cell" style="font-size:12px; color:var(--vscode-descriptionForeground);">Focus border</div>
+
+    <div class="state-grid__cell"><span class="preview-label" style="min-width:0">Disabled</span></div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; align-items:center; height:26px; min-width:120px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); opacity:0.5;">Value</div>
+    </div>
+    <div class="state-grid__cell">
+      <div style="display:inline-flex; min-width:120px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:4px 8px; font-size:13px; color:var(--vscode-input-foreground); line-height:1.4; opacity:0.5;">Text</div>
+    </div>
+    <div class="state-grid__cell" style="font-size:12px; color:var(--vscode-descriptionForeground);">50% opacity</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2 id="full-example">Full Example</h2>
+  <p>A settings form combining multiple input types.</p>
+
+  <div class="component-preview" style="max-width: 400px;">
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Editor: Font Family</label>
+      <div class="fui-Input vscode-input" style="display:flex; align-items:center; height:26px; width:100%; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <input type="text" class="fui-Input__input" value="'Cascadia Code', 'Fira Code', monospace" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+      <span style="display:block; font-size:11px; color:var(--vscode-descriptionForeground); margin-top:4px;">Controls the font family. Accepts a comma-separated list.</span>
+    </div>
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Editor: Font Size</label>
+      <div class="fui-Input vscode-input vscode-input-small" style="display:flex; align-items:center; height:24px; width:80px; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px; padding:0;">
+        <input type="number" class="fui-Input__input" value="14" style="flex:1; background:transparent; border:none; outline:none; padding:0 8px; font-size:12px; color:var(--vscode-input-foreground); font-family:inherit;" />
+      </div>
+    </div>
+    <div>
+      <label style="display:block; font-size:12px; font-weight:600; color:var(--vscode-foreground); margin-bottom:4px;">Terminal: Shell Args</label>
+      <div class="fui-Textarea vscode-textarea" style="display:flex; width:100%; background:var(--vscode-input-background); border:1px solid var(--vscode-input-border); border-radius:4px;">
+        <textarea class="fui-Textarea__textarea" rows="2" style="flex:1; background:transparent; border:none; outline:none; resize:vertical; padding:6px 8px; font-size:13px; color:var(--vscode-input-foreground); font-family:inherit; line-height:1.5;">--login</textarea>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Field label="Editor: Font Family" hint="Controls the font family."&gt;
+  &lt;Input className="vscode-input" value="'Cascadia Code', 'Fira Code', monospace" /&gt;
+&lt;/Field&gt;
+
+&lt;Field label="Editor: Font Size"&gt;
+  &lt;Input className="vscode-input vscode-input-small" type="number" value="14" /&gt;
+&lt;/Field&gt;
+
+&lt;Field label="Terminal: Shell Args"&gt;
+  &lt;Textarea className="vscode-textarea" rows={2}&gt;--login&lt;/Textarea&gt;
+&lt;/Field&gt;</code></div>
+
+  <script src="../scripts/layout.js"></script>
+</body>
+</html>

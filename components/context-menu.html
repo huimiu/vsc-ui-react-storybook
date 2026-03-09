@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context Menu — VS Code Overrides</title>
+  <link rel="stylesheet" href="../styles/theme-tokens.css" />
+  <link rel="stylesheet" href="../styles/site.css" />
+  <link rel="stylesheet" href="../overrides/vscode-menu-overrides.css" />
+  <style>
+    .demo-menu {
+      display: inline-flex;
+      flex-direction: column;
+      min-width: 200px;
+      background: var(--vscode-menu-background);
+      border: 1px solid var(--vscode-menu-border);
+      border-radius: 5px;
+      padding: 4px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,.3);
+    }
+    .demo-menu-item {
+      display: flex;
+      align-items: center;
+      height: 26px;
+      padding: 0 12px 0 10px;
+      font-size: 13px;
+      color: var(--vscode-menu-foreground);
+      cursor: default;
+      position: relative;
+      gap: 8px;
+    }
+    .demo-menu-item:hover,
+    .demo-menu-item.demo-focused {
+      background: var(--vscode-menu-selectionBackground);
+      color: var(--vscode-menu-selectionForeground);
+    }
+    .demo-menu-item__icon {
+      display: inline-flex;
+      width: 16px;
+      height: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .demo-menu-item__icon svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .demo-menu-item__content {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .demo-menu-item__shortcut {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-left: auto;
+      padding-left: 24px;
+      white-space: nowrap;
+    }
+    .demo-menu-item__submenu-arrow {
+      display: inline-flex;
+      align-items: center;
+      margin-left: auto;
+      padding-left: 16px;
+    }
+    .demo-menu-item__submenu-arrow svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+    .demo-menu-item--disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .demo-menu-item--accent .demo-menu-item__content {
+      color: var(--vscode-textLink-foreground);
+    }
+    .demo-menu-item--accent:hover .demo-menu-item__content,
+    .demo-menu-item--accent.demo-focused .demo-menu-item__content {
+      color: var(--vscode-menu-selectionForeground);
+    }
+    .demo-menu-item--indented .demo-menu-item__content {
+      padding-left: 24px;
+    }
+    .demo-divider {
+      height: 1px;
+      background: var(--vscode-menu-separatorBackground);
+      margin: 4px 0;
+    }
+    .demo-group-header {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--vscode-descriptionForeground);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 6px 12px 2px 10px;
+    }
+    .demo-check {
+      display: inline-flex;
+      width: 16px;
+      height: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .demo-check svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .demo-radio {
+      display: inline-flex;
+      width: 16px;
+      height: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .demo-radio svg {
+      width: 10px;
+      height: 10px;
+      fill: currentColor;
+    }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+    .demo-inline { display: inline-flex; flex-direction: column; gap: 4px; }
+    .demo-label { font-size: 11px; color: var(--vscode-descriptionForeground); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">Context Menu</h1>
+  <p class="page-description">
+    CSS overrides for the Fluent UI v9
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;Menu&gt;</code>,
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuItem&gt;</code>,
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuDivider&gt;</code>,
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuItemCheckbox&gt;</code>,
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuItemRadio&gt;</code>, and
+    <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuGroup&gt;</code>
+    components. Covers icons, keyboard shortcuts, submenus, checkable items, accents, groups, and dividers.
+  </p>
+
+  <!-- ============================================================ -->
+  <h2 id="import">Import</h2>
+  <div class="code-block"><code>import './overrides/vscode-menu-overrides.css';</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="class-reference">Class Reference</h2>
+  <table class="class-table">
+    <thead><tr><th>Class</th><th>Target</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>.vscode-menu</code></td><td>MenuPopover / MenuList</td><td>Menu surface container</td></tr>
+      <tr><td><code>.vscode-menu-item</code></td><td>MenuItem</td><td>Single menu row</td></tr>
+      <tr><td><code>.vscode-menu-item-accent</code></td><td>Modifier</td><td>Hyperlink-blue label for emphasis</td></tr>
+      <tr><td><code>.vscode-menu-item-indented</code></td><td>Modifier</td><td>Extra left padding for items without an icon</td></tr>
+      <tr><td><code>.vscode-menu-divider</code></td><td>MenuDivider</td><td>Horizontal separator between groups</td></tr>
+      <tr><td><code>.vscode-menu-group</code></td><td>MenuGroup</td><td>Logical group with automatic border between siblings</td></tr>
+      <tr><td><code>.vscode-menu-group-header</code></td><td>MenuGroupHeader</td><td>Section header label within a group</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================================ -->
+  <h2 id="basic-menu">Basic Menu</h2>
+  <p>A standard context menu with icons, labels, and keyboard shortcuts.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu">
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M5.56 3.146a.5.5 0 01.818-.181l5 5.5a.5.5 0 010 .67l-5 5.5A.5.5 0 015 14.5v-11a.5.5 0 01.06-.237z"/></svg></span>
+        <span class="demo-menu-item__content">Run</span>
+        <span class="demo-menu-item__shortcut">F5</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M2 2h6v6H2V2zm1 1v4h4V3H3zm5 5h6v6H8V8zm1 1v4h4V9H9z"/></svg></span>
+        <span class="demo-menu-item__content">Split Editor Right</span>
+        <span class="demo-menu-item__shortcut">⌘\</span>
+      </div>
+      <div class="demo-divider"></div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M11.5 1l-5 14h1l5-14h-1zM2 7l3-3v1.5L2.5 8 5 10.5V12L2 9V7zm12 2l-3 3v-1.5L13.5 8 11 5.5V4l3 3v2z"/></svg></span>
+        <span class="demo-menu-item__content">Format Document</span>
+        <span class="demo-menu-item__shortcut">⇧⌥F</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Menu&gt;
+  &lt;MenuPopover className="vscode-menu"&gt;
+    &lt;MenuList className="vscode-menu"&gt;
+      &lt;MenuItem className="vscode-menu-item" icon={&lt;PlayIcon /&gt;}&gt;
+        Run
+        &lt;span slot="secondaryContent"&gt;F5&lt;/span&gt;
+      &lt;/MenuItem&gt;
+      &lt;MenuItem className="vscode-menu-item" icon={&lt;SplitIcon /&gt;}&gt;
+        Split Editor Right
+        &lt;span slot="secondaryContent"&gt;⌘\&lt;/span&gt;
+      &lt;/MenuItem&gt;
+      &lt;MenuDivider className="vscode-menu-divider" /&gt;
+      &lt;MenuItem className="vscode-menu-item" icon={&lt;FormatIcon /&gt;}&gt;
+        Format Document
+        &lt;span slot="secondaryContent"&gt;⇧⌥F&lt;/span&gt;
+      &lt;/MenuItem&gt;
+    &lt;/MenuList&gt;
+  &lt;/MenuPopover&gt;
+&lt;/Menu&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="item-states">Menu Item States</h2>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="demo-inline">
+        <span class="demo-label">Rest</span>
+        <div class="demo-menu" style="min-width:160px;">
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+            <span class="demo-menu-item__content">New File</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Hover / Focus</span>
+        <div class="demo-menu" style="min-width:160px;">
+          <div class="demo-menu-item demo-focused">
+            <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+            <span class="demo-menu-item__content">New File</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-inline">
+        <span class="demo-label">Disabled</span>
+        <div class="demo-menu" style="min-width:160px;">
+          <div class="demo-menu-item demo-menu-item--disabled">
+            <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+            <span class="demo-menu-item__content">New File</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2 id="checkable">Checkable Items</h2>
+  <p>Use <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuItemCheckbox&gt;</code> for toggle options.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu" style="min-width: 220px;">
+      <div class="demo-menu-item">
+        <span class="demo-check"><svg viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+        <span class="demo-menu-item__content">Minimap</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-check"><svg viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+        <span class="demo-menu-item__content">Breadcrumbs</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-check" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Sticky Scroll</span>
+      </div>
+      <div class="demo-divider"></div>
+      <div class="demo-menu-item">
+        <span class="demo-check"><svg viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+        <span class="demo-menu-item__content">Word Wrap</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;MenuItemCheckbox className="vscode-menu-item" name="minimap" value="on"&gt;
+  Minimap
+&lt;/MenuItemCheckbox&gt;
+&lt;MenuItemCheckbox className="vscode-menu-item" name="breadcrumbs" value="on"&gt;
+  Breadcrumbs
+&lt;/MenuItemCheckbox&gt;
+&lt;MenuItemCheckbox className="vscode-menu-item" name="sticky" value="off"&gt;
+  Sticky Scroll
+&lt;/MenuItemCheckbox&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="radio">Radio Items</h2>
+  <p>Use <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">&lt;MenuItemRadio&gt;</code> for mutually exclusive selections.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu" style="min-width: 200px;">
+      <div class="demo-group-header">Tab Size</div>
+      <div class="demo-menu-item">
+        <span class="demo-radio"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="4"/></svg></span>
+        <span class="demo-menu-item__content">2 Spaces</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-radio" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">4 Spaces</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-radio" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Tab</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;MenuGroupHeader className="vscode-menu-group-header"&gt;Tab Size&lt;/MenuGroupHeader&gt;
+&lt;MenuItemRadio className="vscode-menu-item" name="tabSize" value="2"&gt;
+  2 Spaces
+&lt;/MenuItemRadio&gt;
+&lt;MenuItemRadio className="vscode-menu-item" name="tabSize" value="4"&gt;
+  4 Spaces
+&lt;/MenuItemRadio&gt;
+&lt;MenuItemRadio className="vscode-menu-item" name="tabSize" value="tab"&gt;
+  Tab
+&lt;/MenuItemRadio&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="accent">Accent Items</h2>
+  <p>The <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-menu-item-accent</code> class applies a hyperlink-blue color for emphasis.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu" style="min-width: 200px;">
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+        <span class="demo-menu-item__content">Show Definitions</span>
+      </div>
+      <div class="demo-menu-item demo-menu-item--accent">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1a6 6 0 110 12A6 6 0 018 2zm-.5 3v3.5H11v1H6.5V5h1z"/></svg></span>
+        <span class="demo-menu-item__content" style="color: var(--vscode-textLink-foreground);">View All References</span>
+      </div>
+      <div class="demo-divider"></div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M2.78 2L2 2.41v12l.78.42 9-6V8l-9-6zM3 3.48L10.64 8.5 3 13.52V3.48z"/></svg></span>
+        <span class="demo-menu-item__content">Rename Symbol</span>
+        <span class="demo-menu-item__shortcut">F2</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;MenuItem className="vscode-menu-item vscode-menu-item-accent"
+  icon={&lt;ReferencesIcon /&gt;}&gt;
+  View All References
+&lt;/MenuItem&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="submenus">Submenus</h2>
+  <p>Indicate a nested menu with a submenu arrow indicator.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu" style="min-width: 220px;">
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+        <span class="demo-menu-item__content">New File</span>
+        <span class="demo-menu-item__shortcut">⌘N</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M14.5 3H7.71l-.85-.85L6.51 2h-5l-.5.5v11l.5.5h13l.5-.5v-10L14.5 3zm-.51 8.49V13H2V3h4.29l.85.85.36.15H14v7.49z"/></svg></span>
+        <span class="demo-menu-item__content">Open Folder</span>
+      </div>
+      <div class="demo-divider"></div>
+      <div class="demo-menu-item demo-focused">
+        <span class="demo-menu-item__icon" style="opacity:0"></span>
+        <span class="demo-menu-item__content">Open Recent</span>
+        <span class="demo-menu-item__submenu-arrow"><svg viewBox="0 0 16 16"><path d="M5.7 13.7L5 13l5-5-5-5 .7-.7L11.4 8z"/></svg></span>
+      </div>
+    </div>
+    <!-- Simulated submenu -->
+    <div class="demo-menu" style="min-width: 260px; margin-left: -4px; margin-top: -10px;">
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+        <span class="demo-menu-item__content">~/projects/my-app</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.5 3H2.5A1.5 1.5 0 001 4.5v7A1.5 1.5 0 002.5 13h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 3zm0 1a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5h11z"/></svg></span>
+        <span class="demo-menu-item__content">~/projects/design-system</span>
+      </div>
+      <div class="demo-divider"></div>
+      <div class="demo-menu-item demo-menu-item--accent">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content" style="color: var(--vscode-textLink-foreground);">More…</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Menu&gt;
+  &lt;MenuTrigger&gt;
+    &lt;MenuItem className="vscode-menu-item" hasSubmenu&gt;
+      Open Recent
+    &lt;/MenuItem&gt;
+  &lt;/MenuTrigger&gt;
+  &lt;MenuPopover className="vscode-menu"&gt;
+    &lt;MenuList className="vscode-menu"&gt;
+      &lt;MenuItem className="vscode-menu-item"&gt;~/projects/my-app&lt;/MenuItem&gt;
+      &lt;MenuItem className="vscode-menu-item"&gt;~/projects/design-system&lt;/MenuItem&gt;
+    &lt;/MenuList&gt;
+  &lt;/MenuPopover&gt;
+&lt;/Menu&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="dividers-groups">Dividers &amp; Groups</h2>
+  <p>Separate items with <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-menu-divider</code> or semantically group them with <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-menu-group</code>.</p>
+
+  <div class="component-preview">
+    <div class="demo-row">
+      <div class="demo-inline">
+        <span class="demo-label">Divider</span>
+        <div class="demo-menu" style="min-width:180px;">
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Cut</span>
+            <span class="demo-menu-item__shortcut">⌘X</span>
+          </div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Copy</span>
+            <span class="demo-menu-item__shortcut">⌘C</span>
+          </div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Paste</span>
+            <span class="demo-menu-item__shortcut">⌘V</span>
+          </div>
+          <div class="demo-divider"></div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Find</span>
+            <span class="demo-menu-item__shortcut">⌘F</span>
+          </div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Replace</span>
+            <span class="demo-menu-item__shortcut">⌥⌘F</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-inline">
+        <span class="demo-label">Groups with Headers</span>
+        <div class="demo-menu" style="min-width:200px;">
+          <div class="demo-group-header">Editor</div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Split Right</span>
+          </div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Split Down</span>
+          </div>
+          <div class="demo-divider"></div>
+          <div class="demo-group-header">Terminal</div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">New Terminal</span>
+          </div>
+          <div class="demo-menu-item">
+            <span class="demo-menu-item__content">Split Terminal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;MenuDivider className="vscode-menu-divider" /&gt;
+
+&lt;MenuGroup className="vscode-menu-group"&gt;
+  &lt;MenuGroupHeader className="vscode-menu-group-header"&gt;
+    Editor
+  &lt;/MenuGroupHeader&gt;
+  &lt;MenuItem className="vscode-menu-item"&gt;Split Right&lt;/MenuItem&gt;
+  &lt;MenuItem className="vscode-menu-item"&gt;Split Down&lt;/MenuItem&gt;
+&lt;/MenuGroup&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="indentation">Indentation</h2>
+  <p>Use <code style="font-family:'SF Mono',Consolas,monospace;font-size:12px;background:var(--badge-bg);padding:1px 5px;border-radius:3px;">.vscode-menu-item-indented</code> to indent items that lack an icon, keeping them aligned with icon-bearing siblings.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu" style="min-width: 220px;">
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+        <span class="demo-menu-item__content">Word Wrap</span>
+      </div>
+      <div class="demo-menu-item demo-menu-item--indented">
+        <span class="demo-menu-item__content">Render Whitespace</span>
+      </div>
+      <div class="demo-menu-item demo-menu-item--indented">
+        <span class="demo-menu-item__content">Render Control Characters</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;MenuItemCheckbox className="vscode-menu-item" value="on"&gt;
+  Word Wrap
+&lt;/MenuItemCheckbox&gt;
+&lt;MenuItem className="vscode-menu-item vscode-menu-item-indented"&gt;
+  Render Whitespace
+&lt;/MenuItem&gt;</code></div>
+
+  <!-- ============================================================ -->
+  <h2 id="full-example">Full Example</h2>
+  <p>A realistic right-click context menu from the VS Code editor area.</p>
+
+  <div class="component-preview">
+    <div class="demo-menu" style="min-width: 280px;">
+      <!-- Clipboard group -->
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M4 4l1-1h5.586L14 6.414V14l-1 1H5l-1-1V4zm1 0v10h8V7h-3V4H5z"/></svg></span>
+        <span class="demo-menu-item__content">Cut</span>
+        <span class="demo-menu-item__shortcut">⌘X</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon"><svg viewBox="0 0 16 16"><path d="M4 4l1-1h5.586L14 6.414V14l-1 1H5l-1-1V4zm1 0v10h8V7h-3V4H5zm-4 0h1v9H2V1h7v1H1V4z"/></svg></span>
+        <span class="demo-menu-item__content">Copy</span>
+        <span class="demo-menu-item__shortcut">⌘C</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Paste</span>
+        <span class="demo-menu-item__shortcut">⌘V</span>
+      </div>
+      <div class="demo-divider"></div>
+
+      <!-- Navigation group -->
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Go to Definition</span>
+        <span class="demo-menu-item__shortcut">F12</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Go to Type Definition</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Go to Implementations</span>
+        <span class="demo-menu-item__shortcut">⌘F12</span>
+      </div>
+      <div class="demo-menu-item demo-menu-item--accent">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content" style="color: var(--vscode-textLink-foreground);">Go to References</span>
+        <span class="demo-menu-item__shortcut">⇧F12</span>
+      </div>
+      <div class="demo-divider"></div>
+
+      <!-- Peek submenu -->
+      <div class="demo-menu-item demo-focused">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Peek</span>
+        <span class="demo-menu-item__submenu-arrow"><svg viewBox="0 0 16 16"><path d="M5.7 13.7L5 13l5-5-5-5 .7-.7L11.4 8z"/></svg></span>
+      </div>
+      <div class="demo-divider"></div>
+
+      <!-- Refactor group -->
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Rename Symbol</span>
+        <span class="demo-menu-item__shortcut">F2</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Refactor…</span>
+        <span class="demo-menu-item__shortcut">⌃⇧R</span>
+      </div>
+      <div class="demo-menu-item">
+        <span class="demo-menu-item__icon" style="opacity:0;"></span>
+        <span class="demo-menu-item__content">Source Action…</span>
+      </div>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;Menu&gt;
+  &lt;MenuPopover className="vscode-menu"&gt;
+    &lt;MenuList className="vscode-menu"&gt;
+      &lt;MenuItem className="vscode-menu-item" icon={&lt;CutIcon /&gt;}&gt;Cut&lt;/MenuItem&gt;
+      &lt;MenuItem className="vscode-menu-item" icon={&lt;CopyIcon /&gt;}&gt;Copy&lt;/MenuItem&gt;
+      &lt;MenuItem className="vscode-menu-item vscode-menu-item-indented"&gt;Paste&lt;/MenuItem&gt;
+      &lt;MenuDivider className="vscode-menu-divider" /&gt;
+      &lt;MenuItem className="vscode-menu-item vscode-menu-item-indented"&gt;Go to Definition&lt;/MenuItem&gt;
+      &lt;MenuItem className="vscode-menu-item vscode-menu-item-accent vscode-menu-item-indented"&gt;
+        Go to References
+      &lt;/MenuItem&gt;
+      &lt;MenuDivider className="vscode-menu-divider" /&gt;
+      &lt;Menu&gt;
+        &lt;MenuTrigger&gt;
+          &lt;MenuItem className="vscode-menu-item vscode-menu-item-indented" hasSubmenu&gt;
+            Peek
+          &lt;/MenuItem&gt;
+        &lt;/MenuTrigger&gt;
+        &lt;!-- submenu popover --&gt;
+      &lt;/Menu&gt;
+      &lt;MenuDivider className="vscode-menu-divider" /&gt;
+      &lt;MenuItem className="vscode-menu-item vscode-menu-item-indented"&gt;Rename Symbol&lt;/MenuItem&gt;
+      &lt;MenuItem className="vscode-menu-item vscode-menu-item-indented"&gt;Refactor…&lt;/MenuItem&gt;
+    &lt;/MenuList&gt;
+  &lt;/MenuPopover&gt;
+&lt;/Menu&gt;</code></div>
+
+  <script src="../scripts/layout.js"></script>
+</body>
+</html>
