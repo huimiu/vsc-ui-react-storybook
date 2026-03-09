@@ -64,6 +64,8 @@
 
 .fui-Button.vscode-primary:hover {
   background-color: var(--vscode-button-hoverBackground);
+  color: var(--vscode-button-foreground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-primary[aria-pressed="true"] {
@@ -125,6 +127,8 @@
 
 .fui-Button.vscode-secondary:hover {
   background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-secondary[aria-pressed="true"] {
@@ -185,7 +189,9 @@
 }
 
 .fui-Button.vscode-outline:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-outline[aria-pressed="true"] {
@@ -246,7 +252,13 @@
 }
 
 .fui-Button.vscode-subtle:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  border-color: var(--vscode-button-border);
+}
+
+.fui-Button.vscode-subtle:hover span,
+.fui-Button.vscode-subtle:hover svg {
+  color: var(--vscode-foreground);
 }
 
 .fui-Button.vscode-subtle[aria-pressed="true"] {
@@ -553,7 +565,7 @@
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__primaryActionButton:hover,
 .fui-SplitButton.vscode-outline .fui-SplitButton__menuButton:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
 }
 
 .fui-SplitButton.vscode-outline
@@ -903,7 +915,7 @@
 }
 
 .fui-MenuButton.vscode-outline:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
 }
 
 .fui-MenuButton.vscode-outline[aria-pressed="true"] {

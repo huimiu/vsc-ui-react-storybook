@@ -723,7 +723,9 @@ body.light-mode .fui-Dropdown.vscode-dropdown .vscode-trigger-description,
 
   /* L5 — Layout */
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
 
   /* L6 — Decoration */
   border-radius: 2px;
@@ -815,21 +817,13 @@ body.light-mode .fui-Dropdown.vscode-dropdown .vscode-trigger-description,
    ============================================================================= */
 
 .vscode-option-separator {
-  min-height: 22px;
-  position: relative;
+  height: 1px;
   cursor: default;
   pointer-events: none;
   box-sizing: border-box;
-}
-
-.vscode-option-separator::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
   background-color: var(--vscode-menu-separatorBackground);
+  margin: 4px 0;
+  flex-shrink: 0;
 }
 
 /* =============================================================================
