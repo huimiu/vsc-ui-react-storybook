@@ -1,0 +1,782 @@
+/**
+ * Fluent UI v9 → VS Code Input / Textarea Overrides
+ *
+ * This CSS restyles Fluent UI v9 Input and Textarea components to match
+ * VS Code form field appearance.
+ *
+ * Usage:
+ *   1. Import this CSS in your VS Code extension
+ *   2. Add className modifiers to Fluent inputs:
+ *      <Input className="vscode-input" placeholder="Search..." />
+ *      <Input className="vscode-input vscode-input-small" />
+ *      <Textarea className="vscode-textarea" />
+ *
+ * Classes:
+ *   Input:      .vscode-input
+ *   Textarea:   .vscode-textarea
+ *   Size:       .vscode-input-small (24px), .vscode-input-large (28px)
+ *   Validation: .vscode-input-error, .vscode-input-warning, .vscode-input-info
+ *   With icon:  .vscode-input-with-icon
+ *
+ * Note: This file uses VS Code theme variables (var(--vscode-*)) which are
+ * provided by VS Code at runtime. No duplicate token definitions needed.
+ *
+ * Layer Decisions (per SKILL rules):
+ *   L1 Density    — Hardcoded to VS Code measured values (26px default)
+ *   L2 Typography — Fluent scale preserved; font-family via global override only
+ *   L3 Color      — All var(--vscode-*) tokens; no hardcoded colors
+ *   L4 State      — Fluent hover+pressed merged; focus-visible preserved
+ *   L6 Decoration — border-radius: 2px; box-shadow: none
+ *   L8 Motion     — Disabled; Fluent bottom-bar animation removed
+ *   L9 Icons      — Codicons; sized to match adjacent typography
+ *
+ * Reference:
+ *   - Fluent UI Input: https://react.fluentui.dev/?path=/docs/components-input--docs
+ *   - Fluent UI Textarea: https://react.fluentui.dev/?path=/docs/components-textarea--docs
+ *   - VS Code Theme Colors: https://code.visualstudio.com/api/references/theme-color
+ */
+
+/* =============================================================================
+   DECISION LOG — Key overrides and rationale
+   =============================================================================
+
+   ┌─────────────────────────────────────────────────────────────────────────────┐
+   │ Focus Indicator                                                            │
+   │ Layer: L4 State + L8 Motion                                                │
+   │ Fluent: Animated 2px bottom-bar (::after pseudo-element + scaleX transform)│
+   │ VS Code: Instant 1px border-color change to --vscode-focusBorder          │
+   │ Decision: Remove ::after focus bar. Apply border-color on :focus-within.   │
+   │ Rationale: L8 forbids motion. VS Code uses border, not bottom-bar.         │
+   │ Confirmation: Not required (L8 is unconditional; L4 state preserved).      │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Height / Density                                                           │
+   │ Layer: L1 Density                                                          │
+   │ Fluent: small=24px, medium=32px, large=40px                                │
+   │ VS Code: standard=26px, compact=24px, dialog=28px                          │
+   │ Decision: Default 26px, small 24px, large 28px.                            │
+   │ Rationale: Direct VS Code measurements. L1 allows hardcoded px.            │
+   │ Confirmation: Not required.                                                │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Border Radius                                                              │
+   │ Layer: L6 Decoration                                                       │
+   │ Fluent: 4px (borderRadiusMedium)                                           │
+   │ VS Code: 2px (measured)                                                    │
+   │ Decision: 2px.                                                             │
+   │ Rationale: Matches global override. L6 allows hardcoded radius.            │
+   │ Confirmation: Not required.                                                │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Validation States                                                          │
+   │ Layer: L3 Color + L4 State                                                 │
+   │ Fluent: Uses colorPaletteRedBorder*, colorPaletteYellowBorder*             │
+   │ VS Code: --vscode-inputValidation-error/warning/infoBorder                 │
+   │ Decision: Map to VS Code validation tokens.                                │
+   │ Rationale: Direct semantic match exists. L3 requires VS Code tokens.       │
+   │ Confirmation: Not required — direct token mapping.                         │
+   └─────────────────────────────────────────────────────────────────────────────┘
+   ============================================================================= */
+
+/* =============================================================================
+   INPUT — DEFAULT STYLE (26px, outline appearance)
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input (root wrapper)
+ * Property:             All base properties
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density, L3 — Color, L6 — Decoration
+ * Fluent Value:         height: 32px, borderRadius: 4px, border: 1px NeutralStroke
+ * VS Code Reference:    height: 26px, borderRadius: 2px, --vscode-input-border
+ * Conflict:             Yes — Value (32→26px), Value (4→2px radius)
+ * Proposed Mapping:     See below
+ * Requires Confirmation: No (L1, L6 — hardcode allowed)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Input.vscode-input {
+  /* L1 — Density */
+  height: 26px;
+  min-height: 26px;
+  padding: 0;
+
+  /* L6 — Decoration */
+  border-radius: 2px;
+  border: 1px solid var(--vscode-input-border);
+  box-shadow: none;
+  box-sizing: border-box;
+
+  /* L3 — Color */
+  background-color: var(--vscode-input-background);
+
+  /* L8 — Motion (disabled) */
+  transition: none !important;
+}
+
+/* Inner <input> element */
+.fui-Input.vscode-input .fui-Input__input {
+  /* L1 — Density */
+  padding: 4px 6px;
+  height: 100%;
+
+  /* L2 — Typography (fontSizeBase200 = 12px — closer to VS Code's 13px) */
+  font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L3 — Color */
+  color: var(--vscode-input-foreground);
+  background-color: transparent;
+}
+
+/* Placeholder */
+.fui-Input.vscode-input .fui-Input__input::placeholder {
+  /* L3 — Color */
+  color: var(--vscode-input-placeholderForeground);
+  opacity: 1;
+}
+
+/* Content slots (icons, prefix/suffix) */
+.fui-Input.vscode-input .fui-Input__contentBefore,
+.fui-Input.vscode-input .fui-Input__contentAfter {
+  /* L1 — Density */
+  padding: 0 4px;
+
+  /* L3 — Color */
+  color: var(--vscode-input-foreground);
+
+  /* L9 — Icons (Codicon size = adjacent typography) */
+  font-size: 16px;
+}
+
+/* Remove Fluent's ::after focus bar (bottom-bar animation) */
+.fui-Input.vscode-input::after {
+  display: none !important;
+}
+
+/* =============================================================================
+   INPUT — STATES
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input
+ * Property:             border-color (hover)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L4 — State
+ * Secondary Layer:      L3 — Color
+ * Fluent Value:         colorNeutralStroke1Hover → subtle border change
+ * VS Code Reference:    No distinct hover border — stays --vscode-input-border
+ * Conflict:             Yes — State compression (Fluent adds hover; VS Code doesn't)
+ * Proposed Mapping:     Keep border-color unchanged on hover
+ * Rationale:            VS Code inputs don't change border on hover. L4 compress.
+ * Requires Confirmation: No — merging to simpler state
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Input.vscode-input:hover {
+  border-color: var(--vscode-input-border);
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input
+ * Property:             border-color (focus)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L4 — State
+ * Secondary Layer:      L3 — Color
+ * Fluent Value:         ::after scaleX(1) bottom-bar with colorCompoundBrandStroke
+ * VS Code Reference:    border-color: --vscode-focusBorder (all sides, instant)
+ * Conflict:             Yes — System conflict (bottom-bar → full border)
+ * Proposed Mapping:     border-color: var(--vscode-focusBorder);
+ * Rationale:            VS Code uses full border highlight. Fluent bar removed (L8).
+ * Requires Confirmation: No — accessibility state (focus) preserved via border
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Input.vscode-input:focus-within {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+/* Explicit focus-visible on inner input */
+.fui-Input.vscode-input .fui-Input__input:focus-visible {
+  outline: none;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input
+ * Property:             opacity, cursor (disabled)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L4 — State
+ * Fluent Value:         colorNeutralBackgroundDisabled, reduced text color
+ * VS Code Reference:    opacity: 0.4, cursor: not-allowed
+ * Conflict:             Yes — Source (Fluent uses token swap; VS Code uses opacity)
+ * Proposed Mapping:     opacity: 0.4; cursor: not-allowed;
+ * Rationale:            Matches button override pattern. Preserves aria-disabled.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Input.vscode-input:has(.fui-Input__input:disabled),
+.fui-Input.vscode-input[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input
+ * Property:             border, background (readonly)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L3 — Color, L4 — State
+ * Fluent Value:         N/A (Fluent has no visual readonly distinction)
+ * VS Code Reference:    Bordered field, transparent background
+ * Conflict:             N/A — New state
+ * Proposed Mapping:     border-color: var(--vscode-input-border); background-color: transparent;
+ * Rationale:            Readonly fields retain border to show field boundary.
+ *                       Transparent background distinguishes from editable state.
+ *                       Text remains selectable/copyable. Not dimmed like disabled.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Input.vscode-input:has(.fui-Input__input:read-only):not(
+    :has(.fui-Input__input:disabled)
+  ) {
+  border-color: var(--vscode-input-border);
+  background-color: transparent;
+}
+
+.fui-Input.vscode-input:has(.fui-Input__input:read-only) .fui-Input__input {
+  cursor: default;
+}
+
+/* =============================================================================
+   INPUT — SIZE VARIANTS
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input — Small
+ * Property:             height, padding, font-size
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density
+ * Fluent Value:         24px height (small)
+ * VS Code Reference:    24px (compact search inputs, filter inputs)
+ * Conflict:             No — values align
+ * Proposed Mapping:     height: 24px
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+/* Small (24px) — search bars, compact settings */
+.fui-Input.vscode-input.vscode-input-small {
+  height: 24px;
+  min-height: 24px;
+}
+
+.fui-Input.vscode-input.vscode-input-small .fui-Input__input {
+  padding: 2px 4px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+}
+
+.fui-Input.vscode-input.vscode-input-small .fui-Input__contentBefore,
+.fui-Input.vscode-input.vscode-input-small .fui-Input__contentAfter {
+  font-size: 14px;
+  padding: 0 3px;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input — Large
+ * Property:             height, padding
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density
+ * Fluent Value:         40px height (large)
+ * VS Code Reference:    28px (dialog inputs, quick input box)
+ * Conflict:             Yes — Value (40→28px)
+ * Proposed Mapping:     height: 28px
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+/* Large (28px) — dialog inputs, quick input */
+.fui-Input.vscode-input.vscode-input-large {
+  height: 28px;
+  min-height: 28px;
+}
+
+.fui-Input.vscode-input.vscode-input-large .fui-Input__input {
+  padding: 5px 8px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+}
+
+/* =============================================================================
+   INPUT — VALIDATION STATES
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Input — Error
+ * Property:             border-color, background-color (validation)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L3 — Color
+ * Secondary Layer:      L4 — State
+ * Fluent Value:         colorPaletteRedBorder2 (error)
+ * VS Code Reference:    --vscode-inputValidation-errorBorder
+ * Conflict:             Yes — Source conflict (Fluent palette → VS Code token)
+ * Proposed Mapping:     border-color: var(--vscode-inputValidation-errorBorder)
+ * Rationale:            Direct semantic match. VS Code token exists.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+/* Error */
+.fui-Input.vscode-input.vscode-input-error {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+.fui-Input.vscode-input.vscode-input-error:focus-within {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+/* Error validation message (placed adjacent to input) */
+.vscode-input-validation-error {
+  background-color: var(--vscode-inputValidation-errorBackground);
+  border: 1px solid var(--vscode-inputValidation-errorBorder);
+  border-top: none;
+  color: var(--vscode-inputValidation-errorForeground);
+  padding: 4px 6px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  border-radius: 0 0 2px 2px;
+  margin-top: -1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Warning */
+.fui-Input.vscode-input.vscode-input-warning {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+.fui-Input.vscode-input.vscode-input-warning:focus-within {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+.vscode-input-validation-warning {
+  background-color: var(--vscode-inputValidation-warningBackground);
+  border: 1px solid var(--vscode-inputValidation-warningBorder);
+  border-top: none;
+  color: var(--vscode-inputValidation-warningForeground);
+  padding: 4px 6px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  border-radius: 0 0 2px 2px;
+  margin-top: -1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Info */
+.fui-Input.vscode-input.vscode-input-info {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+.fui-Input.vscode-input.vscode-input-info:focus-within {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+.vscode-input-validation-info {
+  background-color: var(--vscode-inputValidation-infoBackground);
+  border: 1px solid var(--vscode-inputValidation-infoBorder);
+  border-top: none;
+  color: var(--vscode-inputValidation-infoForeground);
+  padding: 4px 6px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  border-radius: 0 0 2px 2px;
+  margin-top: -1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   INPUT — WITH ICON (search-style)
+   ============================================================================= */
+
+.fui-Input.vscode-input.vscode-input-with-icon .fui-Input__contentBefore {
+  color: var(--vscode-input-placeholderForeground);
+  font-size: 16px;
+  padding-left: 6px;
+  padding-right: 2px;
+}
+
+.fui-Input.vscode-input.vscode-input-with-icon .fui-Input__contentAfter {
+  color: var(--vscode-input-foreground);
+  font-size: 16px;
+  padding-left: 2px;
+  padding-right: 6px;
+  cursor: pointer;
+}
+
+.fui-Input.vscode-input.vscode-input-with-icon .fui-Input__contentAfter:hover {
+  color: var(--vscode-foreground);
+}
+
+/* =============================================================================
+   TEXTAREA — DEFAULT STYLE
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Textarea (root wrapper)
+ * Property:             All base properties
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density, L3 — Color, L6 — Decoration
+ * Fluent Value:         borderRadius: 4px, border: 1px NeutralStroke, min-height: 52px
+ * VS Code Reference:    borderRadius: 2px, --vscode-input-border, min-height: auto
+ * Conflict:             Yes — Value (4→2px radius), density flexible
+ * Proposed Mapping:     See below
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Textarea.vscode-textarea {
+  /* L6 — Decoration */
+  border-radius: 2px;
+  border: 1px solid var(--vscode-input-border);
+  box-shadow: none;
+  box-sizing: border-box;
+
+  /* L3 — Color */
+  background-color: var(--vscode-input-background);
+
+  /* L8 — Motion (disabled) */
+  transition: none !important;
+}
+
+/* Inner <textarea> element */
+.fui-Textarea.vscode-textarea .fui-Textarea__textarea {
+  /* L1 — Density */
+  padding: 4px 6px;
+  min-height: 52px;
+
+  /* L2 — Typography (fontSizeBase200 = 12px — closer to VS Code's 13px) */
+  font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L3 — Color */
+  color: var(--vscode-input-foreground);
+  background-color: transparent;
+}
+
+/* Placeholder */
+.fui-Textarea.vscode-textarea .fui-Textarea__textarea::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+  opacity: 1;
+}
+
+/* Remove Fluent's ::after focus bar */
+.fui-Textarea.vscode-textarea::after {
+  display: none !important;
+}
+
+/* =============================================================================
+   TEXTAREA — STATES
+   ============================================================================= */
+
+.fui-Textarea.vscode-textarea:hover {
+  border-color: var(--vscode-input-border);
+}
+
+.fui-Textarea.vscode-textarea:focus-within {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+.fui-Textarea.vscode-textarea .fui-Textarea__textarea:focus-visible {
+  outline: none;
+}
+
+.fui-Textarea.vscode-textarea:has(.fui-Textarea__textarea:disabled),
+.fui-Textarea.vscode-textarea[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Textarea
+ * Property:             border, background (readonly)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L3 — Color, L4 — State
+ * Fluent Value:         N/A
+ * VS Code Reference:    Bordered field, transparent background
+ * Conflict:             N/A — New state
+ * Proposed Mapping:     border-color: var(--vscode-input-border); background-color: transparent;
+ * Rationale:            Matches Input readonly pattern. Border retained for field boundary.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Textarea.vscode-textarea:has(.fui-Textarea__textarea:read-only):not(
+    :has(.fui-Textarea__textarea:disabled)
+  ) {
+  border-color: var(--vscode-input-border);
+  background-color: transparent;
+}
+
+.fui-Textarea.vscode-textarea:has(.fui-Textarea__textarea:read-only)
+  .fui-Textarea__textarea {
+  cursor: default;
+}
+
+/* =============================================================================
+   TEXTAREA — VALIDATION STATES
+   ============================================================================= */
+
+/* Error */
+.fui-Textarea.vscode-textarea.vscode-input-error {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+.fui-Textarea.vscode-textarea.vscode-input-error:focus-within {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+/* Warning */
+.fui-Textarea.vscode-textarea.vscode-input-warning {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+.fui-Textarea.vscode-textarea.vscode-input-warning:focus-within {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+/* Info */
+.fui-Textarea.vscode-textarea.vscode-input-info {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+.fui-Textarea.vscode-textarea.vscode-input-info:focus-within {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+/* =============================================================================
+   TEXTAREA — SIZE VARIANT
+   ============================================================================= */
+
+.fui-Textarea.vscode-textarea.vscode-textarea-small .fui-Textarea__textarea {
+  padding: 2px 4px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+}
+
+/* =============================================================================
+   FIELD WRAPPER — LABEL + INPUT COMBINATION
+   ============================================================================= */
+
+/**
+ * Fluent's <Field> component wraps Input/Textarea with a label and
+ * validation message. These overrides align the label styling with VS Code.
+ *
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Field label
+ * Property:             color, font-size
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L2 — Typography, L3 — Color
+ * Fluent Value:         fontSizeBase200 (12px), colorNeutralForeground1
+ * VS Code Reference:    13px native / fontSizeBase200 (12px) Fluent, --vscode-foreground
+ * Conflict:             No for color. Typography uses fontSizeBase200 (12px) for all input text.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Field.vscode-field .fui-Label {
+  /* L3 — Color */
+  color: var(--vscode-foreground);
+
+  /* L2 — Typography (Fluent scale preserved) */
+  font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L1 — Density */
+  padding-bottom: 4px;
+}
+
+/* Required indicator */
+.fui-Field.vscode-field .fui-Label__required {
+  color: var(--vscode-errorForeground);
+  margin-left: 2px;
+}
+
+/* Field validation message */
+.fui-Field.vscode-field .fui-Field__validationMessage {
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  padding-top: 4px;
+}
+
+/* Field hint / description text */
+.fui-Field.vscode-field .fui-Field__hint {
+  color: var(--vscode-descriptionForeground);
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  padding-top: 4px;
+}
+
+/* =============================================================================
+   SEARCHBOX — VS Code SEARCH INPUT PATTERN
+   ============================================================================= */
+
+/**
+ * Fluent SearchBox uses fui-Input internally. These overrides create
+ * the compact VS Code search bar pattern (24px, icon in contentBefore).
+ *
+ * Usage:
+ *   <SearchBox className="vscode-searchbox" />
+ */
+
+.fui-SearchBox.vscode-searchbox {
+  height: 24px;
+  min-height: 24px;
+  border-radius: 2px;
+  border: 1px solid var(--vscode-input-border);
+  background-color: var(--vscode-input-background);
+  box-shadow: none;
+  box-sizing: border-box;
+  transition: none !important;
+}
+
+.fui-SearchBox.vscode-searchbox::after {
+  display: none !important;
+}
+
+.fui-SearchBox.vscode-searchbox .fui-Input__input {
+  padding: 2px 4px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  color: var(--vscode-input-foreground);
+  background-color: transparent;
+}
+
+.fui-SearchBox.vscode-searchbox .fui-Input__input::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+  opacity: 1;
+}
+
+.fui-SearchBox.vscode-searchbox .fui-Input__contentBefore {
+  color: var(--vscode-input-placeholderForeground);
+  font-size: 14px;
+  padding: 0 4px;
+}
+
+.fui-SearchBox.vscode-searchbox .fui-Input__contentAfter {
+  font-size: 14px;
+  padding: 0 4px;
+  color: var(--vscode-input-foreground);
+  cursor: pointer;
+}
+
+.fui-SearchBox.vscode-searchbox:hover {
+  border-color: var(--vscode-input-border);
+}
+
+.fui-SearchBox.vscode-searchbox:focus-within {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+.fui-SearchBox.vscode-searchbox:has(.fui-Input__input:disabled),
+.fui-SearchBox.vscode-searchbox[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            SearchBox
+ * Property:             border, background (readonly)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L4 — State
+ * Fluent Value:         N/A
+ * VS Code Reference:    Text-only display — no border, no background
+ * Conflict:             N/A — New state
+ * Proposed Mapping:     border-color: transparent; background-color: transparent;
+ * Rationale:            Matches Input readonly pattern.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-SearchBox.vscode-searchbox:has(.fui-Input__input:read-only):not(
+    :has(.fui-Input__input:disabled)
+  ) {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.fui-SearchBox.vscode-searchbox:has(.fui-Input__input:read-only)
+  .fui-Input__input {
+  cursor: default;
+}
+
+/* =============================================================================
+   SEARCHBOX — SIZE VARIANTS
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            SearchBox — Size variants
+ * Property:             height, padding, icon-size
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density
+ * VS Code Reference:    small=24px (default SearchBox), large=28px (dialog)
+ * Note:                 Default SearchBox is already 24px. These match Input sizes.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+/* Medium (26px) — standard input height when SearchBox used as general input */
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-medium {
+  height: 26px;
+  min-height: 26px;
+}
+
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-medium .fui-Input__input {
+  padding: 4px 6px;
+}
+
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-medium
+  .fui-Input__contentBefore,
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-medium
+  .fui-Input__contentAfter {
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+/* Large (28px) — dialog search, quick input */
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-large {
+  height: 28px;
+  min-height: 28px;
+}
+
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-large .fui-Input__input {
+  padding: 5px 8px;
+}
+
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-large
+  .fui-Input__contentBefore,
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-large
+  .fui-Input__contentAfter {
+  font-size: 16px;
+  padding: 0 4px;
+}

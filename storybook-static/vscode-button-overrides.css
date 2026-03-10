@@ -182,7 +182,7 @@
   font-size: var(--fluent-fontSizeBase300);
   font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase300);
-  border: 1px solid var(--vscode-input-border);
+  border: 1px solid var(--vscode-button-border);
   background-color: transparent;
   color: var(--vscode-button-secondaryForeground);
   box-shadow: none;
@@ -191,7 +191,7 @@
 .fui-Button.vscode-outline:hover {
   background-color: var(--vscode-button-secondaryHoverBackground);
   color: var(--vscode-button-secondaryForeground);
-  border-color: var(--vscode-input-border);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-outline[aria-pressed="true"] {
@@ -375,14 +375,6 @@
   height: 16px;
 }
 
-/* Force primary icon color to white — Fluent's CSS-in-JS may override
-   the parent color with brand-blue in webLightTheme */
-.fui-Button.vscode-primary .fui-Button__icon,
-.fui-Button.vscode-primary .fui-Button__icon svg {
-  color: var(--vscode-button-foreground) !important;
-  fill: currentColor;
-}
-
 /* Small size icons */
 .fui-Button.vscode-small .fui-Button__icon {
   font-size: 14px;
@@ -448,13 +440,6 @@
   background-color: var(--vscode-button-background);
   color: var(--vscode-button-foreground);
   border: 1px solid var(--vscode-button-border);
-}
-
-/* Force split-button primary icon color to white */
-.fui-SplitButton.vscode-primary .fui-Button__icon,
-.fui-SplitButton.vscode-primary .fui-Button__icon svg {
-  color: var(--vscode-button-foreground) !important;
-  fill: currentColor;
 }
 
 .fui-SplitButton.vscode-primary .fui-SplitButton__primaryActionButton {
@@ -561,7 +546,7 @@
   font-size: var(--fluent-fontSizeBase300);
   background-color: transparent;
   color: var(--vscode-foreground);
-  border: 1px solid var(--vscode-input-border);
+  border: 1px solid var(--vscode-button-border);
 }
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__primaryActionButton {

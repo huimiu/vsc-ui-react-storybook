@@ -1,0 +1,919 @@
+/**
+ * Fluent UI v9 → VS Code Dropdown / Combobox Overrides
+ *
+ * This CSS restyles Fluent UI v9 Dropdown and Combobox components to match
+ * VS Code form field appearance.
+ *
+ * Usage:
+ *   1. Import this CSS in your VS Code extension
+ *   2. Add className modifiers to Fluent components:
+ *      <Dropdown className="vscode-dropdown" />
+ *      <Combobox className="vscode-combobox" />
+ *
+ * Classes:
+ *   Dropdown:   .vscode-dropdown
+ *   Combobox:   .vscode-combobox
+ *   Size:       .vscode-dropdown-small (24px), .vscode-dropdown-large (28px)
+ *   Validation: .vscode-dropdown-error, .vscode-dropdown-warning, .vscode-dropdown-info
+ *   Listbox:    .vscode-listbox (auto-applied to popup)
+ *   Option:     .vscode-option (auto-applied to items)
+ *
+ * Note: This file uses VS Code theme variables (var(--vscode-*)) which are
+ * provided by VS Code at runtime. No duplicate token definitions needed.
+ *
+ * Layer Decisions (per SKILL rules):
+ *   L1 Density    — Hardcoded to VS Code measured values (26px default)
+ *   L2 Typography — Fluent scale preserved; font-family via global override only
+ *   L3 Color      — All var(--vscode-*) tokens; no hardcoded colors
+ *   L4 State      — Fluent hover+pressed merged; focus-visible preserved
+ *   L6 Decoration — border-radius: 2px; box-shadow on popup only
+ *   L8 Motion     — Disabled; Fluent animations removed
+ *   L9 Icons      — Codicon chevron; sized to match typography
+ *
+ * Reference:
+ *   - Fluent UI Dropdown: https://react.fluentui.dev/?path=/docs/components-combobox-dropdown--docs
+ *   - Fluent UI Combobox: https://react.fluentui.dev/?path=/docs/components-combobox-combobox--docs
+ *   - VS Code Theme Colors: https://code.visualstudio.com/api/references/theme-color
+ */
+
+/* =============================================================================
+   DECISION LOG — Key overrides and rationale
+   =============================================================================
+
+   ┌─────────────────────────────────────────────────────────────────────────────┐
+   │ Dropdown vs Combobox                                                       │
+   │ Fluent has TWO select-like components:                                     │
+   │   · Dropdown — click-to-open, shows selection text in a button trigger     │
+   │   · Combobox — type-to-filter, shows an <input> trigger with listbox       │
+   │ Both share the same popup (Listbox + Option). Both get the same VS Code    │
+   │ visual treatment, differing only in the trigger element (button vs input). │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Trigger Height / Density                                                   │
+   │ Layer: L1 Density                                                          │
+   │ Fluent: small=24px, medium=32px, large=40px                                │
+   │ VS Code: standard=26px (same as Input), compact=24px, dialog=28px          │
+   │ Decision: Default 26px, small 24px, large 28px.                            │
+   │ Rationale: Consistent with Input overrides. L1 allows hardcoded px.        │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Focus Indicator                                                            │
+   │ Layer: L4 State + L8 Motion                                                │
+   │ Fluent: 2px bottom-bar animation (::after + scaleX)                        │
+   │ VS Code: Instant 1px border-color change to --vscode-focusBorder           │
+   │ Decision: Remove ::after. Apply border-color on :focus-within.             │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Popup / Listbox Elevation                                                  │
+   │ Layer: L6 Decoration                                                       │
+   │ Fluent: elevation shadow tokens (shadow4 / shadow8)                        │
+   │ VS Code: VS Code dropdowns use a subtle border + background contrast       │
+   │ Decision: border: 1px solid; background: --vscode-dropdown-listBackground  │
+   │ Rationale: L6 prefers border + contrast over shadow. Shadow only if        │
+   │ visual hierarchy is ambiguous without it. Since the list background is      │
+   │ darker than the editor surface, contrast is sufficient.                     │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Option Hover / Selection                                                   │
+   │ Layer: L3 Color + L4 State                                                 │
+   │ Fluent: colorNeutralBackground1Hover, colorNeutralBackground1Selected      │
+   │ VS Code: --vscode-list-hoverBackground, --vscode-list-activeSelectionBg    │
+   │ Decision: Map directly to VS Code list tokens.                             │
+   │ Rationale: Direct semantic match. Same tokens used in Tree, List, etc.     │
+   ├─────────────────────────────────────────────────────────────────────────────┤
+   │ Chevron Icon                                                               │
+   │ Layer: L9 Icons                                                            │
+   │ Fluent: ChevronDown from @fluentui/react-icons (20/24px filled)            │
+   │ VS Code: codicon chevron-down (16px, 1px stroke weight)                    │
+   │ Decision: Override via CSS. Hide Fluent icon, inject codicon SVG.           │
+   │ Rationale: L9 mandates Codicons. CSS-only approach avoids JS changes.      │
+   └─────────────────────────────────────────────────────────────────────────────┘
+   ============================================================================= */
+
+/* =============================================================================
+   SHARED TOKENS (referenced by both Dropdown and Combobox)
+   ============================================================================= */
+
+:root {
+  /* Fluent typography tokens (may already be declared by input/button overrides) */
+  --fluent-fontSizeBase200: 12px;
+  --fluent-lineHeightBase200: 16px;
+  --fluent-fontSizeBase300: 14px;
+  --fluent-lineHeightBase300: 20px;
+  --fluent-fontWeightRegular: 400;
+}
+
+/* =============================================================================
+   DROPDOWN — DEFAULT STYLE (26px trigger)
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Dropdown (trigger)
+ * Property:             height, border, background, border-radius
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density, L3 — Color, L6 — Decoration
+ * Fluent Value:         32px height, 4px radius, colorNeutralBackground1
+ * VS Code Reference:    26px, 2px radius, --vscode-dropdown-background/border
+ * Conflict:             Yes — height 32→26, radius 4→2, color tokens differ
+ * Proposed Mapping:     See rules below
+ * Rationale:            Matches VS Code form field density. Same as Input.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Dropdown.vscode-dropdown {
+  /* L1 — Density */
+  height: 26px;
+  min-height: 26px;
+
+  /* L6 — Decoration */
+  border-radius: 2px;
+  border: 1px solid var(--vscode-dropdown-border);
+  box-shadow: none;
+  box-sizing: border-box;
+
+  /* L3 — Color */
+  background-color: var(--vscode-dropdown-background);
+
+  /* L8 — Motion (disabled) */
+  transition: none !important;
+}
+
+/* Remove Fluent focus bottom-bar */
+.fui-Dropdown.vscode-dropdown::after {
+  display: none !important;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Dropdown trigger button
+ * Property:             padding, font-size, color
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density, L2 — Typography, L3 — Color
+ * Fluent Value:         padding: 0 10px, fontSizeBase300 (14px)
+ * VS Code Reference:    padding: 4px 6px, fontSizeBase200 (12px)
+ * Conflict:             Yes — padding and font size differ
+ * Proposed Mapping:     See rules below
+ * Rationale:            Matches Input inner text styling exactly.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Dropdown.vscode-dropdown .fui-Dropdown__button {
+  /* L1 — Density */
+  padding: 4px 6px;
+
+  /* L2 — Typography (Fluent scale preserved) */
+  font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L3 — Color */
+  color: var(--vscode-dropdown-foreground);
+  background-color: transparent;
+
+  /* Remove default button styles */
+  border: none;
+  cursor: pointer;
+  min-height: unset;
+}
+
+/* Placeholder text */
+.fui-Dropdown.vscode-dropdown .fui-Dropdown__button[data-placeholder] {
+  color: var(--vscode-input-placeholderForeground);
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Dropdown chevron icon
+ * Property:             size, color
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L9 — Icon, L3 — Color
+ * Fluent Value:         20px ChevronDown filled icon
+ * VS Code Reference:    16px codicon chevron-down (thin stroke)
+ * Conflict:             Yes — icon size, icon set
+ * Proposed Mapping:     font-size: 16px, color: foreground
+ * Rationale:            L9 mandates Codicons. Size follows L2 adjacency rule.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Dropdown.vscode-dropdown .fui-Dropdown__expandIcon {
+  /* L9 — Icon (sized to match adjacent typography) */
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+
+  /* L3 — Color */
+  color: var(--vscode-dropdown-foreground);
+
+  /* L1 — Density */
+  padding: 0 4px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide Fluent icon SVG, replace with codicon chevron */
+.fui-Dropdown.vscode-dropdown .fui-Dropdown__expandIcon > svg {
+  display: none;
+}
+
+.fui-Dropdown.vscode-dropdown .fui-Dropdown__expandIcon::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 16px 16px;
+  mask-size: 16px 16px;
+}
+
+/* =============================================================================
+   DROPDOWN TRIGGER — DESCRIPTION (label + description in collapsed button)
+   =============================================================================
+
+   When a dropdown displays both a primary label and secondary description text
+   in its collapsed trigger, use this pattern:
+
+     <Dropdown className="vscode-dropdown vscode-dropdown-with-description">
+       <span className="vscode-trigger-label">GPT-4o</span>
+       <span className="vscode-trigger-description">via Microsoft Foundry</span>
+     </Dropdown>
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Component:            Dropdown trigger
+   Property:             label + description layout
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Layer Classification: L2 — Typography, L3 — Color
+   VS Code Reference:    QuickPick trigger shows "label  description" inline,
+                         description at 0.9em + opacity 0.7 (dark) / 0.95 (light)
+   Source:               iconLabel.css — .label-description
+   Rationale:            Matches VS Code QuickPick pattern for secondary text
+                         in the trigger. Uses descriptionForeground token.
+   Requires Confirmation: No
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Trigger label — primary text (inherits existing foreground color) */
+.fui-Dropdown.vscode-dropdown .vscode-trigger-label {
+  /* L3 — Color (inherits from .fui-Dropdown__button) */
+  color: inherit;
+
+  /* L2 — Typography */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 0 auto; /* natural width, never shrinks */
+  max-width: 100%; /* truncates when label alone exceeds container */
+}
+
+/* Trigger description — secondary text, inline after label, dimmed */
+.fui-Dropdown.vscode-dropdown .vscode-trigger-description {
+  /* L3 — Color */
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.7;
+
+  /* L2 — Typography */
+  font-size: 0.9em; /* relative to trigger font-size, matching QuickPick */
+  white-space: nowrap;
+
+  /* L1 — Density */
+  margin-left: 0.5em; /* matches VS Code .label-description margin-left */
+  flex: 0 0 auto; /* natural width, never shrinks — clipped by button overflow */
+}
+
+/* Light theme — description opacity matches VS Code .vs override */
+body.light-mode .fui-Dropdown.vscode-dropdown .vscode-trigger-description,
+.vs .fui-Dropdown.vscode-dropdown .vscode-trigger-description {
+  opacity: 0.95;
+}
+
+/* When trigger has description, ensure flex layout for inline arrangement */
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-with-description
+  .fui-Dropdown__button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* override space-between from base button */
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+  gap: 0; /* gap managed by margin-left on description */
+}
+
+/* =============================================================================
+   DROPDOWN — STATES
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Dropdown
+ * Property:             border-color (hover, focus, disabled, readonly)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L4 — State
+ * Fluent Value:         Multiple hover/pressed/focus tokens + animations
+ * VS Code Reference:    hover: no change; focus: --vscode-focusBorder; disabled: 0.4
+ * Conflict:             Yes — Fluent has more states than VS Code
+ * Proposed Mapping:     Compress states. See below.
+ * Rationale:            L4 says compress, not expand. Matches Input pattern.
+ * Requires Confirmation: No (follows established Input pattern)
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+/* Hover — no visible change (matches VS Code behavior, same as Input) */
+.fui-Dropdown.vscode-dropdown:hover {
+  border-color: var(--vscode-dropdown-border);
+}
+
+/* Focus */
+.fui-Dropdown.vscode-dropdown:focus-within {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+/* Disabled */
+.fui-Dropdown.vscode-dropdown:has(.fui-Dropdown__button:disabled),
+.fui-Dropdown.vscode-dropdown[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Readonly — bordered, transparent background (matches Input readonly) */
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-readonly {
+  border-color: var(--vscode-dropdown-border);
+  background-color: transparent;
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-readonly .fui-Dropdown__button {
+  cursor: default;
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-readonly
+  .fui-Dropdown__expandIcon {
+  display: none;
+}
+
+/* =============================================================================
+   DROPDOWN — SIZE VARIANTS
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Dropdown — Small
+ * Property:             height, padding, font-size
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density
+ * Fluent Value:         small=24px
+ * VS Code Reference:    Compact areas use 24px (tree items, search)
+ * Conflict:             No — matches
+ * Proposed Mapping:     height: 24px;
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-small {
+  height: 24px;
+  min-height: 24px;
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-small .fui-Dropdown__button {
+  padding: 2px 4px;
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-small .fui-Dropdown__expandIcon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-small
+  .fui-Dropdown__expandIcon::after {
+  width: 14px;
+  height: 14px;
+  -webkit-mask-size: 14px 14px;
+  mask-size: 14px 14px;
+}
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Dropdown — Large
+ * Property:             height
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density
+ * Fluent Value:         large=40px
+ * VS Code Reference:    Dialog fields use 28px
+ * Conflict:             Yes — 40→28
+ * Proposed Mapping:     height: 28px;
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-large {
+  height: 28px;
+  min-height: 28px;
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-large .fui-Dropdown__button {
+  padding: 5px 8px;
+}
+
+/* =============================================================================
+   DROPDOWN — VALIDATION STATES
+   ============================================================================= */
+
+/* Error */
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-error {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-error:focus-within {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+/* Warning */
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-warning {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-warning:focus-within {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+/* Info */
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-info {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+.fui-Dropdown.vscode-dropdown.vscode-dropdown-info:focus-within {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+/* =============================================================================
+   COMBOBOX — DEFAULT STYLE (26px trigger with text input)
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Combobox (trigger)
+ * Property:             height, border, background, border-radius
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density, L3 — Color, L6 — Decoration
+ * Fluent Value:         32px height, 4px radius, colorNeutralBackground1
+ * VS Code Reference:    26px, 2px radius, --vscode-dropdown-background/border
+ * Conflict:             Yes — same as Dropdown
+ * Proposed Mapping:     Same visual treatment as Dropdown trigger
+ * Rationale:            Dropdown and Combobox share the same form field pattern.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Combobox.vscode-combobox {
+  /* L1 — Density */
+  height: 26px;
+  min-height: 26px;
+
+  /* L6 — Decoration */
+  border-radius: 2px;
+  border: 1px solid var(--vscode-dropdown-border);
+  box-shadow: none;
+  box-sizing: border-box;
+
+  /* L3 — Color */
+  background-color: var(--vscode-dropdown-background);
+
+  /* L8 — Motion (disabled) */
+  transition: none !important;
+}
+
+/* Remove Fluent focus bottom-bar */
+.fui-Combobox.vscode-combobox::after {
+  display: none !important;
+}
+
+/* Combobox text input */
+.fui-Combobox.vscode-combobox .fui-Combobox__input {
+  /* L1 — Density */
+  padding: 4px 6px;
+
+  /* L2 — Typography */
+  font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L3 — Color */
+  color: var(--vscode-dropdown-foreground);
+  background-color: transparent;
+
+  /* Reset */
+  border: none;
+  outline: none;
+}
+
+.fui-Combobox.vscode-combobox .fui-Combobox__input::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+  opacity: 1;
+}
+
+/* Combobox chevron */
+.fui-Combobox.vscode-combobox .fui-Combobox__expandIcon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(--vscode-dropdown-foreground);
+  padding: 0 4px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fui-Combobox.vscode-combobox .fui-Combobox__expandIcon > svg {
+  display: none;
+}
+
+.fui-Combobox.vscode-combobox .fui-Combobox__expandIcon::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 16px 16px;
+  mask-size: 16px 16px;
+}
+
+/* =============================================================================
+   COMBOBOX — STATES
+   ============================================================================= */
+
+/* Hover — no visible change */
+.fui-Combobox.vscode-combobox:hover {
+  border-color: var(--vscode-dropdown-border);
+}
+
+/* Focus */
+.fui-Combobox.vscode-combobox:focus-within {
+  border-color: var(--vscode-focusBorder);
+  outline: none;
+}
+
+/* Disabled */
+.fui-Combobox.vscode-combobox:has(.fui-Combobox__input:disabled),
+.fui-Combobox.vscode-combobox[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Readonly */
+.fui-Combobox.vscode-combobox:has(.fui-Combobox__input:read-only):not(
+    :has(.fui-Combobox__input:disabled)
+  ) {
+  border-color: var(--vscode-dropdown-border);
+  background-color: transparent;
+}
+
+.fui-Combobox.vscode-combobox:has(.fui-Combobox__input:read-only)
+  .fui-Combobox__input {
+  cursor: default;
+}
+
+.fui-Combobox.vscode-combobox:has(.fui-Combobox__input:read-only)
+  .fui-Combobox__expandIcon {
+  display: none;
+}
+
+/* =============================================================================
+   COMBOBOX — SIZE VARIANTS
+   ============================================================================= */
+
+.fui-Combobox.vscode-combobox.vscode-combobox-small {
+  height: 24px;
+  min-height: 24px;
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-small .fui-Combobox__input {
+  padding: 2px 4px;
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-small .fui-Combobox__expandIcon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-small
+  .fui-Combobox__expandIcon::after {
+  width: 14px;
+  height: 14px;
+  -webkit-mask-size: 14px 14px;
+  mask-size: 14px 14px;
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-large {
+  height: 28px;
+  min-height: 28px;
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-large .fui-Combobox__input {
+  padding: 5px 8px;
+}
+
+/* =============================================================================
+   COMBOBOX — VALIDATION STATES
+   ============================================================================= */
+
+/* Error */
+.fui-Combobox.vscode-combobox.vscode-combobox-error {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-error:focus-within {
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+/* Warning */
+.fui-Combobox.vscode-combobox.vscode-combobox-warning {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-warning:focus-within {
+  border-color: var(--vscode-inputValidation-warningBorder);
+}
+
+/* Info */
+.fui-Combobox.vscode-combobox.vscode-combobox-info {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+.fui-Combobox.vscode-combobox.vscode-combobox-info:focus-within {
+  border-color: var(--vscode-inputValidation-infoBorder);
+}
+
+/* =============================================================================
+   LISTBOX — SHARED POPUP (used by both Dropdown and Combobox)
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Listbox (popup)
+ * Property:             background, border, border-radius, padding
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L3 — Color, L6 — Decoration
+ * Fluent Value:         colorNeutralBackground1, shadow8, borderRadiusMedium
+ * VS Code Reference:    --vscode-dropdown-listBackground, 1px border, 2px radius
+ * Conflict:             Yes — shadow vs border, color tokens
+ * Proposed Mapping:     Border + contrast bg. No shadow.
+ * Rationale:            L6 prefers border over shadow. VS Code list background
+ *                       is darker than dropdown trigger — contrast is sufficient.
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Listbox.vscode-listbox {
+  /* L3 — Color */
+  background-color: var(--vscode-dropdown-listBackground);
+  border: 1px solid var(--vscode-dropdown-border);
+
+  /* L6 — Decoration */
+  border-radius: 2px;
+  box-shadow: none;
+  box-sizing: border-box;
+
+  /* L7 — Spacing */
+  padding: 2px;
+
+  /* L8 — Motion */
+  animation: none !important;
+}
+
+/* =============================================================================
+   OPTION — INDIVIDUAL LIST ITEM
+   ============================================================================= */
+
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Component:            Option
+ * Property:             height, padding, font-size, hover/selected colors
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * Layer Classification: L1 — Density, L2 — Typography, L3 — Color, L4 — State
+ * Fluent Value:         32px, padding: 4px 12px, fontSizeBase300
+ * VS Code Reference:    22px option, 2px 8px padding, ~12px
+ * Conflict:             Yes — density, typography, colors
+ * Proposed Mapping:     See rules below
+ * Rationale:            Matches VS Code list item pattern (used in Quick Pick,
+ *                       Settings dropdown, SCM select, etc.)
+ * Requires Confirmation: No
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+.fui-Option.vscode-option {
+  /* L1 — Density */
+  min-height: 22px;
+  padding: 2px 8px;
+
+  /* L2 — Typography */
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L3 — Color */
+  color: var(--vscode-dropdown-foreground);
+  background-color: transparent;
+
+  /* L5 — Layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* L6 — Decoration */
+  border-radius: 2px;
+
+  /* L8 — Motion */
+  transition: none !important;
+
+  /* Reset */
+  cursor: pointer;
+}
+
+/* Hover */
+.fui-Option.vscode-option:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+/* Active selection (currently highlighted / keyboard focus) */
+.fui-Option.vscode-option[aria-selected="true"],
+.fui-Option.vscode-option.fui-Option--selected {
+  background-color: var(--vscode-list-activeSelectionBackground);
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+/* Check icon for multi-select */
+.fui-Option.vscode-option .fui-Option__checkIcon {
+  color: var(--vscode-list-activeSelectionForeground);
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+}
+
+/* Disabled option */
+.fui-Option.vscode-option[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Option group label */
+.fui-OptionGroup.vscode-optiongroup .fui-OptionGroup__label {
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+  font-weight: 600;
+  color: var(--vscode-descriptionForeground);
+  padding: 4px 6px; /* VS Code Quick Input: 4px 6px — removed asymmetric bottom 2px */
+}
+
+/* =============================================================================
+   OPTION GROUP — SEPARATOR BETWEEN GROUPS
+   =============================================================================
+
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Component:            OptionGroup (consecutive)
+   Property:             separator line between groups
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Layer Classification: L6 — Decoration, L3 — Color
+   VS Code Reference:    1px pseudo-element, --vscode-menu-separatorBackground
+   Source:               selectBoxCustom.css — .option-separator::after
+   Rationale:            VS Code has no native OptionGroup; uses separators
+                         instead. We inject one automatically before each
+                         non-first group via ::before.
+   Requires Confirmation: No
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Separator line injected before the 2nd, 3rd… group automatically */
+.fui-OptionGroup.vscode-optiongroup
+  + .fui-OptionGroup.vscode-optiongroup::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: var(--vscode-menu-separatorBackground);
+  margin: 2px 0;
+}
+
+/* =============================================================================
+   STANDALONE SEPARATOR
+   =============================================================================
+
+   Usage: Add a plain div inside the Listbox when you need a divider
+   that is NOT attached to a group header:
+
+     <div class="vscode-option-separator" role="separator" aria-hidden="true"></div>
+
+   Matches VS Code's selectBoxCustom.css .option-separator pattern:
+   - Row is 22px tall (standard list row height)
+   - 1px line centered via position absolute top: 50%
+   - Token: --vscode-menu-separatorBackground
+   ============================================================================= */
+
+.vscode-option-separator {
+  height: 1px;
+  cursor: default;
+  pointer-events: none;
+  box-sizing: border-box;
+  background-color: var(--vscode-menu-separatorBackground);
+  margin: 4px 0;
+  flex-shrink: 0;
+}
+
+/* =============================================================================
+   OPTION — SECONDARY TEXT (detail and description)
+   =============================================================================
+
+   Fluent Option has no built-in secondary text slots. Pass custom children:
+
+     <Option className="vscode-option" value="typescript">
+       TypeScript
+       <span className="vscode-option-detail">TS</span>
+     </Option>
+
+     <Option className="vscode-option" value="prettier">
+       Prettier
+       <span className="vscode-option-description">Code formatter</span>
+     </Option>
+
+   Two variants matching VS Code source (selectBoxCustom.ts):
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   .vscode-option-detail       — inline, same line as label (right of label text)
+                                 opacity 0.7, --vscode-descriptionForeground
+                                 Source: .option-detail { padding-left: 6px; float: left; opacity: 0.7 }
+
+   .vscode-option-description  — block, second line below the label
+                                 opacity 0.7, --vscode-descriptionForeground
+                                 Source: .select-box-details-pane pattern
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Layer Classification: L2 — Typography, L3 — Color
+   Requires Confirmation: No
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Inline secondary text — same line as the label, dimmed */
+.fui-Option.vscode-option .vscode-option-detail {
+  /* L3 — Color */
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.7;
+
+  /* L2 — Typography */
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* L1 — Density */
+  padding-left: 6px; /* matches VS Code .option-detail padding-left */
+
+  /* Truncation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Block description — second line below the label */
+.fui-Option.vscode-option .vscode-option-description {
+  /* L3 — Color */
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.7;
+
+  /* L2 — Typography */
+  font-size: var(--fluent-fontSizeBase200);
+  line-height: var(--fluent-lineHeightBase200);
+
+  /* Layout: push to its own line via flex-wrap */
+  display: block;
+  margin-top: 1px;
+  width: 100%;
+  flex-basis: 100%;
+
+  /* Truncation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* When an option has a description, increase its row height to fit both lines */
+.fui-Option.vscode-option:has(.vscode-option-description) {
+  min-height: 36px; /* 22px base + 14px for description line */
+  padding-top: 3px;
+  padding-bottom: 3px;
+  flex-wrap: wrap; /* label+detail remain inline, description wraps to next row */
+}
+
+/* Selected state — keep descriptions visible but adjust opacity */
+.fui-Option.vscode-option.selected .vscode-option-detail,
+.fui-Option.vscode-option.selected .vscode-option-description {
+  opacity: 0.8; /* VS Code: .monaco-list-row.selected .label-description */
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+/* Hover state — detail and description inherit foreground */
+.fui-Option.vscode-option:hover .vscode-option-detail,
+.fui-Option.vscode-option:hover .vscode-option-description {
+  color: inherit;
+}

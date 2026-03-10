@@ -1,0 +1,82 @@
+<!--
+  Injected into the preview iframe <head> to override Storybook's
+  built-in docs wrapper backgrounds so they follow our dark/light scheme.
+  The CSS custom properties --sb-docs-bg and --sb-docs-color are set
+  dynamically by the FluentProvider decorator in preview.tsx.
+-->
+<style>
+  /* Default values (dark) — overridden at runtime by the decorator */
+  :root {
+    --sb-docs-bg: #1e1e1e;
+    --sb-docs-color: #cccccc;
+  }
+
+  /* ── Docs page wrapper ────────────────────────────────────────── */
+  .sbdocs-wrapper,
+  .sbdocs.sbdocs-wrapper {
+    background: var(--sb-docs-bg) !important;
+    color: var(--sb-docs-color) !important;
+  }
+
+  .sbdocs-content,
+  .sbdocs.sbdocs-content {
+    background: var(--sb-docs-bg) !important;
+    color: var(--sb-docs-color) !important;
+  }
+
+  /* Docs page root container */
+  #storybook-docs {
+    background: var(--sb-docs-bg) !important;
+    color: var(--sb-docs-color) !important;
+  }
+
+  /* ── Canvas story wrapper ─────────────────────────────────────── */
+  .sb-show-main,
+  body {
+    background: var(--sb-docs-bg) !important;
+  }
+
+  /* ── Docs blocks: Description, ArgsTable, Source ──────────────── */
+  .docblock-argstable,
+  .docblock-argstable thead th,
+  .docblock-argstable tbody td {
+    background: var(--sb-docs-bg) !important;
+    color: var(--sb-docs-color) !important;
+    border-color: color-mix(
+      in srgb,
+      var(--sb-docs-color) 20%,
+      transparent
+    ) !important;
+  }
+
+  .docblock-source {
+    background: color-mix(in srgb, var(--sb-docs-bg) 95%, white) !important;
+  }
+
+  /* ── Docs headings & text ─────────────────────────────────────── */
+  .sbdocs h1,
+  .sbdocs h2,
+  .sbdocs h3,
+  .sbdocs h4,
+  .sbdocs h5,
+  .sbdocs h6,
+  .sbdocs p,
+  .sbdocs li,
+  .sbdocs span,
+  .sbdocs a,
+  .sbdocs code {
+    color: var(--sb-docs-color) !important;
+  }
+
+  /* Story preview container within docs */
+  .docs-story {
+    background: var(--sb-docs-bg) !important;
+  }
+
+  /* Addon panel in docs */
+  .docblock-code-toggle,
+  .os-content {
+    background: var(--sb-docs-bg) !important;
+    color: var(--sb-docs-color) !important;
+  }
+</style>
