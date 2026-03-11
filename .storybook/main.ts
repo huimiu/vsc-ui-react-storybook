@@ -12,8 +12,8 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: [
-    { directory: "../overrides", targetEndpoint: "/overrides" },
-    { directory: "../styles", targetEndpoint: "/styles" },
+    { from: "../overrides", to: "/overrides" },
+    { from: "../styles", to: "/styles" },
   ],
 };
 
