@@ -1,11 +1,11 @@
 {
+  "description": "Storybook preview for vsc-ui-react component overrides",
   "name": "vsc-ui-react-storybook",
   "version": "0.1.0",
   "private": true,
-  "description": "Storybook preview for vsc-ui-react component overrides",
   "scripts": {
-    "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o storybook-static",
+    "storybook": "storybook dev -p 6006",
     "sync-check": "node scripts/sync-check.js"
   },
   "dependencies": {

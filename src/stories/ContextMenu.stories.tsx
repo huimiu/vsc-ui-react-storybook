@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Menu,
@@ -26,7 +25,6 @@ import {
   FolderRegular,
   FolderOpenRegular,
   SettingsRegular,
-  ChevronRightRegular,
 } from "@fluentui/react-icons";
 import { Section } from "./helpers";
 
