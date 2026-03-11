@@ -1,0 +1,25 @@
+name: Component Sync Check
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Monday at 09:00 UTC to catch upstream package changes
+    - cron: "0 9 * * 1"
+  workflow_dispatch: # Allow manual runs
+
+jobs:
+  sync-check:
+    runs-on: ubuntu-latest
+    name: Verify NPM package alignment
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # sync-check.js uses only Node builtins (https, fs, path);
+      # no npm install required.
+      - name: Run sync check
+        run: node scripts/sync-check.js

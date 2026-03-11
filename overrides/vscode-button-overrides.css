@@ -64,6 +64,8 @@
 
 .fui-Button.vscode-primary:hover {
   background-color: var(--vscode-button-hoverBackground);
+  color: var(--vscode-button-foreground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-primary[aria-pressed="true"] {
@@ -125,6 +127,8 @@
 
 .fui-Button.vscode-secondary:hover {
   background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-secondary[aria-pressed="true"] {
@@ -178,14 +182,19 @@
   font-size: var(--fluent-fontSizeBase300);
   font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase300);
-  border: 1px solid var(--vscode-button-border);
+  /* Uses --vscode-input-border (not --vscode-button-border) to match
+     upstream vsc-ui-react outline variant styling */
+  border: 1px solid var(--vscode-input-border);
   background-color: transparent;
   color: var(--vscode-button-secondaryForeground);
   box-shadow: none;
 }
 
 .fui-Button.vscode-outline:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  /* Matches upstream: secondaryHoverBackground for outline hover */
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-input-border);
 }
 
 .fui-Button.vscode-outline[aria-pressed="true"] {
@@ -246,7 +255,13 @@
 }
 
 .fui-Button.vscode-subtle:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  border-color: var(--vscode-button-border);
+}
+
+.fui-Button.vscode-subtle:hover span,
+.fui-Button.vscode-subtle:hover svg {
+  color: var(--vscode-foreground);
 }
 
 .fui-Button.vscode-subtle[aria-pressed="true"] {
@@ -352,7 +367,7 @@
    ICON SIZING
    ============================================================================= */
 
-/* Default size icons (20px) */
+/* Default size icons — override Fluent's 20px to 16px for VS Code density */
 .fui-Button.vscode-primary .fui-Button__icon,
 .fui-Button.vscode-secondary .fui-Button__icon,
 .fui-Button.vscode-outline .fui-Button__icon,
@@ -361,6 +376,15 @@
   font-size: 16px;
   width: 16px;
   height: 16px;
+}
+
+/* Force primary icon color to white — Fluent's CSS-in-JS may override
+   the parent color with brand-blue in webLightTheme.
+   Upstream: vsc-ui-react button.module.scss :global(.fui-Button__icon) */
+.fui-Button.vscode-primary .fui-Button__icon,
+.fui-Button.vscode-primary .fui-Button__icon svg {
+  color: var(--vscode-button-foreground) !important;
+  fill: currentColor;
 }
 
 /* Small size icons */
@@ -428,6 +452,14 @@
   background-color: var(--vscode-button-background);
   color: var(--vscode-button-foreground);
   border: 1px solid var(--vscode-button-border);
+}
+
+/* Force split-button primary icon color to white.
+   Upstream: vsc-ui-react button.module.scss :global(.fui-SplitButton) icon */
+.fui-SplitButton.vscode-primary .fui-Button__icon,
+.fui-SplitButton.vscode-primary .fui-Button__icon svg {
+  color: var(--vscode-button-foreground) !important;
+  fill: currentColor;
 }
 
 .fui-SplitButton.vscode-primary .fui-SplitButton__primaryActionButton {
@@ -534,7 +566,7 @@
   font-size: var(--fluent-fontSizeBase300);
   background-color: transparent;
   color: var(--vscode-foreground);
-  border: 1px solid var(--vscode-button-border);
+  border: 1px solid var(--vscode-input-border);
 }
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__primaryActionButton {
@@ -553,7 +585,7 @@
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__primaryActionButton:hover,
 .fui-SplitButton.vscode-outline .fui-SplitButton__menuButton:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
 }
 
 .fui-SplitButton.vscode-outline
@@ -903,7 +935,7 @@
 }
 
 .fui-MenuButton.vscode-outline:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
 }
 
 .fui-MenuButton.vscode-outline[aria-pressed="true"] {
