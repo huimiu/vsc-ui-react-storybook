@@ -4,7 +4,8 @@ import { Input } from "@fluentui/react-input";
 import { Textarea } from "@fluentui/react-textarea";
 import { SearchBox } from "@fluentui/react-search";
 import { Field } from "@fluentui/react-field";
-import { SearchRegular, DismissRegular } from "@fluentui/react-icons";
+import { SearchRegular } from "@fluentui/react-icons";
+import { Row, Section, Inline } from "./helpers";
 
 const meta: Meta<typeof Input> = {
   title: "Components/Input",
@@ -14,67 +15,6 @@ const meta: Meta<typeof Input> = {
 
 export default meta;
 type Story = StoryObj<typeof Input>;
-
-/* ── Helpers ─────────────────────────────────────────────────────── */
-
-const Row = ({ children }: { children: React.ReactNode }) => (
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 16,
-      alignItems: "flex-start",
-      marginBottom: 12,
-    }}
-  >
-    {children}
-  </div>
-);
-
-const Section = ({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) => (
-  <div style={{ marginBottom: 32 }}>
-    <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 600 }}>
-      {title}
-    </h3>
-    {description && (
-      <p style={{ margin: "0 0 12px", fontSize: 13, opacity: 0.7 }}>
-        {description}
-      </p>
-    )}
-    {children}
-  </div>
-);
-
-const Inline = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <div style={{ display: "inline-flex", flexDirection: "column", gap: 4 }}>
-    <span
-      style={{
-        fontSize: 11,
-        textTransform: "uppercase",
-        letterSpacing: 0.5,
-        fontWeight: 600,
-        opacity: 0.6,
-      }}
-    >
-      {label}
-    </span>
-    {children}
-  </div>
-);
 
 /* ── Text Input ──────────────────────────────────────────────────── */
 

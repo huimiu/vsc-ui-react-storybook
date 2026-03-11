@@ -23,6 +23,7 @@ import {
   ArrowSyncRegular,
   ChevronLeftRegular,
 } from "@fluentui/react-icons";
+import { Row, Section } from "./helpers";
 
 /* ===================================================================
    BUTTON
@@ -45,63 +46,7 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-/* ── Helpers ─────────────────────────────────────────────────────── */
-
-const Row = ({
-  children,
-  label,
-}: {
-  children: React.ReactNode;
-  label?: string;
-}) => (
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 8,
-      alignItems: "center",
-      marginBottom: 8,
-    }}
-  >
-    {label && (
-      <span
-        style={{
-          fontSize: 11,
-          opacity: 0.6,
-          minWidth: 80,
-          textTransform: "uppercase",
-          letterSpacing: 0.5,
-          fontWeight: 600,
-        }}
-      >
-        {label}
-      </span>
-    )}
-    {children}
-  </div>
-);
-
-const Section = ({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) => (
-  <div style={{ marginBottom: 32 }}>
-    <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 600 }}>
-      {title}
-    </h3>
-    {description && (
-      <p style={{ margin: "0 0 12px", fontSize: 13, opacity: 0.7 }}>
-        {description}
-      </p>
-    )}
-    {children}
-  </div>
-);
+const buttonRowStyle = { gap: 8, alignItems: "center" as const, marginBottom: 8 };
 
 /* ── Primary ─────────────────────────────────────────────────────── */
 
@@ -109,7 +54,7 @@ export const Primary: Story = {
   render: () => (
     <>
       <Section title="Default (28 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="primary" className="vscode-primary">
             Install
           </Button>
@@ -117,7 +62,7 @@ export const Primary: Story = {
             Install
           </Button>
         </Row>
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="primary"
             className="vscode-primary"
@@ -134,7 +79,7 @@ export const Primary: Story = {
         </Row>
       </Section>
       <Section title="Small (22 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="primary" className="vscode-primary vscode-small">
             Run
           </Button>
@@ -154,7 +99,7 @@ export const Primary: Story = {
         </Row>
       </Section>
       <Section title="Compact (15 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="primary"
             className="vscode-primary vscode-compact"
@@ -180,13 +125,13 @@ export const Secondary: Story = {
   render: () => (
     <>
       <Section title="Default (28 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button className="vscode-secondary">Cancel</Button>
           <Button className="vscode-secondary" disabled>
             Cancel
           </Button>
         </Row>
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button className="vscode-secondary" icon={<FolderOpenRegular />}>
             Open Folder
           </Button>
@@ -198,7 +143,7 @@ export const Secondary: Story = {
         </Row>
       </Section>
       <Section title="Small (22 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button className="vscode-secondary vscode-small">Details</Button>
           <Button className="vscode-secondary vscode-small" disabled>
             Details
@@ -211,7 +156,7 @@ export const Secondary: Story = {
         </Row>
       </Section>
       <Section title="Compact (15 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button className="vscode-secondary vscode-compact">Tag</Button>
           <Button className="vscode-secondary vscode-compact" disabled>
             Tag
@@ -228,7 +173,7 @@ export const Outline: Story = {
   render: () => (
     <>
       <Section title="Default (28 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="outline" className="vscode-outline">
             Learn More
           </Button>
@@ -236,7 +181,7 @@ export const Outline: Story = {
             Learn More
           </Button>
         </Row>
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="outline"
             className="vscode-outline"
@@ -253,7 +198,7 @@ export const Outline: Story = {
         </Row>
       </Section>
       <Section title="Small (22 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="outline" className="vscode-outline vscode-small">
             View
           </Button>
@@ -267,7 +212,7 @@ export const Outline: Story = {
         </Row>
       </Section>
       <Section title="Compact (15 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="outline"
             className="vscode-outline vscode-compact"
@@ -293,7 +238,7 @@ export const Subtle: Story = {
   render: () => (
     <>
       <Section title="Default (28 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="subtle" className="vscode-subtle">
             Edit
           </Button>
@@ -301,7 +246,7 @@ export const Subtle: Story = {
             Edit
           </Button>
         </Row>
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="subtle"
             className="vscode-subtle"
@@ -318,7 +263,7 @@ export const Subtle: Story = {
         </Row>
       </Section>
       <Section title="Small (22 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="subtle" className="vscode-subtle vscode-small">
             Undo
           </Button>
@@ -338,7 +283,7 @@ export const Subtle: Story = {
         </Row>
       </Section>
       <Section title="Compact (15 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="subtle" className="vscode-subtle vscode-compact">
             ×
           </Button>
@@ -361,7 +306,7 @@ export const Transparent: Story = {
   render: () => (
     <>
       <Section title="Default (28 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button appearance="transparent" className="vscode-transparent">
             Dismiss
           </Button>
@@ -373,7 +318,7 @@ export const Transparent: Story = {
             Dismiss
           </Button>
         </Row>
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="transparent"
             className="vscode-transparent vscode-icon-only"
@@ -395,7 +340,7 @@ export const Transparent: Story = {
         </Row>
       </Section>
       <Section title="Small (22 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="transparent"
             className="vscode-transparent vscode-small vscode-icon-only"
@@ -412,7 +357,7 @@ export const Transparent: Story = {
         </Row>
       </Section>
       <Section title="Compact (15 px)">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Button
             appearance="transparent"
             className="vscode-transparent vscode-compact vscode-icon-only"
@@ -442,7 +387,7 @@ export const IconOnly: Story = {
         title="Icon-Only Buttons"
         description="Combine .vscode-icon-only with any appearance. Always provide aria-label."
       >
-        <Row label="Default 28 px">
+        <Row label="Default 28 px" style={buttonRowStyle}>
           <Button
             appearance="primary"
             className="vscode-primary vscode-icon-only"
@@ -473,7 +418,7 @@ export const IconOnly: Story = {
             aria-label="Split"
           />
         </Row>
-        <Row label="Small 22 px">
+        <Row label="Small 22 px" style={buttonRowStyle}>
           <Button
             appearance="primary"
             className="vscode-primary vscode-small vscode-icon-only"
@@ -498,7 +443,7 @@ export const IconOnly: Story = {
             aria-label="Split"
           />
         </Row>
-        <Row label="Compact 15 px">
+        <Row label="Compact 15 px" style={buttonRowStyle}>
           <Button
             appearance="primary"
             className="vscode-primary vscode-compact vscode-icon-only"
@@ -529,7 +474,7 @@ export const SplitButtonStory: Story = {
   render: () => (
     <>
       <Section title="Primary Split">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Menu>
             <MenuTrigger disableButtonEnhancement>
               {(triggerProps) => (
@@ -572,7 +517,7 @@ export const SplitButtonStory: Story = {
         </Row>
       </Section>
       <Section title="Secondary Split">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Menu>
             <MenuTrigger disableButtonEnhancement>
               {(triggerProps) => (
@@ -594,7 +539,7 @@ export const SplitButtonStory: Story = {
         </Row>
       </Section>
       <Section title="Outline Split">
-        <Row>
+        <Row style={buttonRowStyle}>
           <Menu>
             <MenuTrigger disableButtonEnhancement>
               {(triggerProps) => (
@@ -629,7 +574,7 @@ export const MenuButtonStory: Story = {
       title="Menu Button"
       description="A single button with a built-in chevron that opens a menu."
     >
-      <Row>
+      <Row style={buttonRowStyle}>
         <Menu>
           <MenuTrigger disableButtonEnhancement>
             <MenuButton appearance="primary" className="vscode-primary">

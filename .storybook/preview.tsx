@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { Preview, Decorator } from "@storybook/react";
 import { themes } from "@storybook/theming";
 import { FluentProvider } from "@fluentui/react-provider";
@@ -19,22 +19,24 @@ const withFluent: Decorator = (Story, context) => {
   const isDark = scheme === "dark";
   const theme = isDark ? webDarkTheme : webLightTheme;
 
-  // Toggle body class so theme-tokens.css light overrides kick in
-  document.body.className = isDark ? "" : "light-mode";
+  useEffect(() => {
+    // Toggle body class so theme-tokens.css light overrides kick in
+    document.body.className = isDark ? "" : "light-mode";
 
-  // Force the entire preview iframe background (canvas + docs wrapper)
-  document.body.style.background = isDark ? "#1e1e1e" : "#ffffff";
-  document.body.style.color = isDark ? "#cccccc" : "#424242";
+    // Force the entire preview iframe background (canvas + docs wrapper)
+    document.body.style.background = isDark ? "#1e1e1e" : "#ffffff";
+    document.body.style.color = isDark ? "#cccccc" : "#424242";
 
-  // Force docs wrapper backgrounds via CSS custom properties
-  document.documentElement.style.setProperty(
-    "--sb-docs-bg",
-    isDark ? "#1e1e1e" : "#ffffff",
-  );
-  document.documentElement.style.setProperty(
-    "--sb-docs-color",
-    isDark ? "#cccccc" : "#424242",
-  );
+    // Force docs wrapper backgrounds via CSS custom properties
+    document.documentElement.style.setProperty(
+      "--sb-docs-bg",
+      isDark ? "#1e1e1e" : "#ffffff",
+    );
+    document.documentElement.style.setProperty(
+      "--sb-docs-color",
+      isDark ? "#cccccc" : "#424242",
+    );
+  }, [isDark]);
 
   return (
     <FluentProvider theme={theme}>

@@ -82,15 +82,17 @@ function fetchText(url) {
  */
 function parseExports(indexSource) {
   const exports = [];
-  const re = /export\s+\{\s*(\w+)\s*\}\s+from\s+['"]([^'"]+)['"]/g;
+  // Match named exports: `export { A, B } from '...'`
+  const re = /export\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)['"]/g;
   let match;
   while ((match = re.exec(indexSource)) !== null) {
-    const name = match[1];
     // Skip type-only re-exports (e.g. `export type { VscButtonProps }`)
     const lineStart = indexSource.lastIndexOf("\n", match.index) + 1;
     const line = indexSource.slice(lineStart, match.index + match[0].length);
     if (/export\s+type\s+\{/.test(line)) continue;
-    exports.push(name);
+    // Split the names list to handle multi-export statements
+    const names = match[1].split(",").map((n) => n.trim()).filter(Boolean);
+    exports.push(...names);
   }
   return exports;
 }

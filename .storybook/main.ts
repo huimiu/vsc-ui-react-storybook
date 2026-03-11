@@ -11,7 +11,10 @@ const config: StorybookConfig = {
     name: "@storybook/react-webpack5",
     options: {},
   },
-  staticDirs: ["../overrides", "../styles"],
+  staticDirs: [
+    { directory: "../overrides", targetEndpoint: "/overrides" },
+    { directory: "../styles", targetEndpoint: "/styles" },
+  ],
 };
 
 export default config;

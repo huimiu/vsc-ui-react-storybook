@@ -28,6 +28,7 @@ import {
   SettingsRegular,
   ChevronRightRegular,
 } from "@fluentui/react-icons";
+import { Section } from "./helpers";
 
 const meta: Meta = {
   title: "Components/Context Menu",
@@ -36,30 +37,6 @@ const meta: Meta = {
 
 export default meta;
 type Story = StoryObj;
-
-/* ── Helpers ─────────────────────────────────────────────────────── */
-
-const Section = ({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) => (
-  <div style={{ marginBottom: 32 }}>
-    <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 600 }}>
-      {title}
-    </h3>
-    {description && (
-      <p style={{ margin: "0 0 12px", fontSize: 13, opacity: 0.7 }}>
-        {description}
-      </p>
-    )}
-    {children}
-  </div>
-);
 
 /* ── Basic Context Menu ──────────────────────────────────────────── */
 

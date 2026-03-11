@@ -19,5 +19,7 @@ jobs:
         with:
           node-version: "20"
 
+      # sync-check.js uses only Node builtins (https, fs, path);
+      # no npm install required.
       - name: Run sync check
         run: node scripts/sync-check.js

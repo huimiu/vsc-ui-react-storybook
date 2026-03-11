@@ -182,6 +182,8 @@
   font-size: var(--fluent-fontSizeBase300);
   font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase300);
+  /* Uses --vscode-input-border (not --vscode-button-border) to match
+     upstream vsc-ui-react outline variant styling */
   border: 1px solid var(--vscode-input-border);
   background-color: transparent;
   color: var(--vscode-button-secondaryForeground);
@@ -189,6 +191,7 @@
 }
 
 .fui-Button.vscode-outline:hover {
+  /* Matches upstream: secondaryHoverBackground for outline hover */
   background-color: var(--vscode-button-secondaryHoverBackground);
   color: var(--vscode-button-secondaryForeground);
   border-color: var(--vscode-input-border);
@@ -376,7 +379,8 @@
 }
 
 /* Force primary icon color to white — Fluent's CSS-in-JS may override
-   the parent color with brand-blue in webLightTheme */
+   the parent color with brand-blue in webLightTheme.
+   Upstream: vsc-ui-react button.module.scss :global(.fui-Button__icon) */
 .fui-Button.vscode-primary .fui-Button__icon,
 .fui-Button.vscode-primary .fui-Button__icon svg {
   color: var(--vscode-button-foreground) !important;
@@ -450,7 +454,8 @@
   border: 1px solid var(--vscode-button-border);
 }
 
-/* Force split-button primary icon color to white */
+/* Force split-button primary icon color to white.
+   Upstream: vsc-ui-react button.module.scss :global(.fui-SplitButton) icon */
 .fui-SplitButton.vscode-primary .fui-Button__icon,
 .fui-SplitButton.vscode-primary .fui-Button__icon svg {
   color: var(--vscode-button-foreground) !important;
