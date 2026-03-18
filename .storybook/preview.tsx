@@ -12,6 +12,7 @@ import "../overrides/vscode-button-overrides.css";
 import "../overrides/vscode-dropdown-overrides.css";
 import "../overrides/vscode-input-overrides.css";
 import "../overrides/vscode-menu-overrides.css";
+import "../overrides/vscode-tab-overrides.css";
 
 /* ── FluentProvider decorator ───────────────────────────────────── */
 const withFluent: Decorator = (Story, context) => {

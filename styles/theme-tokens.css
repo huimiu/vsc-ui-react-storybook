@@ -83,6 +83,11 @@
   --vscode-descriptionForeground: #9d9d9d;
   --vscode-errorForeground: #f48771;
   --vscode-icon-foreground: #cccccc;
+  --vscode-disabledForeground: rgba(204, 204, 204, 0.5);
+
+  /* Tabs */
+  --vscode-tab-inactiveForeground: #9d9d9d;
+  --vscode-tab-activeForeground: #ffffff;
 
   /* Toolbar/Subtle */
   --vscode-toolbar-hoverBackground: rgba(90, 93, 94, 0.31);
@@ -198,6 +203,11 @@ body.light-mode {
   --vscode-descriptionForeground: #717171;
   --vscode-errorForeground: #a1260d;
   --vscode-icon-foreground: #424242;
+  --vscode-disabledForeground: rgba(66, 66, 66, 0.5);
+
+  /* Tabs */
+  --vscode-tab-inactiveForeground: #717171;
+  --vscode-tab-activeForeground: #333333;
   --vscode-toolbar-hoverBackground: rgba(0, 0, 0, 0.08);
   --vscode-toolbar-activeBackground: rgba(0, 0, 0, 0.12);
   --vscode-textLink-foreground: #0066bf;
