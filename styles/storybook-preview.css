@@ -77,14 +77,16 @@
   pointer-events: none;
 }
 
-.storybook-button-preview--focus
-  :is(
-    .fui-Button,
-    .fui-SplitButton__primaryActionButton,
-    .fui-SplitButton__menuButton
-  ) {
+.storybook-button-preview--button.storybook-button-preview--focus .fui-Button {
   outline: 1px solid var(--vscode-focusBorder);
   outline-offset: 2px;
+}
+
+.storybook-button-preview--split.storybook-button-preview--focus
+  .fui-SplitButton {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .storybook-button-preview--hover.storybook-button-preview--primary
