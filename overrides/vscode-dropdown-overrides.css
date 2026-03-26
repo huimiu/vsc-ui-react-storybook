@@ -817,13 +817,20 @@ body.light-mode .fui-Dropdown.vscode-dropdown .vscode-trigger-description,
    ============================================================================= */
 
 .vscode-option-separator {
-  height: 1px;
+  position: relative;
   cursor: default;
   pointer-events: none;
   box-sizing: border-box;
+}
+
+.vscode-option-separator::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
   background-color: var(--vscode-menu-separatorBackground);
-  margin: 4px 0;
-  flex-shrink: 0;
 }
 
 /* =============================================================================
@@ -906,8 +913,8 @@ body.light-mode .fui-Dropdown.vscode-dropdown .vscode-trigger-description,
 }
 
 /* Selected state — keep descriptions visible but adjust opacity */
-.fui-Option.vscode-option.selected .vscode-option-detail,
-.fui-Option.vscode-option.selected .vscode-option-description {
+.fui-Option.vscode-option[aria-selected="true"] .vscode-option-detail,
+.fui-Option.vscode-option[aria-selected="true"] .vscode-option-description {
   opacity: 0.8; /* VS Code: .monaco-list-row.selected .label-description */
   color: var(--vscode-list-activeSelectionForeground);
 }

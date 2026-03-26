@@ -28,32 +28,83 @@ const path = require("path");
 const PACKAGE_INDEX_URL =
   "https://raw.githubusercontent.com/huimiu/vsc-ui-react/main/src/index.ts";
 
-// Map from NPM-export name → expected file names in this repo.
-// This is the canonical mapping. When a new component is added to the package,
-// add a row here.
+// Map from tracked package exports → preview assets in this repo.
+// Multiple exports can share the same preview page and override file when they
+// are documented together.
 const COMPONENT_MAP = {
   VscButton: {
     slug: "button",
     page: "components/button.html",
     override: "overrides/vscode-button-overrides.css",
   },
-  // ── Future components ──────────────────────────────────────────────────
-  // VscDropdown: {
-  //   slug:     'dropdown',
-  //   page:     'components/dropdown.html',
-  //   override: 'overrides/vscode-dropdown-overrides.css',
-  // },
-  // VscInput: {
-  //   slug:     'input',
-  //   page:     'components/input.html',
-  //   override: 'overrides/vscode-input-overrides.css',
-  // },
-  // VscMenu: {
-  //   slug:     'context-menu',
-  //   page:     'components/context-menu.html',
-  //   override: 'overrides/vscode-menu-overrides.css',
-  // },
+  VscSplitButton: {
+    slug: "button",
+    page: "components/button.html",
+    override: "overrides/vscode-button-overrides.css",
+  },
+  VscInput: {
+    slug: "input",
+    page: "components/input.html",
+    override: "overrides/vscode-input-overrides.css",
+  },
+  VscTextarea: {
+    slug: "textarea",
+    page: "components/textarea.html",
+    override: "overrides/vscode-input-overrides.css",
+  },
+  VscField: {
+    slug: "field",
+    page: "components/field.html",
+    override: "overrides/vscode-input-overrides.css",
+  },
+  VscSearchBox: {
+    slug: "search-box",
+    page: "components/search-box.html",
+    override: "overrides/vscode-input-overrides.css",
+  },
+  VscDropdown: {
+    slug: "dropdown",
+    page: "components/dropdown.html",
+    override: "overrides/vscode-dropdown-overrides.css",
+  },
+  VscCombobox: {
+    slug: "dropdown",
+    page: "components/dropdown.html",
+    override: "overrides/vscode-dropdown-overrides.css",
+  },
+  VscListbox: {
+    slug: "dropdown",
+    page: "components/dropdown.html",
+    override: "overrides/vscode-dropdown-overrides.css",
+  },
+  VscMenuPopover: {
+    slug: "context-menu",
+    page: "components/context-menu.html",
+    override: "overrides/vscode-menu-overrides.css",
+  },
+  VscMenuList: {
+    slug: "context-menu",
+    page: "components/context-menu.html",
+    override: "overrides/vscode-menu-overrides.css",
+  },
+  VscMenuItem: {
+    slug: "context-menu",
+    page: "components/context-menu.html",
+    override: "overrides/vscode-menu-overrides.css",
+  },
+  VscTabList: {
+    slug: "tab",
+    page: "components/tab.html",
+    override: "overrides/vscode-tab-overrides.css",
+  },
+  VscTab: {
+    slug: "tab",
+    page: "components/tab.html",
+    override: "overrides/vscode-tab-overrides.css",
+  },
 };
+
+const TRACKED_EXPORTS = new Set(Object.keys(COMPONENT_MAP));
 
 /* ========================================================================== */
 /*  HELPERS                                                                    */
@@ -117,7 +168,9 @@ async function main() {
   }
 
   // ── Discover remote exports ────────────────────────────────────────────
-  const remoteExports = remoteSource ? parseExports(remoteSource) : [];
+  const remoteExports = remoteSource
+    ? parseExports(remoteSource).filter((name) => TRACKED_EXPORTS.has(name))
+    : [];
 
   if (remoteExports.length) {
     console.log(`📦  Package exports: ${remoteExports.join(", ")}\n`);

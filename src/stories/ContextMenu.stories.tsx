@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import "../../overrides/vscode-button-overrides.css";
 import {
   Menu,
   MenuTrigger,
@@ -28,6 +30,8 @@ import {
 } from "@fluentui/react-icons";
 import { Section } from "./helpers";
 
+const StoryRoot = Fragment;
+
 const meta: Meta = {
   title: "Components/Context Menu",
   tags: ["autodocs"],
@@ -41,21 +45,15 @@ type Story = StoryObj;
 export const BasicMenu: Story = {
   name: "Basic Context Menu",
   render: () => (
-    <Section
-      title="Basic Context Menu"
-      description="Right-click style menu with icons, keyboard shortcuts, and dividers."
-    >
-      <Menu open>
-        <MenuTrigger disableButtonEnhancement>
-          <Button
-            appearance="subtle"
-            className="vscode-subtle"
-            style={{ display: "none" }}
-          >
-            trigger
-          </Button>
-        </MenuTrigger>
-        <MenuPopover className="vscode-menu-popover">
+    <StoryRoot>
+      <Section
+        title="Basic Context Menu"
+        description="Right-click style menu with icons, keyboard shortcuts, and dividers."
+      >
+        <div
+          className="fui-MenuPopover vscode-menu"
+          style={{ width: "fit-content", position: "relative" }}
+        >
           <MenuList className="vscode-menu">
             <MenuItem
               className="vscode-menu-item"
@@ -87,9 +85,9 @@ export const BasicMenu: Story = {
               Select All
             </MenuItem>
           </MenuList>
-        </MenuPopover>
-      </Menu>
-    </Section>
+        </div>
+      </Section>
+    </StoryRoot>
   ),
 };
 

@@ -179,7 +179,7 @@ export const SettingsForm: Story = {
       title="Settings Form"
       description="A settings-style form using dropdown + combobox."
     >
-      <div style={{ maxWidth: 360 }}>
+      <div style={{ width: "100%", maxWidth: 560 }}>
         <Field
           label="Color Theme"
           className="vscode-field"

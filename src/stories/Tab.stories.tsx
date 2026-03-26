@@ -29,7 +29,7 @@ const Section = ({
   children: React.ReactNode;
 }) => (
   <div style={{ marginBottom: 32 }}>
-    <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 600 }}>
+    <h3 style={{ margin: "0 0 12px", fontSize: 16, fontWeight: 600 }}>
       {title}
     </h3>
     {description && (

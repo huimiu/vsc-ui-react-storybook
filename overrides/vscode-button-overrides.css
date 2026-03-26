@@ -182,19 +182,16 @@
   font-size: var(--fluent-fontSizeBase300);
   font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase300);
-  /* Uses --vscode-input-border (not --vscode-button-border) to match
-     upstream vsc-ui-react outline variant styling */
-  border: 1px solid var(--vscode-input-border);
+  border: 1px solid var(--vscode-button-border);
   background-color: transparent;
   color: var(--vscode-button-secondaryForeground);
   box-shadow: none;
 }
 
 .fui-Button.vscode-outline:hover {
-  /* Matches upstream: secondaryHoverBackground for outline hover */
   background-color: var(--vscode-button-secondaryHoverBackground);
   color: var(--vscode-button-secondaryForeground);
-  border-color: var(--vscode-input-border);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-Button.vscode-outline[aria-pressed="true"] {
@@ -248,7 +245,7 @@
   font-size: var(--fluent-fontSizeBase300);
   font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase300);
-  border: none;
+  border: 1px solid transparent;
   background-color: transparent;
   color: var(--vscode-foreground);
   box-shadow: none;
@@ -256,6 +253,7 @@
 
 .fui-Button.vscode-subtle:hover {
   background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-foreground);
   border-color: var(--vscode-button-border);
 }
 
@@ -565,8 +563,8 @@
   border-radius: 4px;
   font-size: var(--fluent-fontSizeBase300);
   background-color: transparent;
-  color: var(--vscode-foreground);
-  border: 1px solid var(--vscode-input-border);
+  color: var(--vscode-button-secondaryForeground);
+  border: 1px solid var(--vscode-button-border);
 }
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__primaryActionButton {
@@ -619,7 +617,7 @@
   font-size: var(--fluent-fontSizeBase300);
   background-color: transparent;
   color: var(--vscode-foreground);
-  border: none;
+  border: 1px solid transparent;
 }
 
 .fui-SplitButton.vscode-subtle .fui-SplitButton__primaryActionButton {
@@ -637,7 +635,8 @@
 
 .fui-SplitButton.vscode-subtle .fui-SplitButton__primaryActionButton:hover,
 .fui-SplitButton.vscode-subtle .fui-SplitButton__menuButton:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-SplitButton.vscode-subtle
@@ -820,6 +819,8 @@
 
 /* Chevron icon in menu button: 14/12/10 */
 .fui-SplitButton .fui-SplitButton__menuButton svg {
+  color: inherit !important;
+  fill: currentColor;
   width: 14px;
   height: 14px;
 }
@@ -875,6 +876,7 @@
 }
 
 .fui-MenuButton.vscode-primary .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 14px;
 }
 
@@ -915,6 +917,7 @@
 }
 
 .fui-MenuButton.vscode-secondary .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 14px;
 }
 
@@ -956,6 +959,7 @@
 }
 
 .fui-MenuButton.vscode-outline .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 14px;
 }
 
@@ -969,14 +973,15 @@
   font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase300);
   gap: 4px;
-  border: none;
+  border: 1px solid transparent;
   background-color: transparent;
   color: var(--vscode-foreground);
   box-shadow: none;
 }
 
 .fui-MenuButton.vscode-subtle:hover {
-  background-color: var(--vscode-toolbar-hoverBackground);
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  border-color: var(--vscode-button-border);
 }
 
 .fui-MenuButton.vscode-subtle[aria-pressed="true"] {
@@ -997,6 +1002,7 @@
 }
 
 .fui-MenuButton.vscode-subtle .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 14px;
 }
 
@@ -1039,6 +1045,7 @@
 }
 
 .fui-MenuButton.vscode-transparent .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 14px;
 }
 
@@ -1053,6 +1060,7 @@
 }
 
 .fui-MenuButton.vscode-small .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 12px;
 }
 
@@ -1066,6 +1074,7 @@
 }
 
 .fui-MenuButton.vscode-compact .fui-MenuButton__menuIcon {
+  color: inherit !important;
   font-size: 10px;
 }
 

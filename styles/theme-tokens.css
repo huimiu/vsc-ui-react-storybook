@@ -113,6 +113,19 @@
   --fluent-fontSizeBase100: 10px;
   --fluent-lineHeightBase100: 14px;
 
+  /* Package-compatible typography aliases */
+  --fontFamilyBase:
+    "Segoe UI", "Segoe UI Web (West European)", -apple-system,
+    BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  --fontWeightRegular: 400;
+  --fontWeightSemibold: 600;
+  --fontSizeBase100: 10px;
+  --fontSizeBase200: 12px;
+  --fontSizeBase300: 14px;
+  --lineHeightBase100: 14px;
+  --lineHeightBase200: 16px;
+  --lineHeightBase300: 20px;
+
   /* ========== Fluent 2 Color Tokens — Dark ========== */
   --fluent-colorBrandBackground: #0078d4;
   --fluent-colorBrandBackgroundHover: #106ebe;
@@ -237,6 +250,19 @@ body.light-mode {
   --fluent-colorNeutralShadowKey: rgba(0, 0, 0, 0.14);
   --fluent-colorPaletteRedBorder2: #d13438;
   --fluent-colorPaletteYellowBorder2: #c19c00;
+
+  /* Package-compatible typography aliases */
+  --fontFamilyBase:
+    "Segoe UI", "Segoe UI Web (West European)", -apple-system,
+    BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  --fontWeightRegular: 400;
+  --fontWeightSemibold: 600;
+  --fontSizeBase100: 10px;
+  --fontSizeBase200: 12px;
+  --fontSizeBase300: 14px;
+  --lineHeightBase100: 14px;
+  --lineHeightBase200: 16px;
+  --lineHeightBase300: 20px;
 
   --page-background: #ffffff;
   --page-header-color: #242424;

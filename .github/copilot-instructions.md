@@ -67,5 +67,5 @@ It is **not** the source of truth for component definitions.
 
 ## Currently Tracking
 
-**Package:** `vsc-ui-react@0.0.3`
-**Components in package:** VscButton
+**Package:** `vsc-ui-react@0.0.5`
+**Components in package:** VscButton, VscSplitButton, VscInput, VscTextarea, VscField, VscSearchBox, VscDropdown, VscCombobox, VscListbox, VscMenuPopover, VscMenuList, VscMenuItem, VscTabList, VscTab

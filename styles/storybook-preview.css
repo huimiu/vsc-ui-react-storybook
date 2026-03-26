@@ -1,0 +1,181 @@
+/* Storybook-only layout and static state simulation for package-backed button stories. */
+
+.storybook-button-grid {
+  margin-bottom: 24px;
+  border: 1px solid var(--page-border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--preview-bg);
+}
+
+.storybook-button-grid__table {
+  display: grid;
+  grid-template-columns: 180px repeat(4, minmax(148px, 1fr));
+}
+
+.storybook-button-grid__header,
+.storybook-button-grid__rowLabel,
+.storybook-button-grid__cell {
+  border-right: 1px solid var(--page-border-color);
+  border-bottom: 1px solid var(--page-border-color);
+}
+
+.storybook-button-grid__header:nth-child(5n),
+.storybook-button-grid__cell:nth-child(5n) {
+  border-right: none;
+}
+
+.storybook-button-grid__header {
+  padding: 10px 12px;
+  text-align: center;
+  background-color: var(--badge-bg);
+  color: var(--vscode-descriptionForeground);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+}
+
+.storybook-button-grid__header--row {
+  background-color: var(--badge-bg);
+}
+
+.storybook-button-grid__rowLabel {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--preview-bg);
+  color: var(--vscode-foreground);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+}
+
+.storybook-button-grid__cell {
+  min-height: 58px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--preview-bg);
+}
+
+.storybook-button-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.storybook-button-preview
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ) {
+  pointer-events: none;
+}
+
+.storybook-button-preview--focus
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ) {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+.storybook-button-preview--hover.storybook-button-preview--primary
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ) {
+  background-color: var(--vscode-button-hoverBackground);
+  color: var(--vscode-button-foreground);
+  border-color: var(--vscode-button-border);
+}
+
+.storybook-button-preview--hover.storybook-button-preview--secondary
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ),
+.storybook-button-preview--hover.storybook-button-preview--outline
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ) {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-color: var(--vscode-button-border);
+}
+
+.storybook-button-preview--hover.storybook-button-preview--subtle
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ) {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+  color: var(--vscode-foreground);
+  border-color: var(--vscode-button-border);
+}
+
+.storybook-button-preview--hover.storybook-button-preview--transparent
+  :is(
+    .fui-Button,
+    .fui-SplitButton__primaryActionButton,
+    .fui-SplitButton__menuButton
+  ) {
+  background-color: transparent;
+  color: var(--vscode-textLink-foreground);
+  border-color: transparent;
+}
+
+.storybook-button-preview--hover.storybook-button-preview--primary
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton svg
+  ),
+.storybook-button-preview--hover.storybook-button-preview--secondary
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton svg
+  ),
+.storybook-button-preview--hover.storybook-button-preview--outline
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton svg
+  ),
+.storybook-button-preview--hover.storybook-button-preview--subtle
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton svg
+  ),
+.storybook-button-preview--hover.storybook-button-preview--transparent
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton svg
+  ) {
+  color: currentColor;
+}
+
+@media (max-width: 1200px) {
+  .storybook-button-grid {
+    overflow-x: auto;
+  }
+
+  .storybook-button-grid__table {
+    min-width: 760px;
+  }
+}
