@@ -89,6 +89,37 @@
   border-radius: 4px;
 }
 
+/* Enforce the split-button separator — Fluent's Griffel atomic classes can
+   override it at equal specificity. */
+.storybook-button-preview--split:is(
+    .storybook-button-preview--primary,
+    .storybook-button-preview--secondary,
+    .storybook-button-preview--outline
+  )
+  .fui-SplitButton__menuButton {
+  border-left: 1px solid var(--vscode-button-border) !important;
+}
+
+.storybook-button-preview--split:is(
+    .storybook-button-preview--subtle,
+    .storybook-button-preview--transparent
+  )
+  .fui-SplitButton__menuButton {
+  border-left: none !important;
+}
+
+/* Collapse the primary action button's right border with the menu button's
+   left separator — per Figma, both keep their full border; negative margin
+   makes them share the same pixel so only the separator is visible. */
+.storybook-button-preview--split:is(
+    .storybook-button-preview--primary,
+    .storybook-button-preview--secondary,
+    .storybook-button-preview--outline
+  )
+  .fui-SplitButton__primaryActionButton {
+  margin-right: -1px;
+}
+
 .storybook-button-preview--hover.storybook-button-preview--primary
   :is(
     .fui-Button,

@@ -464,14 +464,14 @@
   padding: 4px 8px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: none;
+  margin-right: -1px;
 }
 
 .fui-SplitButton.vscode-primary .fui-SplitButton__menuButton {
   padding: 4px 6px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: 1px solid var(--vscode-button-separator);
+  border-left: 1px solid var(--vscode-button-border);
 }
 
 .fui-SplitButton.vscode-primary .fui-SplitButton__primaryActionButton:hover,
@@ -517,14 +517,14 @@
   padding: 4px 8px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: none;
+  margin-right: -1px;
 }
 
 .fui-SplitButton.vscode-secondary .fui-SplitButton__menuButton {
   padding: 4px 6px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: 1px solid var(--vscode-button-separator);
+  border-left: 1px solid var(--vscode-button-border);
 }
 
 .fui-SplitButton.vscode-secondary .fui-SplitButton__primaryActionButton:hover,
@@ -571,14 +571,14 @@
   padding: 4px 8px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: none;
+  margin-right: -1px;
 }
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__menuButton {
   padding: 4px 6px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: 1px solid var(--vscode-button-separator);
+  border-left: 1px solid var(--vscode-button-border);
 }
 
 .fui-SplitButton.vscode-outline .fui-SplitButton__primaryActionButton:hover,
@@ -630,7 +630,7 @@
   padding: 4px 6px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: 1px solid var(--vscode-button-separator);
+  border-left: none;
 }
 
 .fui-SplitButton.vscode-subtle .fui-SplitButton__primaryActionButton:hover,
@@ -683,7 +683,7 @@
   padding: 4px 6px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: 1px solid var(--vscode-button-separator);
+  border-left: none;
 }
 
 .fui-SplitButton.vscode-transparent .fui-SplitButton__primaryActionButton:hover,
