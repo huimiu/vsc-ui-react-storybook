@@ -83,6 +83,11 @@
   --vscode-descriptionForeground: #9d9d9d;
   --vscode-errorForeground: #f48771;
   --vscode-icon-foreground: #cccccc;
+  --vscode-disabledForeground: rgba(204, 204, 204, 0.5);
+
+  /* Tabs */
+  --vscode-tab-inactiveForeground: #9d9d9d;
+  --vscode-tab-activeForeground: #ffffff;
 
   /* Toolbar/Subtle */
   --vscode-toolbar-hoverBackground: rgba(90, 93, 94, 0.31);
@@ -107,6 +112,19 @@
   --fluent-lineHeightBase200: 16px;
   --fluent-fontSizeBase100: 10px;
   --fluent-lineHeightBase100: 14px;
+
+  /* Package-compatible typography aliases */
+  --fontFamilyBase:
+    "Segoe UI", "Segoe UI Web (West European)", -apple-system,
+    BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  --fontWeightRegular: 400;
+  --fontWeightSemibold: 600;
+  --fontSizeBase100: 10px;
+  --fontSizeBase200: 12px;
+  --fontSizeBase300: 14px;
+  --lineHeightBase100: 14px;
+  --lineHeightBase200: 16px;
+  --lineHeightBase300: 20px;
 
   /* ========== Fluent 2 Color Tokens — Dark ========== */
   --fluent-colorBrandBackground: #0078d4;
@@ -198,6 +216,11 @@ body.light-mode {
   --vscode-descriptionForeground: #717171;
   --vscode-errorForeground: #a1260d;
   --vscode-icon-foreground: #424242;
+  --vscode-disabledForeground: rgba(66, 66, 66, 0.5);
+
+  /* Tabs */
+  --vscode-tab-inactiveForeground: #717171;
+  --vscode-tab-activeForeground: #333333;
   --vscode-toolbar-hoverBackground: rgba(0, 0, 0, 0.08);
   --vscode-toolbar-activeBackground: rgba(0, 0, 0, 0.12);
   --vscode-textLink-foreground: #0066bf;
@@ -227,6 +250,19 @@ body.light-mode {
   --fluent-colorNeutralShadowKey: rgba(0, 0, 0, 0.14);
   --fluent-colorPaletteRedBorder2: #d13438;
   --fluent-colorPaletteYellowBorder2: #c19c00;
+
+  /* Package-compatible typography aliases */
+  --fontFamilyBase:
+    "Segoe UI", "Segoe UI Web (West European)", -apple-system,
+    BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  --fontWeightRegular: 400;
+  --fontWeightSemibold: 600;
+  --fontSizeBase100: 10px;
+  --fontSizeBase200: 12px;
+  --fontSizeBase300: 14px;
+  --lineHeightBase100: 14px;
+  --lineHeightBase200: 16px;
+  --lineHeightBase300: 20px;
 
   --page-background: #ffffff;
   --page-header-color: #242424;

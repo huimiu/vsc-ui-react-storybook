@@ -1,771 +1,361 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button, SplitButton, MenuButton } from "@fluentui/react-button";
 import {
   Menu,
   MenuTrigger,
-  MenuPopover,
-  MenuList,
-  MenuItem,
-} from "@fluentui/react-menu";
+  VscButton,
+  VscMenuItem,
+  VscMenuList,
+  VscMenuPopover,
+  VscSplitButton,
+} from "vsc-ui-react";
 import {
   AddRegular,
-  PlayRegular,
-  FolderOpenRegular,
-  SettingsRegular,
-  MoreHorizontalRegular,
-  EditRegular,
-  DismissRegular,
-  ArrowUndoRegular,
-  PhoneRegular,
-  InfoRegular,
-  SplitVerticalRegular,
   ArrowSyncRegular,
+  ArrowUndoRegular,
   ChevronLeftRegular,
+  EditRegular,
+  FolderOpenRegular,
+  InfoRegular,
+  PhoneRegular,
+  PlayRegular,
 } from "@fluentui/react-icons";
-import { Row, Section } from "./helpers";
+import { Section } from "./helpers";
 
-/* ===================================================================
-   BUTTON
-   =================================================================== */
-
-const meta: Meta<typeof Button> = {
+const meta: Meta<typeof VscButton> = {
   title: "Components/Button",
-  component: Button,
+  component: VscButton,
   tags: ["autodocs"],
-  argTypes: {
-    appearance: {
-      control: "select",
-      options: ["primary", "secondary", "outline", "subtle", "transparent"],
-    },
-    disabled: { control: "boolean" },
-    size: { control: "select", options: ["small", "medium", "large"] },
-  },
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof VscButton>;
 
-const buttonRowStyle = { gap: 8, alignItems: "center" as const, marginBottom: 8 };
+type SupportedAppearance =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "subtle"
+  | "transparent";
 
-/* ── Primary ─────────────────────────────────────────────────────── */
+type SupportedSize = "medium" | "small" | "compact";
+type ButtonKind = "text" | "iconText" | "iconOnly";
+type PreviewState = "rest" | "hover" | "focus" | "disabled";
 
-export const Primary: Story = {
-  render: () => (
-    <>
-      <Section title="Default (28 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="primary" className="vscode-primary">
-            Install
-          </Button>
-          <Button appearance="primary" className="vscode-primary" disabled>
-            Install
-          </Button>
-        </Row>
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="primary"
-            className="vscode-primary"
-            icon={<AddRegular />}
-          >
-            New File
-          </Button>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-icon-only"
-            icon={<AddRegular />}
-            aria-label="Add"
-          />
-        </Row>
-      </Section>
-      <Section title="Small (22 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="primary" className="vscode-primary vscode-small">
-            Run
-          </Button>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-small"
-            disabled
-          >
-            Run
-          </Button>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-small vscode-icon-only"
-            icon={<PlayRegular />}
-            aria-label="Play"
-          />
-        </Row>
-      </Section>
-      <Section title="Compact (15 px)">
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-compact"
-          >
-            Badge
-          </Button>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-compact"
-            disabled
-          >
-            Badge
-          </Button>
-        </Row>
-      </Section>
-    </>
-  ),
+const appearances: SupportedAppearance[] = [
+  "primary",
+  "secondary",
+  "outline",
+  "subtle",
+  "transparent",
+];
+
+const previewStates: PreviewState[] = ["rest", "hover", "focus", "disabled"];
+
+const stateLabels: Record<PreviewState, string> = {
+  rest: "Rest",
+  hover: "Hover",
+  focus: "Focus / Selected",
+  disabled: "Disabled",
 };
 
-/* ── Secondary ───────────────────────────────────────────────────── */
-
-export const Secondary: Story = {
-  render: () => (
-    <>
-      <Section title="Default (28 px)">
-        <Row style={buttonRowStyle}>
-          <Button className="vscode-secondary">Cancel</Button>
-          <Button className="vscode-secondary" disabled>
-            Cancel
-          </Button>
-        </Row>
-        <Row style={buttonRowStyle}>
-          <Button className="vscode-secondary" icon={<FolderOpenRegular />}>
-            Open Folder
-          </Button>
-          <Button
-            className="vscode-secondary vscode-icon-only"
-            icon={<SettingsRegular />}
-            aria-label="Settings"
-          />
-        </Row>
-      </Section>
-      <Section title="Small (22 px)">
-        <Row style={buttonRowStyle}>
-          <Button className="vscode-secondary vscode-small">Details</Button>
-          <Button className="vscode-secondary vscode-small" disabled>
-            Details
-          </Button>
-          <Button
-            className="vscode-secondary vscode-small vscode-icon-only"
-            icon={<MoreHorizontalRegular />}
-            aria-label="More"
-          />
-        </Row>
-      </Section>
-      <Section title="Compact (15 px)">
-        <Row style={buttonRowStyle}>
-          <Button className="vscode-secondary vscode-compact">Tag</Button>
-          <Button className="vscode-secondary vscode-compact" disabled>
-            Tag
-          </Button>
-        </Row>
-      </Section>
-    </>
-  ),
+const appearanceLabels: Record<SupportedAppearance, string> = {
+  primary: "Primary",
+  secondary: "Secondary",
+  outline: "Outline",
+  subtle: "Subtle",
+  transparent: "Transparent",
 };
 
-/* ── Outline ─────────────────────────────────────────────────────── */
+const rowDefinitions: Array<{
+  label: string;
+  size: SupportedSize;
+  kind: ButtonKind;
+}> = [
+  { label: "Text Default", size: "medium", kind: "text" },
+  { label: "Text Small", size: "small", kind: "text" },
+  { label: "Text Compact", size: "compact", kind: "text" },
+  { label: "Icon+Text Default", size: "medium", kind: "iconText" },
+  { label: "Icon+Text Small", size: "small", kind: "iconText" },
+  { label: "Icon+Text Compact", size: "compact", kind: "iconText" },
+  { label: "Icon Default", size: "medium", kind: "iconOnly" },
+  { label: "Icon Small", size: "small", kind: "iconOnly" },
+  { label: "Icon Compact", size: "compact", kind: "iconOnly" },
+];
 
-export const Outline: Story = {
-  render: () => (
-    <>
-      <Section title="Default (28 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="outline" className="vscode-outline">
-            Learn More
-          </Button>
-          <Button appearance="outline" className="vscode-outline" disabled>
-            Learn More
-          </Button>
-        </Row>
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="outline"
-            className="vscode-outline"
-            icon={<PhoneRegular />}
-          >
-            Preview
-          </Button>
-          <Button
-            appearance="outline"
-            className="vscode-outline vscode-icon-only"
-            icon={<InfoRegular />}
-            aria-label="Info"
-          />
-        </Row>
-      </Section>
-      <Section title="Small (22 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="outline" className="vscode-outline vscode-small">
-            View
-          </Button>
-          <Button
-            appearance="outline"
-            className="vscode-outline vscode-small"
-            disabled
-          >
-            View
-          </Button>
-        </Row>
-      </Section>
-      <Section title="Compact (15 px)">
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="outline"
-            className="vscode-outline vscode-compact"
-          >
-            Link
-          </Button>
-          <Button
-            appearance="outline"
-            className="vscode-outline vscode-compact"
-            disabled
-          >
-            Link
-          </Button>
-        </Row>
-      </Section>
-    </>
-  ),
+const buttonIconsByAppearance = {
+  primary: <AddRegular />,
+  secondary: <FolderOpenRegular />,
+  outline: <InfoRegular />,
+  subtle: <EditRegular />,
+  transparent: <ArrowSyncRegular />,
 };
 
-/* ── Subtle ──────────────────────────────────────────────────────── */
-
-export const Subtle: Story = {
-  render: () => (
-    <>
-      <Section title="Default (28 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="subtle" className="vscode-subtle">
-            Edit
-          </Button>
-          <Button appearance="subtle" className="vscode-subtle" disabled>
-            Edit
-          </Button>
-        </Row>
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="subtle"
-            className="vscode-subtle"
-            icon={<EditRegular />}
-          >
-            Rename
-          </Button>
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-          />
-        </Row>
-      </Section>
-      <Section title="Small (22 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="subtle" className="vscode-subtle vscode-small">
-            Undo
-          </Button>
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-small"
-            disabled
-          >
-            Undo
-          </Button>
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-small vscode-icon-only"
-            icon={<ArrowUndoRegular />}
-            aria-label="Undo"
-          />
-        </Row>
-      </Section>
-      <Section title="Compact (15 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="subtle" className="vscode-subtle vscode-compact">
-            ×
-          </Button>
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-compact"
-            disabled
-          >
-            ×
-          </Button>
-        </Row>
-      </Section>
-    </>
-  ),
+const splitIconsByAppearance = {
+  primary: <PlayRegular />,
+  secondary: <FolderOpenRegular />,
+  outline: <PhoneRegular />,
+  subtle: <ArrowUndoRegular />,
+  transparent: <ArrowSyncRegular />,
 };
 
-/* ── Transparent ─────────────────────────────────────────────────── */
+function previewClassName(
+  component: "button" | "split",
+  appearance: SupportedAppearance,
+  state: PreviewState,
+) {
+  return [
+    "storybook-button-preview",
+    `storybook-button-preview--${component}`,
+    `storybook-button-preview--${appearance}`,
+    `storybook-button-preview--${state}`,
+  ].join(" ");
+}
 
-export const Transparent: Story = {
-  render: () => (
-    <>
-      <Section title="Default (28 px)">
-        <Row style={buttonRowStyle}>
-          <Button appearance="transparent" className="vscode-transparent">
-            Dismiss
-          </Button>
-          <Button
-            appearance="transparent"
-            className="vscode-transparent"
-            disabled
-          >
-            Dismiss
-          </Button>
-        </Row>
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-icon-only"
-            icon={<ArrowSyncRegular />}
-            aria-label="Refresh"
-          />
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-icon-only"
-            icon={<SplitVerticalRegular />}
-            aria-label="Split Editor"
-          />
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-          />
-        </Row>
-      </Section>
-      <Section title="Small (22 px)">
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-small vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-          />
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-small vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-            disabled
-          />
-        </Row>
-      </Section>
-      <Section title="Compact (15 px)">
-        <Row style={buttonRowStyle}>
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-compact vscode-icon-only"
-            icon={<ChevronLeftRegular />}
-            aria-label="Collapse"
-          />
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-compact vscode-icon-only"
-            icon={<ChevronLeftRegular />}
-            aria-label="Collapse"
-            disabled
-          />
-        </Row>
-      </Section>
-    </>
-  ),
-};
+function buttonForGrid(
+  appearance: SupportedAppearance,
+  size: SupportedSize,
+  kind: ButtonKind,
+  state: PreviewState,
+) {
+  const sharedProps = {
+    appearance,
+    ...(size !== "medium" ? { size } : {}),
+    ...(state === "disabled" ? { disabled: true } : {}),
+  } as const;
 
-/* ── Icon-Only All Appearances ───────────────────────────────────── */
-
-export const IconOnly: Story = {
-  name: "Icon-Only",
-  render: () => (
-    <>
-      <Section
-        title="Icon-Only Buttons"
-        description="Combine .vscode-icon-only with any appearance. Always provide aria-label."
-      >
-        <Row label="Default 28 px" style={buttonRowStyle}>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-icon-only"
-            icon={<AddRegular />}
-            aria-label="Add"
-          />
-          <Button
-            className="vscode-secondary vscode-icon-only"
-            icon={<SettingsRegular />}
-            aria-label="Settings"
-          />
-          <Button
-            appearance="outline"
-            className="vscode-outline vscode-icon-only"
-            icon={<InfoRegular />}
-            aria-label="Info"
-          />
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-          />
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-icon-only"
-            icon={<SplitVerticalRegular />}
-            aria-label="Split"
-          />
-        </Row>
-        <Row label="Small 22 px" style={buttonRowStyle}>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-small vscode-icon-only"
-            icon={<AddRegular />}
-            aria-label="Add"
-          />
-          <Button
-            className="vscode-secondary vscode-small vscode-icon-only"
-            icon={<SettingsRegular />}
-            aria-label="Settings"
-          />
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-small vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-          />
-          <Button
-            appearance="transparent"
-            className="vscode-transparent vscode-small vscode-icon-only"
-            icon={<SplitVerticalRegular />}
-            aria-label="Split"
-          />
-        </Row>
-        <Row label="Compact 15 px" style={buttonRowStyle}>
-          <Button
-            appearance="primary"
-            className="vscode-primary vscode-compact vscode-icon-only"
-            icon={<AddRegular />}
-            aria-label="Add"
-          />
-          <Button
-            className="vscode-secondary vscode-compact vscode-icon-only"
-            icon={<SettingsRegular />}
-            aria-label="Settings"
-          />
-          <Button
-            appearance="subtle"
-            className="vscode-subtle vscode-compact vscode-icon-only"
-            icon={<DismissRegular />}
-            aria-label="Close"
-          />
-        </Row>
-      </Section>
-    </>
-  ),
-};
-
-/* ── Split Button ────────────────────────────────────────────────── */
-
-export const SplitButtonStory: Story = {
-  name: "Split Button",
-  render: () => (
-    <>
-      <Section title="Primary Split">
-        <Row style={buttonRowStyle}>
-          <Menu>
-            <MenuTrigger disableButtonEnhancement>
-              {(triggerProps) => (
-                <SplitButton
-                  appearance="primary"
-                  className="vscode-primary"
-                  menuButton={triggerProps}
-                >
-                  Run Task
-                </SplitButton>
-              )}
-            </MenuTrigger>
-            <MenuPopover>
-              <MenuList>
-                <MenuItem>Run Build Task</MenuItem>
-                <MenuItem>Run Test Task</MenuItem>
-                <MenuItem>Configure Tasks</MenuItem>
-              </MenuList>
-            </MenuPopover>
-          </Menu>
-          <Menu>
-            <MenuTrigger disableButtonEnhancement>
-              {(triggerProps) => (
-                <SplitButton
-                  appearance="primary"
-                  className="vscode-primary"
-                  menuButton={triggerProps}
-                  disabled
-                >
-                  Run Task
-                </SplitButton>
-              )}
-            </MenuTrigger>
-            <MenuPopover>
-              <MenuList>
-                <MenuItem>Run Build Task</MenuItem>
-              </MenuList>
-            </MenuPopover>
-          </Menu>
-        </Row>
-      </Section>
-      <Section title="Secondary Split">
-        <Row style={buttonRowStyle}>
-          <Menu>
-            <MenuTrigger disableButtonEnhancement>
-              {(triggerProps) => (
-                <SplitButton
-                  className="vscode-secondary"
-                  menuButton={triggerProps}
-                >
-                  Save As
-                </SplitButton>
-              )}
-            </MenuTrigger>
-            <MenuPopover>
-              <MenuList>
-                <MenuItem>Save as File</MenuItem>
-                <MenuItem>Save as Template</MenuItem>
-              </MenuList>
-            </MenuPopover>
-          </Menu>
-        </Row>
-      </Section>
-      <Section title="Outline Split">
-        <Row style={buttonRowStyle}>
-          <Menu>
-            <MenuTrigger disableButtonEnhancement>
-              {(triggerProps) => (
-                <SplitButton
-                  appearance="outline"
-                  className="vscode-outline"
-                  menuButton={triggerProps}
-                >
-                  Export
-                </SplitButton>
-              )}
-            </MenuTrigger>
-            <MenuPopover>
-              <MenuList>
-                <MenuItem>Export as PDF</MenuItem>
-                <MenuItem>Export as CSV</MenuItem>
-              </MenuList>
-            </MenuPopover>
-          </Menu>
-        </Row>
-      </Section>
-    </>
-  ),
-};
-
-/* ── Menu Button ─────────────────────────────────────────────────── */
-
-export const MenuButtonStory: Story = {
-  name: "Menu Button",
-  render: () => (
-    <Section
-      title="Menu Button"
-      description="A single button with a built-in chevron that opens a menu."
-    >
-      <Row style={buttonRowStyle}>
-        <Menu>
-          <MenuTrigger disableButtonEnhancement>
-            <MenuButton appearance="primary" className="vscode-primary">
-              New
-            </MenuButton>
-          </MenuTrigger>
-          <MenuPopover>
-            <MenuList>
-              <MenuItem>New File</MenuItem>
-              <MenuItem>New Folder</MenuItem>
-            </MenuList>
-          </MenuPopover>
-        </Menu>
-        <Menu>
-          <MenuTrigger disableButtonEnhancement>
-            <MenuButton className="vscode-secondary">Open Recent</MenuButton>
-          </MenuTrigger>
-          <MenuPopover>
-            <MenuList>
-              <MenuItem>project-a</MenuItem>
-              <MenuItem>project-b</MenuItem>
-            </MenuList>
-          </MenuPopover>
-        </Menu>
-        <Menu>
-          <MenuTrigger disableButtonEnhancement>
-            <MenuButton appearance="outline" className="vscode-outline">
-              Filter
-            </MenuButton>
-          </MenuTrigger>
-          <MenuPopover>
-            <MenuList>
-              <MenuItem>By Name</MenuItem>
-              <MenuItem>By Date</MenuItem>
-            </MenuList>
-          </MenuPopover>
-        </Menu>
-        <Menu>
-          <MenuTrigger disableButtonEnhancement>
-            <MenuButton appearance="subtle" className="vscode-subtle">
-              Sort
-            </MenuButton>
-          </MenuTrigger>
-          <MenuPopover>
-            <MenuList>
-              <MenuItem>Ascending</MenuItem>
-              <MenuItem>Descending</MenuItem>
-            </MenuList>
-          </MenuPopover>
-        </Menu>
-      </Row>
-    </Section>
-  ),
-};
-
-/* ── Interactive States Grid ─────────────────────────────────────── */
-
-export const InteractiveStates: Story = {
-  name: "Interactive States",
-  render: () => {
-    const appearances = [
-      "primary",
-      "secondary",
-      "outline",
-      "subtle",
-      "transparent",
-    ] as const;
-    const classMap: Record<string, string> = {
-      primary: "vscode-primary",
-      secondary: "vscode-secondary",
-      outline: "vscode-outline",
-      subtle: "vscode-subtle",
-      transparent: "vscode-transparent",
-    };
+  if (kind === "iconOnly") {
     return (
-      <Section
-        title="Interactive States"
-        description="All five appearances support rest, hover, focus, and disabled states."
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "100px repeat(3, auto)",
-            gap: "8px 16px",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              fontWeight: 600,
-              fontSize: 11,
-              textTransform: "uppercase",
-            }}
-          >
-            Appearance
-          </div>
-          <div
-            style={{
-              fontWeight: 600,
-              fontSize: 11,
-              textTransform: "uppercase",
-            }}
-          >
-            Rest
-          </div>
-          <div
-            style={{
-              fontWeight: 600,
-              fontSize: 11,
-              textTransform: "uppercase",
-            }}
-          >
-            Focus
-          </div>
-          <div
-            style={{
-              fontWeight: 600,
-              fontSize: 11,
-              textTransform: "uppercase",
-            }}
-          >
-            Disabled
-          </div>
-          {appearances.map((a) => (
-            <React.Fragment key={a}>
-              <div style={{ fontSize: 12, textTransform: "capitalize" }}>
-                {a}
-              </div>
-              <div>
-                <Button
-                  appearance={a === "secondary" ? undefined : a}
-                  className={classMap[a]}
+      <div className={previewClassName("button", appearance, state)}>
+        <VscButton
+          {...sharedProps}
+          icon={
+            appearance === "transparent" && size === "compact" ? (
+              <ChevronLeftRegular />
+            ) : (
+              buttonIconsByAppearance[appearance]
+            )
+          }
+          aria-label={`${appearanceLabels[appearance]} ${size} icon button`}
+        />
+      </div>
+    );
+  }
+
+  if (kind === "iconText") {
+    return (
+      <div className={previewClassName("button", appearance, state)}>
+        <VscButton {...sharedProps} icon={buttonIconsByAppearance[appearance]}>
+          Text
+        </VscButton>
+      </div>
+    );
+  }
+
+  return (
+    <div className={previewClassName("button", appearance, state)}>
+      <VscButton {...sharedProps}>Text</VscButton>
+    </div>
+  );
+}
+
+function splitButtonForGrid(
+  appearance: SupportedAppearance,
+  size: SupportedSize = "medium",
+  kind: ButtonKind,
+  state: PreviewState,
+) {
+  const items = ["Action One", "Action Two"];
+  const label = kind === "iconOnly" ? undefined : "Text";
+  const icon = kind === "text" ? undefined : splitIconsByAppearance[appearance];
+
+  return (
+    <div className={previewClassName("split", appearance, state)}>
+      <Menu>
+        <MenuTrigger disableButtonEnhancement>
+          {(triggerProps) => (
+            <VscSplitButton
+              appearance={appearance}
+              {...(size !== "medium" ? { size } : {})}
+              {...(icon ? { icon } : {})}
+              menuButton={triggerProps}
+              disabled={state === "disabled"}
+              aria-label={
+                kind === "iconOnly"
+                  ? `${appearanceLabels[appearance]} ${size} split button`
+                  : undefined
+              }
+            >
+              {label}
+            </VscSplitButton>
+          )}
+        </MenuTrigger>
+        <VscMenuPopover>
+          <VscMenuList>
+            {items.map((item) => (
+              <VscMenuItem key={item}>{item}</VscMenuItem>
+            ))}
+          </VscMenuList>
+        </VscMenuPopover>
+      </Menu>
+    </div>
+  );
+}
+
+function AppearanceGrid({ appearance }: { appearance: SupportedAppearance }) {
+  return (
+    <Section title={appearanceLabels[appearance]}>
+      <div className="storybook-button-grid">
+        <div className="storybook-button-grid__table">
+          <div className="storybook-button-grid__header storybook-button-grid__header--row" />
+          {previewStates.map((state) => (
+            <div key={state} className="storybook-button-grid__header">
+              {stateLabels[state]}
+            </div>
+          ))}
+          {rowDefinitions.map((row) => {
+            return (
+              <React.Fragment key={`${appearance}-${row.label}`}>
+                <div className="storybook-button-grid__rowLabel">
+                  {row.label}
+                </div>
+                {previewStates.map((state) => (
+                  <div
+                    key={`${appearance}-${row.label}-${state}`}
+                    className="storybook-button-grid__cell"
+                  >
+                    {buttonForGrid(appearance, row.size, row.kind, state)}
+                  </div>
+                ))}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+function SplitAppearanceGrid({
+  appearance,
+}: {
+  appearance: SupportedAppearance;
+}) {
+  return (
+    <Section title={appearanceLabels[appearance]}>
+      <div className="storybook-button-grid">
+        <div className="storybook-button-grid__table">
+          <div className="storybook-button-grid__header storybook-button-grid__header--row" />
+          {previewStates.map((state) => (
+            <div key={state} className="storybook-button-grid__header">
+              {stateLabels[state]}
+            </div>
+          ))}
+          {rowDefinitions.map((row) => (
+            <React.Fragment key={`split-${appearance}-${row.label}`}>
+              <div className="storybook-button-grid__rowLabel">{row.label}</div>
+              {previewStates.map((state) => (
+                <div
+                  key={`split-${appearance}-${row.label}-${state}`}
+                  className="storybook-button-grid__cell"
                 >
-                  OK
-                </Button>
-              </div>
-              <div>
-                <Button
-                  appearance={a === "secondary" ? undefined : a}
-                  className={classMap[a]}
-                  style={{
-                    outline: "1px solid var(--vscode-focusBorder)",
-                    outlineOffset: 2,
-                  }}
-                >
-                  OK
-                </Button>
-              </div>
-              <div>
-                <Button
-                  appearance={a === "secondary" ? undefined : a}
-                  className={classMap[a]}
-                  disabled
-                >
-                  OK
-                </Button>
-              </div>
+                  {splitButtonForGrid(appearance, row.size, row.kind, state)}
+                </div>
+              ))}
             </React.Fragment>
           ))}
         </div>
-      </Section>
-    );
-  },
-};
-
-/* ── Full Example (Dialog Footer) ────────────────────────────────── */
-
-export const DialogFooter: Story = {
-  name: "Full Example — Dialog Footer",
-  render: () => (
-    <Section
-      title="Dialog Footer"
-      description="A typical dialog footer combining primary, secondary, and subtle buttons."
-    >
-      <div
-        style={{
-          display: "flex",
-          gap: 8,
-          justifyContent: "flex-end",
-          padding: "12px 0",
-          borderTop: "1px solid var(--vscode-button-border)",
-        }}
-      >
-        <Button appearance="subtle" className="vscode-subtle">
-          Don't Save
-        </Button>
-        <Button className="vscode-secondary">Cancel</Button>
-        <Button appearance="primary" className="vscode-primary">
-          Save
-        </Button>
       </div>
     </Section>
+  );
+}
+
+function AppearanceStorySection({
+  appearance,
+}: {
+  appearance: SupportedAppearance;
+}) {
+  return (
+    <>
+      <Section
+        title={appearanceLabels[appearance]}
+        description={`${appearanceLabels[appearance]} button states and sizes rendered from the package components.`}
+      >
+        <div />
+      </Section>
+      <AppearanceGrid appearance={appearance} />
+    </>
+  );
+}
+
+function SplitButtonsStorySection() {
+  return (
+    <>
+      <Section
+        title="Split Buttons"
+        description="Supported split-button states and sizes rendered from the package components."
+      >
+        <div />
+      </Section>
+      {appearances.map((appearance) => (
+        <SplitAppearanceGrid
+          key={`split-${appearance}`}
+          appearance={appearance}
+        />
+      ))}
+    </>
+  );
+}
+
+export const Overview: Story = {
+  render: () => (
+    <>
+      <Section
+        title="Button"
+        description="Supported button states and sizes rendered from the package components."
+      >
+        <div />
+      </Section>
+      {appearances.map((appearance) => (
+        <AppearanceGrid key={appearance} appearance={appearance} />
+      ))}
+      <Section
+        title="Split Buttons"
+        description="Supported split-button states and sizes rendered from the package components."
+      >
+        <div />
+      </Section>
+      {appearances.map((appearance) => (
+        <SplitAppearanceGrid
+          key={`split-${appearance}`}
+          appearance={appearance}
+        />
+      ))}
+    </>
   ),
+};
+
+export const Primary: Story = {
+  render: () => <AppearanceStorySection appearance="primary" />,
+};
+
+export const Secondary: Story = {
+  render: () => <AppearanceStorySection appearance="secondary" />,
+};
+
+export const Outline: Story = {
+  render: () => <AppearanceStorySection appearance="outline" />,
+};
+
+export const Subtle: Story = {
+  render: () => <AppearanceStorySection appearance="subtle" />,
+};
+
+export const Transparent: Story = {
+  render: () => <AppearanceStorySection appearance="transparent" />,
+};
+
+export const SplitButtons: Story = {
+  name: "Split Buttons",
+  render: () => <SplitButtonsStorySection />,
 };

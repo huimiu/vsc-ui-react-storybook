@@ -117,6 +117,7 @@
   /* L1 — Density */
   padding: 4px 6px;
   height: 100%;
+  box-sizing: border-box;
 
   /* L2 — Typography (fontSizeBase200 = 12px — closer to VS Code's 13px) */
   font-size: var(--fluent-fontSizeBase200);
@@ -133,6 +134,10 @@
   /* L3 — Color */
   color: var(--vscode-input-placeholderForeground);
   opacity: 1;
+}
+
+.fui-Input.vscode-input .fui-Input__input:focus-visible {
+  outline: none;
 }
 
 /* Content slots (icons, prefix/suffix) */
@@ -465,6 +470,7 @@
   /* L1 — Density */
   padding: 4px 6px;
   min-height: 52px;
+  box-sizing: border-box;
 
   /* L2 — Typography (fontSizeBase200 = 12px — closer to VS Code's 13px) */
   font-size: var(--fluent-fontSizeBase200);
@@ -599,6 +605,37 @@
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  */
 
+.vscode-field-label-row {
+  display: flex;
+  align-items: center;
+}
+
+.vscode-field-label-text {
+  color: var(--vscode-foreground);
+  font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
+  line-height: var(--fluent-lineHeightBase200);
+}
+
+.vscode-field-required-indicator {
+  color: var(--vscode-errorForeground);
+  margin-left: 2px;
+}
+
+.vscode-field-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  color: var(--vscode-descriptionForeground);
+  cursor: help;
+}
+
+.vscode-field-info-icon > svg {
+  width: 14px;
+  height: 14px;
+}
+
 .fui-Field.vscode-field .fui-Label {
   /* L3 — Color */
   color: var(--vscode-foreground);
@@ -614,8 +651,7 @@
 
 /* Required indicator */
 .fui-Field.vscode-field .fui-Label__required {
-  color: var(--vscode-errorForeground);
-  margin-left: 2px;
+  display: none;
 }
 
 /* Field validation message */
@@ -662,7 +698,10 @@
 
 .fui-SearchBox.vscode-searchbox .fui-Input__input {
   padding: 2px 4px;
+  height: 100%;
+  box-sizing: border-box;
   font-size: var(--fluent-fontSizeBase200);
+  font-weight: var(--fluent-fontWeightRegular);
   line-height: var(--fluent-lineHeightBase200);
   color: var(--vscode-input-foreground);
   background-color: transparent;
