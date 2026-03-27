@@ -792,6 +792,17 @@
   padding: 0 3px;
 }
 
+.fui-SplitButton .fui-SplitButton__menuButton .fui-MenuButton__menuIcon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
+}
+
+.fui-SplitButton .fui-SplitButton__menuButton .fui-MenuButton__menuIcon svg {
+  display: block;
+}
+
 /* Split button icon sizing */
 
 /* Leading icon in primary action: 16/14/12 (matches regular button icons) */
