@@ -10,6 +10,7 @@ import "../styles/theme-tokens.css";
 import "../styles/storybook-preview.css";
 
 /* Override CSS — the product this repo showcases */
+import "../overrides/vscode-button-overrides.css";
 import "../overrides/vscode-dropdown-overrides.css";
 import "../overrides/vscode-input-overrides.css";
 import "../overrides/vscode-menu-overrides.css";

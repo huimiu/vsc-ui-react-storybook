@@ -889,6 +889,10 @@
 .fui-MenuButton.vscode-primary .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 14px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 .fui-MenuButton.vscode-secondary {
@@ -930,6 +934,10 @@
 .fui-MenuButton.vscode-secondary .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 14px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 /* MenuButton - Outline */
@@ -972,6 +980,10 @@
 .fui-MenuButton.vscode-outline .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 14px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 /* MenuButton - Subtle */
@@ -1015,6 +1027,10 @@
 .fui-MenuButton.vscode-subtle .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 14px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 /* MenuButton - Transparent */
@@ -1058,6 +1074,10 @@
 .fui-MenuButton.vscode-transparent .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 14px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 /* Menu button size variants */
@@ -1073,6 +1093,10 @@
 .fui-MenuButton.vscode-small .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 12px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 .fui-MenuButton.vscode-compact {
@@ -1087,6 +1111,10 @@
 .fui-MenuButton.vscode-compact .fui-MenuButton__menuIcon {
   color: inherit !important;
   font-size: 10px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 1 !important;
 }
 
 /* MenuButton - Leading icon sizing */
