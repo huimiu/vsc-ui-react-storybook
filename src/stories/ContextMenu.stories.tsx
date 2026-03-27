@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import "../../overrides/vscode-button-overrides.css";
 import {
