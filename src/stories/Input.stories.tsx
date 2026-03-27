@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Input } from "@fluentui/react-input";
 import { SearchRegular } from "@fluentui/react-icons";
