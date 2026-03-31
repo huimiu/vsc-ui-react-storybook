@@ -684,6 +684,7 @@
 .fui-SearchBox.vscode-searchbox {
   height: 24px;
   min-height: 24px;
+  padding: 0 8px;
   border-radius: 2px;
   border: 1px solid var(--vscode-input-border);
   background-color: var(--vscode-input-background);
@@ -697,8 +698,9 @@
 }
 
 .fui-SearchBox.vscode-searchbox .fui-Input__input {
-  padding: 2px 4px;
-  height: 100%;
+  align-self: center;
+  padding: 0;
+  height: auto;
   box-sizing: border-box;
   font-size: var(--fluent-fontSizeBase200);
   font-weight: var(--fluent-fontWeightRegular);
@@ -713,14 +715,30 @@
 }
 
 .fui-SearchBox.vscode-searchbox .fui-Input__contentBefore {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--vscode-input-placeholderForeground);
   font-size: 14px;
-  padding: 0 4px;
+  line-height: 1;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  padding: 0;
 }
 
 .fui-SearchBox.vscode-searchbox .fui-Input__contentAfter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
   font-size: 14px;
-  padding: 0 4px;
+  line-height: 1;
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  padding: 0;
   color: var(--vscode-input-foreground);
   cursor: pointer;
 }
@@ -791,7 +809,7 @@
 }
 
 .fui-SearchBox.vscode-searchbox.vscode-searchbox-medium .fui-Input__input {
-  padding: 4px 6px;
+  padding: 0;
 }
 
 .fui-SearchBox.vscode-searchbox.vscode-searchbox-medium
@@ -799,7 +817,16 @@
 .fui-SearchBox.vscode-searchbox.vscode-searchbox-medium
   .fui-Input__contentAfter {
   font-size: 16px;
-  padding: 0 4px;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  padding: 0;
+}
+
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-medium
+  .fui-Input__contentAfter {
+  margin-right: 0;
+  margin-left: 8px;
 }
 
 /* Large (28px) — dialog search, quick input */
@@ -809,7 +836,7 @@
 }
 
 .fui-SearchBox.vscode-searchbox.vscode-searchbox-large .fui-Input__input {
-  padding: 5px 8px;
+  padding: 0;
 }
 
 .fui-SearchBox.vscode-searchbox.vscode-searchbox-large
@@ -817,5 +844,14 @@
 .fui-SearchBox.vscode-searchbox.vscode-searchbox-large
   .fui-Input__contentAfter {
   font-size: 16px;
-  padding: 0 4px;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  padding: 0;
+}
+
+.fui-SearchBox.vscode-searchbox.vscode-searchbox-large
+  .fui-Input__contentAfter {
+  margin-right: 0;
+  margin-left: 8px;
 }
