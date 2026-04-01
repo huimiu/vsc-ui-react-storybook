@@ -117,6 +117,18 @@ function main() {
   );
   assertContains(
     storybookPreviewCss,
+    /\.storybook-button-preview\s+\.fui-MenuButton__menuIcon\s*\{[\s\S]*display:\s*flex\s*!important[\s\S]*line-height:\s*0\s*!important/i,
+    "Missing MenuButton menuIcon alignment guard in styles/storybook-preview.css",
+    errors,
+  );
+  assertContains(
+    storybookPreviewCss,
+    /\.storybook-button-preview\s+\.fui-MenuButton__menuIcon\s+svg\s*\{[\s\S]*display:\s*block[\s\S]*width:\s*1em[\s\S]*height:\s*1em/i,
+    "Missing MenuButton menuIcon svg alignment guard in styles/storybook-preview.css",
+    errors,
+  );
+  assertContains(
+    storybookPreviewCss,
     /\.storybook-button-preview--primary[\s\S]*var\(--vscode-button-foreground\)\s*!important/i,
     "Missing primary icon foreground guard in styles/storybook-preview.css",
     errors,

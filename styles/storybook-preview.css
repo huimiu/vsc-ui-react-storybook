@@ -89,6 +89,25 @@
   fill: currentColor;
 }
 
+/* Fluent renders MenuButton chevrons as inline SVG inside a separate slot.
+   In Storybook docs, the slot can keep its original line box and pull the
+   chevron below center even when the button itself is aligned correctly. */
+.storybook-button-preview .fui-MenuButton__menuIcon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 0 !important;
+  width: 1em !important;
+  height: 1em !important;
+  flex-shrink: 0;
+}
+
+.storybook-button-preview .fui-MenuButton__menuIcon svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
 /* Keep primary icons on-brand in Storybook docs where Griffel runtime styles
    can otherwise win over package CSS ordering. */
 .storybook-button-preview--primary
