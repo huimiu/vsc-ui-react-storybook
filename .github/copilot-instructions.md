@@ -33,7 +33,14 @@ It is **not** the source of truth for component definitions.
 5. **Component registry must track package exports.**
    The `components` array in `scripts/layout.js` must list every component
    exported by the package's `src/index.ts`. Currently exported:
-   - `VscButton` (Button)
+   - `VscButton`, `VscSplitButton`, `VscMenuButton` (Button family — all in `button.html`)
+   - `VscInput` (Input)
+   - `VscTextarea` (Textarea)
+   - `VscField` (Field)
+   - `VscSearchBox` (SearchBox)
+   - `VscDropdown`, `VscCombobox`, `VscListbox`, etc. (Dropdown)
+   - `VscMenuPopover`, `VscMenuList`, `VscMenuItem`, etc. (Menu)
+   - `VscTabList`, `VscTab` (TabList)
 
    When the package adds a new export, this site needs:
    - A new `components/<name>.html` page
@@ -65,7 +72,15 @@ It is **not** the source of truth for component definitions.
 3. Preserve all VS Code theme tokens (`var(--vscode-*)`)
 4. Keep the same section structure and comment blocks
 
+## When Debugging Storybook Styling
+
+1. Treat legacy overview HTML and Storybook docs as different styling pipelines
+2. For Storybook docs icon or chevron color mismatches, inspect the rendered DOM/computed styles before changing selectors
+3. For split-button chevrons, check Fluent's MenuButton slot `.fui-MenuButton__menuIcon`, not only `.fui-SplitButton__menuButton svg`
+4. Run `npm run griffel-guard` before and after CSS changes that are intended to stop Griffel from winning
+5. Consult `.github/skills/storybook-griffel-debug/SKILL.md` for the repo's repeatable debugging workflow when working on Storybook docs, split buttons, or Griffel override regressions
+
 ## Currently Tracking
 
-**Package:** `vsc-ui-react@0.0.5`
+**Package:** `vsc-ui-react@0.0.8`
 **Components in package:** VscButton, VscSplitButton, VscInput, VscTextarea, VscField, VscSearchBox, VscDropdown, VscCombobox, VscListbox, VscMenuPopover, VscMenuList, VscMenuItem, VscTabList, VscTab

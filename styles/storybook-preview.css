@@ -77,6 +77,97 @@
   pointer-events: none;
 }
 
+/* Keep icon glyphs bound to the computed text color for all simulated states. */
+.storybook-button-preview
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
+    .fui-SplitButton__menuButton svg
+  ) {
+  color: currentColor !important;
+  fill: currentColor;
+}
+
+/* Fluent renders MenuButton chevrons as inline SVG inside a separate slot.
+   In Storybook docs, the slot can keep its original line box and pull the
+   chevron below center even when the button itself is aligned correctly. */
+.storybook-button-preview .fui-MenuButton__menuIcon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center;
+  line-height: 0 !important;
+  width: 1em !important;
+  height: 1em !important;
+  flex-shrink: 0;
+}
+
+.storybook-button-preview .fui-MenuButton__menuIcon svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+/* Keep primary icons on-brand in Storybook docs where Griffel runtime styles
+   can otherwise win over package CSS ordering. */
+.storybook-button-preview--primary
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
+    .fui-SplitButton__menuButton svg
+  ),
+.storybook-button-preview--primary
+  :is(
+    .fui-Button__icon,
+    .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
+    .fui-SplitButton__menuButton svg
+  )
+  svg {
+  color: var(--vscode-button-foreground) !important;
+  fill: currentColor;
+}
+
+.storybook-button-preview--primary .fui-SplitButton__menuButton {
+  color: var(--vscode-button-foreground) !important;
+  --colorNeutralForeground2: var(--vscode-button-foreground);
+  --colorNeutralForeground2Hover: var(--vscode-button-foreground);
+  --colorNeutralForeground2Pressed: var(--vscode-button-foreground);
+  --colorNeutralForeground2BrandHover: var(--vscode-button-foreground);
+  --colorNeutralForeground2BrandPressed: var(--vscode-button-foreground);
+}
+
+.storybook-button-preview--primary
+  .fui-SplitButton__menuButton
+  .fui-Button__icon {
+  color: var(--vscode-button-foreground) !important;
+}
+
+.storybook-button-preview--primary
+  .fui-SplitButton__menuButton
+  .fui-MenuButton__menuIcon,
+.storybook-button-preview--primary
+  .fui-SplitButton__menuButton
+  .fui-MenuButton__menuIcon
+  svg,
+.storybook-button-preview--primary .fui-SplitButton__menuButton svg,
+.storybook-button-preview--primary .fui-SplitButton__menuButton svg path {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Remove inherited Fluent default min-width in Storybook split previews so
+   package sizing tokens drive the visual width. */
+.storybook-button-preview--split .fui-SplitButton__primaryActionButton,
+.storybook-button-preview--split .fui-SplitButton__menuButton {
+  min-width: auto !important;
+}
+
+.storybook-button-preview--button .fui-Button {
+  min-width: auto !important;
+}
+
 .storybook-button-preview--button.storybook-button-preview--focus .fui-Button {
   outline: 1px solid var(--vscode-focusBorder);
   outline-offset: 2px;
@@ -174,30 +265,35 @@
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
     .fui-SplitButton__menuButton svg
   ),
 .storybook-button-preview--hover.storybook-button-preview--secondary
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
     .fui-SplitButton__menuButton svg
   ),
 .storybook-button-preview--hover.storybook-button-preview--outline
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
     .fui-SplitButton__menuButton svg
   ),
 .storybook-button-preview--hover.storybook-button-preview--subtle
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
     .fui-SplitButton__menuButton svg
   ),
 .storybook-button-preview--hover.storybook-button-preview--transparent
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
     .fui-SplitButton__menuButton svg
   ) {
   color: currentColor;

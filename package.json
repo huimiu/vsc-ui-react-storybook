@@ -7,7 +7,9 @@
     "build": "storybook build -o storybook-static",
     "build-storybook": "storybook build -o storybook-static",
     "storybook": "storybook dev -p 6006",
-    "sync-check": "node scripts/sync-check.js"
+    "sync-check": "node scripts/sync-check.js",
+    "griffel-guard": "node scripts/griffel-guard.js",
+    "sync-check:full": "npm run sync-check && npm run griffel-guard"
   },
   "dependencies": {
     "@fluentui/react-button": "^9.3.0",

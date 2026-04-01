@@ -4,6 +4,7 @@ import {
   Menu,
   MenuTrigger,
   VscButton,
+  VscMenuButton,
   VscMenuItem,
   VscMenuList,
   VscMenuPopover,
@@ -92,6 +93,14 @@ const buttonIconsByAppearance = {
 };
 
 const splitIconsByAppearance = {
+  primary: <PlayRegular />,
+  secondary: <FolderOpenRegular />,
+  outline: <PhoneRegular />,
+  subtle: <ArrowUndoRegular />,
+  transparent: <ArrowSyncRegular />,
+};
+
+const menuIconsByAppearance = {
   primary: <PlayRegular />,
   secondary: <FolderOpenRegular />,
   outline: <PhoneRegular />,
@@ -288,6 +297,80 @@ function AppearanceStorySection({
   );
 }
 
+function menuButtonForGrid(
+  appearance: SupportedAppearance,
+  size: SupportedSize,
+  kind: ButtonKind,
+  state: PreviewState,
+) {
+  const items = ["Action One", "Action Two"];
+  const label = kind === "iconOnly" ? undefined : "Text";
+  const icon = kind === "text" ? undefined : menuIconsByAppearance[appearance];
+
+  return (
+    <div className={previewClassName("split", appearance, state)}>
+      <Menu>
+        <MenuTrigger disableButtonEnhancement>
+          <VscMenuButton
+            appearance={appearance}
+            {...(size !== "medium" ? { size } : {})}
+            {...(icon ? { icon } : {})}
+            disabled={state === "disabled"}
+            aria-label={
+              kind === "iconOnly"
+                ? `${appearanceLabels[appearance]} ${size} menu button`
+                : undefined
+            }
+          >
+            {label}
+          </VscMenuButton>
+        </MenuTrigger>
+        <VscMenuPopover>
+          <VscMenuList>
+            {items.map((item) => (
+              <VscMenuItem key={item}>{item}</VscMenuItem>
+            ))}
+          </VscMenuList>
+        </VscMenuPopover>
+      </Menu>
+    </div>
+  );
+}
+
+function MenuButtonAppearanceGrid({
+  appearance,
+}: {
+  appearance: SupportedAppearance;
+}) {
+  return (
+    <Section title={appearanceLabels[appearance]}>
+      <div className="storybook-button-grid">
+        <div className="storybook-button-grid__table">
+          <div className="storybook-button-grid__header storybook-button-grid__header--row" />
+          {previewStates.map((state) => (
+            <div key={state} className="storybook-button-grid__header">
+              {stateLabels[state]}
+            </div>
+          ))}
+          {rowDefinitions.map((row) => (
+            <React.Fragment key={`menu-${appearance}-${row.label}`}>
+              <div className="storybook-button-grid__rowLabel">{row.label}</div>
+              {previewStates.map((state) => (
+                <div
+                  key={`menu-${appearance}-${row.label}-${state}`}
+                  className="storybook-button-grid__cell"
+                >
+                  {menuButtonForGrid(appearance, row.size, row.kind, state)}
+                </div>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function SplitButtonsStorySection() {
   return (
     <>
@@ -300,6 +383,25 @@ function SplitButtonsStorySection() {
       {appearances.map((appearance) => (
         <SplitAppearanceGrid
           key={`split-${appearance}`}
+          appearance={appearance}
+        />
+      ))}
+    </>
+  );
+}
+
+function MenuButtonsStorySection() {
+  return (
+    <>
+      <Section
+        title="Menu Buttons"
+        description="Supported menu-button states and sizes rendered from the package components."
+      >
+        <div />
+      </Section>
+      {appearances.map((appearance) => (
+        <MenuButtonAppearanceGrid
+          key={`menu-${appearance}`}
           appearance={appearance}
         />
       ))}
@@ -331,6 +433,18 @@ export const Overview: Story = {
           appearance={appearance}
         />
       ))}
+      <Section
+        title="Menu Buttons"
+        description="Supported menu-button states and sizes rendered from the package components."
+      >
+        <div />
+      </Section>
+      {appearances.map((appearance) => (
+        <MenuButtonAppearanceGrid
+          key={`menu-${appearance}`}
+          appearance={appearance}
+        />
+      ))}
     </>
   ),
 };
@@ -358,4 +472,9 @@ export const Transparent: Story = {
 export const SplitButtons: Story = {
   name: "Split Buttons",
   render: () => <SplitButtonsStorySection />,
+};
+
+export const MenuButtons: Story = {
+  name: "Menu Buttons",
+  render: () => <MenuButtonsStorySection />,
 };

@@ -737,21 +737,20 @@ body.light-mode .fui-Dropdown.vscode-dropdown .vscode-trigger-description,
   cursor: pointer;
 }
 
-/* Hover */
-.fui-Option.vscode-option:hover {
-  background-color: var(--vscode-list-hoverBackground);
-}
-
-/* Active selection (currently highlighted / keyboard focus) */
+/* Hover / focus / selected — all use the same subtle highlight per 0.0.6+ */
+.fui-Option.vscode-option:hover,
+.fui-Option.vscode-option:focus,
+.fui-Option.vscode-option:focus-visible,
+.fui-Option.vscode-option:focus-within,
 .fui-Option.vscode-option[aria-selected="true"],
 .fui-Option.vscode-option.fui-Option--selected {
-  background-color: var(--vscode-list-activeSelectionBackground);
-  color: var(--vscode-list-activeSelectionForeground);
+  background-color: var(--vscode-list-hoverBackground);
+  color: var(--vscode-dropdown-foreground);
 }
 
 /* Check icon for multi-select */
 .fui-Option.vscode-option .fui-Option__checkIcon {
-  color: var(--vscode-list-activeSelectionForeground);
+  color: var(--vscode-dropdown-foreground);
   font-size: 14px;
   width: 14px;
   height: 14px;

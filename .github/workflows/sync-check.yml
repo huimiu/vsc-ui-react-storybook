@@ -23,3 +23,6 @@ jobs:
       # no npm install required.
       - name: Run sync check
         run: node scripts/sync-check.js
+
+      - name: Run Griffel guard
+        run: node scripts/griffel-guard.js
