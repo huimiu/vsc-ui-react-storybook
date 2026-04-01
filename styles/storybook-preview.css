@@ -95,23 +95,17 @@
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
-    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
+    .fui-SplitButton__menuButton svg
   ),
 .storybook-button-preview--primary
   :is(
     .fui-Button__icon,
     .fui-SplitButton__primaryActionButton .fui-Button__icon,
-    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon
+    .fui-SplitButton__menuButton .fui-MenuButton__menuIcon,
+    .fui-SplitButton__menuButton svg
   )
   svg {
-  color: var(--vscode-button-foreground) !important;
-  fill: currentColor;
-}
-
-.storybook-button-preview--primary
-  .fui-SplitButton__menuButton
-  .fui-MenuButton__menuIcon,
-.storybook-button-preview--primary .fui-SplitButton__menuButton svg {
   color: var(--vscode-button-foreground) !important;
   fill: currentColor;
 }
